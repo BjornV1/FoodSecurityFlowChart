@@ -1,6 +1,6 @@
 // FlowDiagram.jsx
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import ReactFlow, { Controls, Background, MarkerType } from 'reactflow'
 import 'reactflow/dist/style.css'
 
@@ -13,7 +13,7 @@ import {
   ValidationNode,
   FlagNode,
   FormulaNode,
-  FormulaTextNode   // ⬅️ ny
+  FormulaTextNode
 } from './nodeTypes.jsx'
 
 // Static objects - må defineres utenfor komponenten (eller memoiseres) for at
@@ -24,7 +24,7 @@ const nodeTypesStatic = {
   validation: ValidationNode,
   flag: FlagNode,
   formula: FormulaNode,
-  formulaText: FormulaTextNode   // ⬅️ ny
+  formulaText: FormulaTextNode
 }
 
 // 'straight' og 'step' er innebygde edge-typer i React Flow - ingen egne
@@ -39,9 +39,7 @@ const defaultEdgeOptions = {
   }
 }
 
-const fitViewOptions = {
-  padding: 0.2
-}
+const defaultViewport = { x: 50, y: 50, zoom: 0.5 }
 
 // ⭐ Filter-konfigurasjon: legg til/fjern/endre filtre kun her, i stedet for å
 // duplisere markup for hvert filter i JSX-en under.
@@ -58,7 +56,7 @@ const FILTERS = [
   },
   {
     key: 'filter3',
-    question: 'Is FAFH collected in an independent module?',
+    question: 'Are FAFH collected in an independent module?',
     options: [['yes', 'Yes'], ['no', 'No']]
   },
   {
@@ -79,6 +77,8 @@ const FILTERS = [
 ]
 
 const initialAnswers = Object.fromEntries(FILTERS.map(f => [f.key, null]))
+
+const SIDEBAR_STORAGE_KEY = 'flowdiagram_sidebar_open'
 
 // ⭐ Gjenbrukbar knapp-stil, avhenger av om knappen er "aktiv" (valgt) eller ikke
 function getButtonStyle(isActive, variant = 'option') {
@@ -114,6 +114,27 @@ export default function FlowDiagram() {
   // ⭐ Filter-state
   const [answers, setAnswers] = useState(initialAnswers)
 
+  // ⭐ Sidebar-state, husket i localStorage mellom besøk
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    const stored = localStorage.getItem(SIDEBAR_STORAGE_KEY)
+    return stored === null ? true : stored === 'true'
+  })
+
+  useEffect(() => {
+    localStorage.setItem(SIDEBAR_STORAGE_KEY, String(sidebarOpen))
+  }, [sidebarOpen])
+
+  // ⭐ Esc-snarvei for å lukke sidebaren
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') {
+        setSidebarOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
   const setAnswer = (key, value) => {
     setAnswers(prev => ({ ...prev, [key]: value }))
   }
@@ -122,46 +143,99 @@ export default function FlowDiagram() {
   const visibleNodes = filterNodes(importedNodes, answers)
   const visibleEdges = filterEdges(importedEdges, visibleNodes)
 
-  const defaultViewport = { x: 50, y: 50, zoom: 0.5 } 
-
   // Memoize nodes/edges
   const memoNodes = useMemo(() => visibleNodes, [visibleNodes])
   const memoEdges = useMemo(() => visibleEdges, [visibleEdges])
 
   return (
-    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#F5F5F5' }}>
+    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#F5F5F5', position: 'relative' }}>
 
       {/* SIDEBAR */}
-      <div style={{ width: 320, padding: 16, backgroundColor: '#FFFFFF', borderRight: '1px solid #DDD' }}>
-        <h3 style={{ color: '#222' }}>Filters</h3>
+      <div
+        style={{
+          width: sidebarOpen ? 320 : 0,
+          minWidth: sidebarOpen ? 320 : 0,
+          padding: sidebarOpen ? 16 : 0,
+          backgroundColor: '#FFFFFF',
+          borderRight: sidebarOpen ? '1px solid #DDD' : 'none',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          height: '100vh',
+          boxSizing: 'border-box',
+          transition: 'width 0.2s ease, padding 0.2s ease',
+        }}
+      >
+        {sidebarOpen && (
+          <>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h3 style={{ color: '#222', margin: 0 }}>Filters</h3>
+              <button
+                onClick={() => setSidebarOpen(false)}
+                style={{
+                  border: 'none',
+                  background: 'none',
+                  fontSize: 18,
+                  cursor: 'pointer',
+                  color: '#666',
+                }}
+                title="Lukk filterpanel (Esc)"
+              >
+                ✕
+              </button>
+            </div>
 
-        {FILTERS.map(({ key, question, options }) => (
-          <div key={key} style={{ marginBottom: 20 }}>
-            <p>{question}</p>
-            {options.map(([value, label]) => {
-              const isActive = answers[key] === value
-              return (
+            {FILTERS.map(({ key, question, options }) => (
+              <div key={key} style={{ marginBottom: 20 }}>
+                <p>{question}</p>
+                {options.map(([value, label]) => {
+                  const isActive = answers[key] === value
+                  return (
+                    <button
+                      key={value}
+                      onClick={() => setAnswer(key, value)}
+                      style={getButtonStyle(isActive, 'option')}
+                    >
+                      {label}
+                    </button>
+                  )
+                })}
                 <button
-                  key={value}
-                  onClick={() => setAnswer(key, value)}
-                  style={getButtonStyle(isActive, 'option')}
+                  onClick={() => setAnswer(key, null)}
+                  style={getButtonStyle(answers[key] === null, 'reset')}
                 >
-                  {label}
+                  Reset
                 </button>
-              )
-            })}
-            <button
-              onClick={() => setAnswer(key, null)}
-              style={getButtonStyle(answers[key] === null, 'reset')}
-            >
-              Reset
-            </button>
-          </div>
-        ))}
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
+      {/* Åpne-knapp, vises kun når sidebar er lukket */}
+      {!sidebarOpen && (
+        <button
+          onClick={() => setSidebarOpen(true)}
+          style={{
+            position: 'absolute',
+            top: 16,
+            left: 16,
+            zIndex: 10,
+            padding: '8px 12px',
+            backgroundColor: '#3498DB',
+            color: '#FFFFFF',
+            border: 'none',
+            borderRadius: 4,
+            cursor: 'pointer',
+            fontWeight: 'bold',
+          }}
+          title="Åpne filterpanel"
+        >
+          ☰ Filters
+        </button>
+      )}
+
       {/* FLOW AREA */}
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1, position: 'relative' }}>
         <ReactFlow
           nodes={memoNodes}
           edges={memoEdges}
@@ -171,8 +245,6 @@ export default function FlowDiagram() {
           defaultViewport={defaultViewport}
           minZoom={0.05}
           maxZoom={2}
-//          fitView
-//          fitViewOptions={fitViewOptions}
           style={{ width: '100%', height: '100%', backgroundColor: '#FAFAFA' }}
         >
           <Background color="#DDD" gap={16} />
