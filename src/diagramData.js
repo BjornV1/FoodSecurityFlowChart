@@ -97,7 +97,7 @@ export const allNodes = [
   {id: '4_q14_both_corrected', type: 'decision', data: { label: 'Must both quantity and monetary value be corrrected?' }, position: { x: 3330, y: 4340 } },
   {id: '4_p22_def_lev_agg_2', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 3600, y: 4340 } },
   {id: '4_p23_corr_quant', type: 'process', data: { label: 'Corrected quantity (unit per partaker) = median quantity' }, position: { x: 3850, y: 4340 } },
-  {id: '4_p24_corr_mon_value', type: 'process', data: { label: 'Corrected monetary value (LCU per partaker) = corrected quantity (unit per partaker) /price (LCU/unit)', width: 220, height: 80 }, position: { x: 4100, y: 4340 } },
+  {id: '4_p24_corr_mon_value', type: 'process', data: { label: 'Corrected monetary value (LCU per partaker) = corrected quantity (unit per partaker) * price (LCU/unit)', width: 220, height: 80 }, position: { x: 4100, y: 4340 } },
   {id: '4_q15_mon_value_corrected', type: 'decision', data: { label: 'Must the monetary value be corrected?' }, position: { x: 3330, y: 4490 } },
   {id: '4_p25_corr_mon_value_2', type: 'process', data: { label: 'Corrected monetary value (LCU) = price (LCU/unit) * original quantity (unit per partaker)', width: 220, height: 80 }, position: { x: 3580, y: 4490 } },
   {id: '4_p26_corr_quantity_2', type: 'process', data: { label: 'Corrected quantity (unit) = original monetary value (LCU per partaker) / price (LCU/unit)', width: 220, height: 80 }, position: { x: 3580, y: 4640 } },
