@@ -1,4 +1,4 @@
-import FlowDiagram from './flowdiagram'
+import FlowDiagram from './FlowDiagram'
 
 function App() {
   return <FlowDiagram />
