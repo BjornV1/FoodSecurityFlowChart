@@ -80,6 +80,28 @@ const FILTERS = [
 
 const initialAnswers = Object.fromEntries(FILTERS.map(f => [f.key, null]))
 
+// ⭐ Gjenbrukbar knapp-stil, avhenger av om knappen er "aktiv" (valgt) eller ikke
+function getButtonStyle(isActive, variant = 'option') {
+  const activeColors = {
+    option: { bg: '#3498DB', border: '#2874A6' },
+    reset: { bg: '#95A5A6', border: '#7F8C8D' },
+  }
+  const { bg, border } = activeColors[variant]
+
+  return {
+    backgroundColor: isActive ? bg : '#FFFFFF',
+    color: isActive ? '#FFFFFF' : '#222',
+    border: isActive ? `2px solid ${border}` : '1px solid #CCC',
+    borderRadius: 4,
+    padding: '6px 12px',
+    marginRight: 6,
+    marginBottom: 6,
+    cursor: 'pointer',
+    fontWeight: isActive ? 'bold' : 'normal',
+    fontSize: 13,
+  }
+}
+
 export default function FlowDiagram() {
   // ⭐ Bruk manuelle noder/edges fra diagramData.js
   const [importedNodes] = useState(allNodes)
@@ -100,6 +122,8 @@ export default function FlowDiagram() {
   const visibleNodes = filterNodes(importedNodes, answers)
   const visibleEdges = filterEdges(importedEdges, visibleNodes)
 
+  const defaultViewport = { x: 50, y: 50, zoom: 0.5 } 
+
   // Memoize nodes/edges
   const memoNodes = useMemo(() => visibleNodes, [visibleNodes])
   const memoEdges = useMemo(() => visibleEdges, [visibleEdges])
@@ -114,12 +138,24 @@ export default function FlowDiagram() {
         {FILTERS.map(({ key, question, options }) => (
           <div key={key} style={{ marginBottom: 20 }}>
             <p>{question}</p>
-            {options.map(([value, label]) => (
-              <button key={value} onClick={() => setAnswer(key, value)}>
-                {label}
-              </button>
-            ))}
-            <button onClick={() => setAnswer(key, null)}>Reset</button>
+            {options.map(([value, label]) => {
+              const isActive = answers[key] === value
+              return (
+                <button
+                  key={value}
+                  onClick={() => setAnswer(key, value)}
+                  style={getButtonStyle(isActive, 'option')}
+                >
+                  {label}
+                </button>
+              )
+            })}
+            <button
+              onClick={() => setAnswer(key, null)}
+              style={getButtonStyle(answers[key] === null, 'reset')}
+            >
+              Reset
+            </button>
           </div>
         ))}
       </div>
@@ -132,8 +168,11 @@ export default function FlowDiagram() {
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           defaultEdgeOptions={defaultEdgeOptions}
-          fitView
-          fitViewOptions={fitViewOptions}
+          defaultViewport={defaultViewport}
+          minZoom={0.05}
+          maxZoom={2}
+//          fitView
+//          fitViewOptions={fitViewOptions}
           style={{ width: '100%', height: '100%', backgroundColor: '#FAFAFA' }}
         >
           <Background color="#DDD" gap={16} />
