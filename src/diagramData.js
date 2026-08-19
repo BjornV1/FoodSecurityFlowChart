@@ -1,5 +1,6 @@
 // diagramData.js
 
+import { UNSET } from './filterLogic'
 
 export const allNodes = [
   //
@@ -10,14 +11,23 @@ export const allNodes = [
   {id: '2_p1_set_negative_missing', type: 'process', data: { label: 'Set negative or zero\n value to missing\n (for further cleaning later) ' }, position: { x: 500, y: 150 } },
   {id: '2_q2_both_missing', type: 'decision', data: { label: 'Are both quantity and monetary value missing? ' }, position: { x: 250, y: 150 } },
   {id: '2_p2_drop_observation', type: 'process', data: { label: 'Drop the observation ' }, position: { x: 250, y: 300 } },
-  {id: '2_q3_total_qty_collected', type: 'decision', data: { label: 'Is a variable on «Total quantity consumed» collected? ' }, position: { x: 750, y: 0 } },
+
+  {id: '2_q3_total_qty_collected', type: 'decision', dependsOn: { filter1: UNSET }, data: { label: 'Is a variable on «Total quantity consumed» collected? ' }, position: { x: 750, y: 0 } }, // Only visible with neutral filter1
+  {id: '2_q3_total_qty_collected_yes', type: 'chosen', dependsOn: { filter1: 'yes' }, strict: true, data: { label: '«Total quantity consumed» is collected ' }, position: { x: 750, y: 0 } }, // Only visible with filter1='yes'
+  {id: '2_q3_total_qty_collected_no', type: 'chosen', dependsOn: { filter1: 'no' }, strict: true, data: { label: '«Total quantity consumed» is not collected ' }, position: { x: 750, y: 0 } }, // Only visible with filter1='no'
+
+
   {id: '2_q4_total_equals_sum', type: 'decision', dependsOn: { filter1: 'yes' }, data: { label: 'Does the total quantity reported correspond to the sum of the quantities reported by food source?', width: 260, height: 80 }, position: { x: 1250, y: 0 } },
   {id: '2_p3_drop_total_qty_var', type: 'process', dependsOn: { filter1: 'yes' }, data: { label: 'Drop the variable\n «Total quantity consumed» ' }, position: { x: 1500, y: 300 } },
   {id: '2_q5_units_same', type: 'decision', dependsOn: { filter1: 'yes' }, data: { label: 'Are all quantities reported by food source, in the same unit as the total quantity? ' }, position: { x: 1000, y: 0 } },
   {id: '2_p4_check_modify_error', type: 'process', dependsOn: { filter1: 'yes' }, data: { label: 'Check all the quantities and\n modify the likely error. ' }, position: { x: 1290, y: 150 } },
-  {id: '2_q6_recall', type: 'decision', data: { label: 'Is the data collected through a recall? ' }, position: { x: 1500, y: 450 } },
-  {id: '2_q7_duplicates_nonrecall', type: 'decision', dependsOn: { filter2: 'recall' }, data: { label: 'Is there only one observation for the same combination of household/day/food item/value/quantity/unit/\nsource of consumption?', width: 360, height: 80 }, position: { x: 1750, y: 450} },
-  {id: '2_q8_duplicates_recall', type: 'decision', data: { label: 'Is there only one observation for the same combination of household/food item/value/quantity/unit/\nsource of consumption?', width: 360, height: 80 }, position: { x: 1750, y: 750 } },
+
+  {id: '2_q6_recall', type: 'decision', dependsOn: { filter2: UNSET }, data: { label: 'Is the data collected through a recall? ' }, position: { x: 1500, y: 450 } }, // Only visible with neutral filter2
+  {id: '2_q6_recall_yes', type: 'chosen', dependsOn: { filter2: 'recall' }, strict: true, data: { label: 'Data is collected through a recall ' }, position: { x: 1500, y: 450 } }, // Only visible with filter2='recall'
+  {id: '2_q6_recall_no', type: 'chosen', dependsOn: { filter2: 'diary' }, strict: true, data: { label: 'Data is collected through a diary ' }, position: { x: 1500, y: 450 } }, // Only visible with filter2='diary'
+
+  {id: '2_q7_duplicates_nonrecall', type: 'decision', dependsOn: { filter2: 'diary' }, data: { label: 'Is there only one observation for the same combination of household/day/food item/value/quantity/unit/\nsource of consumption?', width: 360, height: 80 }, position: { x: 1750, y: 450} },
+  {id: '2_q8_duplicates_recall', type: 'decision', dependsOn: { filter2: 'recall' }, data: { label: 'Is there only one observation for the same combination of household/food item/value/quantity/unit/\nsource of consumption?', width: 360, height: 80 }, position: { x: 1750, y: 750 } },
   {id: '2_p5_delete_duplicates', type: 'process', data: { label: 'Check the raw data and delete duplicates ' }, position: { x: 1840, y: 600 } },
   {id: '2_p9_aggregate', type: 'process', data: { label: 'Aggregate data to one observation per\nhousehold/source/food item/unit', width: 260, height: 80 }, position: { x: 2180, y: 600 } },
   {id: '2_q9_code_description_consistent', type: 'decision', data: { label: 'Is the code and the description of the food item consistent, e.g. the code is rice and the description is wheat? ', width: 260, height: 80 }, position: { x: 2180, y: 750 } },
@@ -280,15 +290,10 @@ export const allNodes = [
 
 export const allEdges = [
   { id: 'e2_start_yes_q1', type: 'straight', source: '2_start', sourceHandle: 'out-right', target: '2_q1_qty_money_positive', targetHandle: 'in-left'},
-  { id: 'e2_q1_yes_q3', type: 'straight', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q3_total_qty_collected', targetHandle: 'in-left', label: 'Yes'},
-  { id: 'e2_p1_yes_q3', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q3_total_qty_collected', targetHandle: 'in-left'},
   { id: 'e2_q2_yes_p2', type: 'straight', source: '2_q2_both_missing', sourceHandle: 'out-bottom', target: '2_p2_drop_observation', targetHandle: 'in-top', label: 'Yes'},
-  { id: 'e2_q3_yes_q5', type: 'straight', source: '2_q3_total_qty_collected', sourceHandle: 'out-right', target: '2_q5_units_same', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e2_q4_yes_p4', type: 'straight', source: '2_q4_total_equals_sum', sourceHandle: 'out-bottom', target: '2_p4_check_modify_error', targetHandle: 'in-top', label: 'No'},
-  { id: 'e2_p3_yes_q6', type: 'straight', source: '2_p3_drop_total_qty_var', sourceHandle: 'out-bottom', target: '2_q6_recall', targetHandle: 'in-top'},
   { id: 'e2_q5_yes_q4', type: 'step', source: '2_q5_units_same', sourceHandle: 'out-right', target: '2_q4_total_equals_sum', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e2_p4_yes_p3', type: 'step', source: '2_p4_check_modify_error', sourceHandle: 'out-right', target: '2_p3_drop_total_qty_var', targetHandle: 'in-top'},
-  { id: 'e2_q6_yes_q7', type: 'straight', source: '2_q6_recall', sourceHandle: 'out-right', target: '2_q7_duplicates_nonrecall', targetHandle: 'in-left', label: 'No'},
   { id: 'e2_q7_yes_p9', type: 'step', source: '2_q7_duplicates_nonrecall', sourceHandle: 'out-right', target: '2_p9_aggregate', targetHandle: 'in-top', label: 'Yes'},
   { id: 'e2_q8_yes_q9', type: 'straight', source: '2_q8_duplicates_recall', sourceHandle: 'out-right', target: '2_q9_code_description_consistent', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e2_p5_yes_p9', type: 'straight', source: '2_p5_delete_duplicates', sourceHandle: 'out-right', target: '2_p9_aggregate', targetHandle: 'in-left'},
@@ -299,10 +304,8 @@ export const allEdges = [
   { id: 'e2_p8_yes_v3', type: 'step', source: '2_p7_correct_unit', sourceHandle: 'out-right', target: '2_q11_source_correct', targetHandle: 'in-left'},
   { id: 'e2_q1_no_q2', type: 'straight', source: '2_q1_qty_money_positive', sourceHandle: 'out-bottom', target: '2_q2_both_missing', targetHandle: 'in-top', label: 'No' },
   { id: 'e2_q2_no_p1', type: 'straight', source: '2_q2_both_missing', sourceHandle: 'out-right', target: '2_p1_set_negative_missing', targetHandle: 'in-left', label: 'No' },
-  { id: 'e2_q3_no_q6', type: 'step', source: '2_q3_total_qty_collected', sourceHandle: 'out-bottom', target: '2_q6_recall', targetHandle: 'in-left', label: 'No' },
   { id: 'e2_q4_no_p3', type: 'step', source: '2_q4_total_equals_sum', sourceHandle: 'out-right', target: '2_p3_drop_total_qty_var', targetHandle: 'in-top', label: 'Yes' },
   { id: 'e2_q5_no_p3', type: 'step', source: '2_q5_units_same', sourceHandle: 'out-bottom', target: '2_p3_drop_total_qty_var', targetHandle: 'in-left', label: 'No' },
-  { id: 'e2_q6_no_q8', type: 'step', source: '2_q6_recall', sourceHandle: 'out-bottom', target: '2_q8_duplicates_recall', targetHandle: 'in-left', label: 'Yes' },
   { id: 'e2_q7_no_p5', type: 'straight', source: '2_q7_duplicates_nonrecall', sourceHandle: 'out-bottom', target: '2_p5_delete_duplicates', targetHandle: 'in-top', label: 'No' },
   { id: 'e2_q8_no_p5', type: 'straight', source: '2_q8_duplicates_recall', sourceHandle: 'out-top', target: '2_p5_delete_duplicates', targetHandle: 'in-bottom', label: 'No' },
   { id: 'e2_q9_no_p6', type: 'straight', source: '2_q9_code_description_consistent', sourceHandle: 'out-bottom', target: '2_p6_correct_code_description', targetHandle: 'in-top', label: 'No' },
@@ -311,6 +314,86 @@ export const allEdges = [
   { id: 'e2_p8_finish', type: 'step', source: '2_p8_correct_source', sourceHandle: 'out-right', target: '2_step_finished', targetHandle: 'in-top' },
   { id: 'e2_q11_yes_v3', type: 'step', source: '2_q11_source_correct', sourceHandle: 'out-right', target: '2_step_finished', targetHandle: 'in-top', label: 'Yes'},
   { id: 'e2_finished_start', type: 'step', source: '2_step_finished', sourceHandle: 'out-bottom', target: '3_starts', targetHandle: 'in-top' },
+
+// Step2 - edges depending on filters
+
+// Filter1 neutral
+  { id: 'e2_q1_yes_q3', type: 'straight', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q3_total_qty_collected', targetHandle: 'in-left', label: 'Yes', dependsOn: { filter1: UNSET }}, // Only visible with neutral filter1
+  { id: 'e2_p1_yes_q5', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q3_total_qty_collected', targetHandle: 'in-left', dependsOn: { filter1: UNSET }, strict: true},
+  { id: 'e2_q3_no_q6', type: 'step', source: '2_q3_total_qty_collected', sourceHandle: 'out-bottom', target: '2_q6_recall', targetHandle: 'in-left', label: 'No', dependsOn: { filter1: UNSET, filter2: UNSET }, strict: true },
+  { id: 'e2_q3_no_q6_recall', type: 'step', source: '2_q3_total_qty_collected', sourceHandle: 'out-bottom', target: '2_q6_recall', targetHandle: 'in-left', label: 'No', dependsOn: { filter1: UNSET, filter2: 'recall' }, strict: true },
+  { id: 'e2_q3_no_q6_diary', type: 'step', source: '2_q3_total_qty_collected', sourceHandle: 'out-bottom', target: '2_q6_recall', targetHandle: 'in-left', label: 'No', dependsOn: { filter1: UNSET, filter2: 'diary' }, strict: true },
+  { id: 'e2_q3_yes_q5', type: 'straight', source: '2_q3_total_qty_collected', sourceHandle: 'out-right', target: '2_q5_units_same', targetHandle: 'in-left', label: 'Yes',  dependsOn: { filter1: UNSET }},
+  { id: 'e2_p3_yes_q6', type: 'straight', source: '2_p3_drop_total_qty_var', sourceHandle: 'out-bottom', target: '2_q6_recall', targetHandle: 'in-top', dependsOn: { filter1: UNSET, filter2: UNSET }, strict: true},
+  { id: 'e2_p3_yes_q6_recall', type: 'straight', source: '2_p3_drop_total_qty_var', sourceHandle: 'out-bottom', target: '2_q6_recall_yes', targetHandle: 'in-top', dependsOn: { filter1: UNSET, filter2: 'recall' }, strict: true},
+  { id: 'e2_p3_yes_q6_diary', type: 'straight', source: '2_p3_drop_total_qty_var', sourceHandle: 'out-bottom', target: '2_q6_recall_no', targetHandle: 'in-top', dependsOn: { filter1: UNSET, filter2: 'diary' }, strict: true},
+
+// Filter1 'yes'
+  { id: 'e2_q1_yes_q3_f1_yes', type: 'straight', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q3_total_qty_collected_yes', targetHandle: 'in-left', label: 'Yes', dependsOn: { filter1: 'yes' }, strict: true},
+  { id: 'e2_p1_yes_q5_f1_yes', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q3_total_qty_collected_yes', targetHandle: 'in-left', dependsOn: { filter1: 'yes' }, strict: true},
+  { id: 'e2_q3_yes_q5_f1_yes', type: 'straight', source: '2_q3_total_qty_collected_yes', sourceHandle: 'out-right', target: '2_q5_units_same', targetHandle: 'in-left', dependsOn: { filter1: 'yes' }, strict: true},
+  { id: 'e2_p3_yes_q6_f1_yes', type: 'straight', source: '2_p3_drop_total_qty_var', sourceHandle: 'out-bottom', target: '2_q6_recall', targetHandle: 'in-top', dependsOn: { filter1: 'yes', filter2: UNSET }, strict: true},
+  { id: 'e2_p3_yes_q6_recall_f1_yes', type: 'straight', source: '2_p3_drop_total_qty_var', sourceHandle: 'out-bottom', target: '2_q6_recall_yes', targetHandle: 'in-top', dependsOn: { filter1: 'yes', filter2: 'recall' }, strict: true},
+  { id: 'e2_p3_yes_q6_diary_f1_yes', type: 'straight', source: '2_p3_drop_total_qty_var', sourceHandle: 'out-bottom', target: '2_q6_recall_no', targetHandle: 'in-top', dependsOn: { filter1: 'yes', filter2: 'diary' }, strict: true},
+
+// Filter1 'no'
+  { id: 'e2_q1_yes_q3_f1_no', type: 'straight', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q3_total_qty_collected_no', targetHandle: 'in-left', label: 'Yes', dependsOn: { filter1: 'no' }, strict: true},
+  { id: 'e2_p1_yes_q5_f1_no', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q3_total_qty_collected_no', targetHandle: 'in-left', dependsOn: { filter1: 'no' }, strict: true},
+  { id: 'e2_p3_yes_q6_f1_no', type: 'step', source: '2_q3_total_qty_collected_no', sourceHandle: 'out-bottom', target: '2_q6_recall', targetHandle: 'in-left', dependsOn: { filter1: 'no', filter2: UNSET }, strict: true},
+  { id: 'e2_p3_yes_q6_recall_f1_no', type: 'step', source: '2_q3_total_qty_collected_no', sourceHandle: 'out-bottom', target: '2_q6_recall_yes', targetHandle: 'in-left', dependsOn: { filter1: 'no', filter2: 'recall' }, strict: true},
+  { id: 'e2_p3_yes_q6_diary_f1_no', type: 'step', source: '2_q3_total_qty_collected_no', sourceHandle: 'out-bottom', target: '2_q6_recall_no', targetHandle: 'in-left', dependsOn: { filter1: 'no', filter2: 'diary' }, strict: true},
+
+// Filter2 neutral
+  { id: 'e2_q6_yes_q7_no', type: 'straight', source: '2_q6_recall', sourceHandle: 'out-right', target: '2_q7_duplicates_nonrecall', targetHandle: 'in-left', label: 'No', dependsOn: { filter2: UNSET }, strict: true},
+  { id: 'e2_q6_yes_q7_yes', type: 'step', source: '2_q6_recall', sourceHandle: 'out-bottom', target: '2_q8_duplicates_recall', targetHandle: 'in-left', label: 'Yes', dependsOn: { filter2: UNSET }, strict: true},
+
+// Filter2 'diary'  
+  { id: 'e2_q6_q7_diary', type: 'straight', source: '2_q6_recall_no', sourceHandle: 'out-right', target: '2_q7_duplicates_nonrecall', targetHandle: 'in-left', dependsOn: { filter2: 'diary' }, strict: true },
+
+// Filter2 'recall'  
+  { id: 'e2_q6_q8_recall', type: 'step', source: '2_q6_recall_yes', sourceHandle: 'out-bottom', target: '2_q8_duplicates_recall', targetHandle: 'in-left', dependsOn: { filter2: 'recall' }, strict: true },
+
+//  { id: 'e2_q3_no_q6', type: 'step', source: '2_q3_total_qty_collected', sourceHandle: 'out-bottom', target: '2_q6_recall', targetHandle: 'in-left', label: 'No', dependsOn: { filter1: 'no' } },
+//  { id: 'e2_q6_no_q8', type: 'step', source: '2_q6_recall', sourceHandle: 'out-bottom', target: '2_q8_duplicates_recall', targetHandle: 'in-left', label: 'Yes', dependsOn: { filter1: UNSET } },
+
+
+
+// Filter1 = 'yes'
+/*  { id: 'e2_q1_yes_q3_yes', type: 'straight', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q3_total_qty_collected_yes', targetHandle: 'in-left', label: 'Yes', dependsOn: { filter1: 'yes' }, strict: true},
+  { id: 'e2_p1_yes_q5_yes', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q3_total_qty_collected_yes', targetHandle: 'in-left', dependsOn: { filter1: 'yes' }, strict: true},
+  { id: 'e2_q3_yes_q5_yes', type: 'straight', source: '2_q3_total_qty_collected_yes', sourceHandle: 'out-right', target: '2_q5_units_same', targetHandle: 'in-left', dependsOn: { filter1: 'yes' }, strict: true },
+
+
+
+  { id: 'e2_q1_yes_q3_no', type: 'straight', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q3_total_qty_collected_no', targetHandle: 'in-left', label: 'Yes', dependsOn: { filter1: 'no' }, strict: true},
+
+  { id: 'e2_p1_yes_q5_no', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q3_total_qty_collected_no', targetHandle: 'in-left', dependsOn: { filter1: 'no' }, strict: true},
+
+
+  { id: 'e2_p3_yes_q6_recall', type: 'straight', source: '2_p3_drop_total_qty_var', sourceHandle: 'out-bottom', target: '2_q6_recall_recall', targetHandle: 'in-top', dependsOn: { filter2: 'recall' }, strict: true},
+  { id: 'e2_p3_yes_q6_diary', type: 'straight', source: '2_p3_drop_total_qty_var', sourceHandle: 'out-bottom', target: '2_q6_recall_diary', targetHandle: 'in-top', dependsOn: { filter2: 'diary' }, strict: true},
+
+  { id: 'e2_q3_no_q6_no_unset', type: 'step', source: '2_q3_total_qty_collected_no', sourceHandle: 'out-bottom', target: '2_q6_recall', targetHandle: 'in-left', dependsOn: { filter1: 'no', filter2: UNSET }, strict: true },
+  { id: 'e2_q3_no_q6_no_recall', type: 'step', source: '2_q3_total_qty_collected_no', sourceHandle: 'out-bottom', target: '2_q6_recall_yes', targetHandle: 'in-left', dependsOn: { filter1: 'no', filter2: 'recall' }, strict: true },
+  { id: 'e2_q3_no_q6_no_diary', type: 'step', source: '2_q3_total_qty_collected_no', sourceHandle: 'out-bottom', target: '2_q6_recall_no', targetHandle: 'in-left', dependsOn: { filter1: 'no', filter2: 'diary' }, strict: true },
+*/
+
+
+
+//  { id: 'e2_q2_no_q6', type: 'step', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q6_recall', targetHandle: 'in-top', label: 'Yes', dependsOn: { filter1: 'no', filter2: UNSET }, strict: true }, // To be used when filter1 is 'no'
+//  { id: 'e2_q2_no_q6_recall', type: 'step', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q6_recall_yes', targetHandle: 'in-top', label: 'Yes', dependsOn: { filter1: 'no', filter2: 'recall' }, strict: true }, // To be used when filter1 is 'no'
+//  { id: 'e2_q2_no_q6_diary', type: 'step', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q6_recall_no', targetHandle: 'in-top', label: 'Yes', dependsOn: { filter1: 'no', filter2: 'diary' }, strict: true }, // To be used when filter1 is 'no'
+
+
+//  { id: 'e2_p1_yes_q3', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q3_total_qty_collected', targetHandle: 'in-left', dependsOn: { filter1: UNSET }}, // Only visible with neutral filter1
+
+
+//  { id: 'e2_p1_yes_q6', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q6_recall', targetHandle: 'in-top', dependsOn: { filter1: 'no', filter2: UNSET }, strict: true }, // To be used when filter1 is 'no'
+//  { id: 'e2_p1_yes_q6_recall', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q6_recall_yes', targetHandle: 'in-top', dependsOn: { filter1: 'no', filter2: 'recall' }, strict: true }, // To be used when filter1 is 'no'
+//  { id: 'e2_p1_yes_q6_diary', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q6_recall_no', targetHandle: 'in-top', dependsOn: { filter1: 'no', filter2: 'diary' }, strict: true }, // To be used when filter1 is 'no'
+
+
+
 
 // Step 3
   { id: 'e3_start_yes_q1', type: 'straight', source: '3_starts', sourceHandle: 'out-right', target: '3_q1_wide_form', targetHandle: 'in-left'},

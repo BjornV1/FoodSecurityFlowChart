@@ -13,7 +13,8 @@ import {
   ValidationNode,
   FlagNode,
   FormulaNode,
-  FormulaTextNode
+  FormulaTextNode,
+  ChosenNode
 } from './nodeTypes.jsx'
 
 // Static objects - må defineres utenfor komponenten (eller memoiseres) for at
@@ -24,7 +25,8 @@ const nodeTypesStatic = {
   validation: ValidationNode,
   flag: FlagNode,
   formula: FormulaNode,
-  formulaText: FormulaTextNode
+  formulaText: FormulaTextNode,
+  chosen: ChosenNode
 }
 
 // 'straight' og 'step' er innebygde edge-typer i React Flow - ingen egne
@@ -146,7 +148,7 @@ export default function FlowDiagram() {
 
   // ⭐ Filtrering
   const visibleNodes = filterNodes(importedNodes, answers)
-  const visibleEdges = filterEdges(importedEdges, visibleNodes)
+  const visibleEdges = filterEdges(importedEdges, visibleNodes, answers)
 
   // Memoize nodes/edges
   const memoNodes = useMemo(() => visibleNodes, [visibleNodes])

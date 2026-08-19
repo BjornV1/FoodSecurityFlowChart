@@ -1,31 +1,65 @@
 // filterLogic.js
 
-export function filterNodes(nodes, answers) {
-  return nodes.filter(node => {
-    // Hvis noden ikke har dependsOn → alltid synlig
-    if (!node.dependsOn) return true
+// ⭐ Spesiell markør: brukes i dependsOn for å si "vis kun når filteret er ubesvart"
+export const UNSET = '__unset__'
 
-    // dependsOn kan være et objekt med flere filterkrav
-    const conditions = Object.entries(node.dependsOn)
+function matchesCondition(filterKey, requiredValue, answers) {
+  const userAnswer = answers[filterKey]
 
-    return conditions.every(([filterKey, requiredValue]) => {
+  // ⭐ Spesialtilfelle: krever eksplisitt at spørsmålet IKKE er besvart
+  if (requiredValue === UNSET) {
+    return userAnswer === null || userAnswer === undefined
+  }
+
+  return userAnswer === requiredValue
+}
+
+function matchesDependsOn(dependsOn, answers) {
+  return Object.entries(dependsOn).every(([filterKey, requiredValue]) =>
+    matchesCondition(filterKey, requiredValue, answers)
+  )
+}
+
+function matchesDependsOnLoose(dependsOn, answers) {
+  return Object.entries(dependsOn).every(([filterKey, requiredValue]) => {
+    // ⭐ Spesialtilfelle gjelder uansett strict/loose
+    if (requiredValue === UNSET) {
       const userAnswer = answers[filterKey]
+      return userAnswer === null || userAnswer === undefined
+    }
 
-      // ⭐ Null betyr "ingen filtrering" → behold noden
-      if (userAnswer === null || userAnswer === undefined) {
-        return true
-      }
+    const userAnswer = answers[filterKey]
 
-      // Hvis brukerens svar matcher kravet → behold noden
-      return userAnswer === requiredValue
-    })
+    if (userAnswer === null || userAnswer === undefined) {
+      return true
+    }
+
+    return userAnswer === requiredValue
   })
 }
 
-export function filterEdges(edges, visibleNodes) {
+export function filterNodes(nodes, answers) {
+  return nodes.filter(node => {
+    if (!node.dependsOn) return true
+
+    return node.strict
+      ? matchesDependsOn(node.dependsOn, answers)
+      : matchesDependsOnLoose(node.dependsOn, answers)
+  })
+}
+
+export function filterEdges(edges, visibleNodes, answers) {
   const visibleIds = new Set(visibleNodes.map(n => n.id))
 
-  return edges.filter(edge =>
-    visibleIds.has(edge.source) && visibleIds.has(edge.target)
-  )
+  return edges.filter(edge => {
+    if (!visibleIds.has(edge.source) || !visibleIds.has(edge.target)) {
+      return false
+    }
+
+    if (!edge.dependsOn) return true
+
+    return edge.strict
+      ? matchesDependsOn(edge.dependsOn, answers)
+      : matchesDependsOnLoose(edge.dependsOn, answers)
+  })
 }

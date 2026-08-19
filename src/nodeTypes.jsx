@@ -109,6 +109,11 @@ export function FlagNode({ data }) {
   return <BoxNode data={data} background="#f8c5f4" border="#ec0dc7" />
 }
 
+export function ChosenNode({ data }) {
+  return <BoxNode data={data} background="#f0ede9" border="#8d6c10" />
+}
+
+
 // ⭐ FormulaNode (LaTeX) - beholdt uendret, brukes ikke av de tre boks-typene
 export function FormulaNode({ data }) {
   const html = katex.renderToString(data.latex || '', {
