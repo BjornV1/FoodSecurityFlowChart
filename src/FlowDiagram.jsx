@@ -60,8 +60,13 @@ const FILTERS = [
     options: [['yes', 'Yes'], ['no', 'No']]
   },
   {
+    key: 'filter7',
+    question: 'Does the survey collects information on visitors?',
+    options: [['yes', 'Yes'], ['no', 'No']]
+  },
+  {
     key: 'filter4',
-    question: 'How are the monetary values reported?',
+    question: 'How are the monetary values for purchases reported?',
     options: [['last', 'For last purchase'], ['all', 'For all purchases']]
   },
   {
