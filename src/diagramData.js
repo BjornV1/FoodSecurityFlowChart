@@ -389,7 +389,10 @@ export const allEdges = [
   { id: 'e3_p1_yes_q4', type: 'straight',source: '3_p1_restructure_to_long_form', sourceHandle: 'out-bottom', target: '3_q4_monetary_values_at_least_one_source', targetHandle: 'in-top'},
   { id: 'e3_p2_yes_p3', type: 'straight',source: '3_p2_aggregate_fafh', sourceHandle: 'out-bottom', target: '3_p3_add_fafh_wide', targetHandle: 'in-top'},
 //  { id: 'e3_p3_yes_food', type: 'straight',source: '3_p3_add_fafh_wide', sourceHandle: 'out-bottom', target: '3_food_dataset_formatted', targetHandle: 'in-top'},
+
   { id: 'e3_p4_yes_q5', type: 'step',source: '3_p4_temp_file_for_imputation', sourceHandle: 'out-bottom', target: '3_q5_fafh_independent_long', targetHandle: 'in-left'},
+  { id: 'e3_p4_yes_q5', type: 'step',source: '3_p4_temp_file_for_imputation', sourceHandle: 'out-bottom', target: '3_q5_fafh_independent_long_yes', targetHandle: 'in-left'},
+  { id: 'e3_p4_yes_q5', type: 'step',source: '3_p4_temp_file_for_imputation', sourceHandle: 'out-bottom', target: '3_q5_fafh_independent_long_no', targetHandle: 'in-left'},
 
   { id: 'e3_q4_yes_q5', type: 'straight',source: '3_q4_monetary_values_at_least_one_source', sourceHandle: 'out-bottom', target: '3_q5_fafh_independent_long', targetHandle: 'in-top', dependsOn: { filter3: UNSET }, label: 'Yes'},
   { id: 'e3_q5_yes_p5', type: 'straight',source: '3_q5_fafh_independent_long', sourceHandle: 'out-right', target: '3_p5_assign_food_source', targetHandle: 'in-left', dependsOn: { filter3: UNSET }, label: 'Yes'},
