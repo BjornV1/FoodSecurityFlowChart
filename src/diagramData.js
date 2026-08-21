@@ -41,25 +41,41 @@ export const allNodes = [
   {id: '3_starts', type: 'validation', data: { label: 'Step 3 starts ' }, position: { x: 0, y: 1200 } },
   {id: '3_q1_wide_form', type: 'decision', data: { label: 'Are the data in wide form (a column for each source of consumption)?' }, position: { x: 250, y: 1200 } },
   {id: '3_q2_wide_continue', type: 'decision', data: { label: 'Do you want to continue working in the wide form?' }, position: { x: 500, y: 1200 } },
-  {id: '3_q3_fafh_independent_wide', type: 'decision', data: { label: 'Are FAFH collected in an independent module?' }, position: { x: 1000, y: 1200 } },
+
+  // Filterquestion n 3
+  {id: '3_q3_fafh_independent_wide', type: 'decision', dependsOn: { filter3: UNSET }, data: { label: 'Are FAFH collected in an independent module?' }, position: { x: 1000, y: 1200 } },
+  {id: '3_q5_fafh_independent_long', type: 'decision', dependsOn: { filter3: UNSET }, data: { label: 'Are FAFH collected in an independent module?' }, position: { x: 500, y: 1800 } },
+  {id: '3_q3_fafh_independent_wide_yes', type: 'chosen', strict: true, dependsOn: { filter3: 'yes' }, data: { label: 'FAFH are collected in an independent module' }, position: { x: 1000, y: 1200 } },
+  {id: '3_q5_fafh_independent_long_yes', type: 'chosen', strict: true, dependsOn: { filter3: 'yes' }, data: { label: 'FAFH are collected in an independent module' }, position: { x: 500, y: 1800 } },
+  {id: '3_q3_fafh_independent_wide_no', type: 'chosen', strict: true, dependsOn: { filter3: 'no' }, data: { label: 'FAFH are not collected in an independent module' }, position: { x: 1000, y: 1200 } },
+  {id: '3_q5_fafh_independent_long_no', type: 'chosen', strict: true, dependsOn: { filter3: 'no' }, data: { label: 'FAFH are not collected in an independent module' }, position: { x: 500, y: 1800 } },
+
+
   {id: '3_q4_monetary_values_at_least_one_source', type: 'decision', data: { label: 'Are the monetary values collected for at least one source of in-house consumption?', width: 220, height: 80 }, position: { x: 480, y: 1500 } },
   {id: '3_p1_restructure_to_long_form', type: 'process', data: { label: 'Restructure dataset to long form' }, position: { x: 500, y: 1350 } },
   {id: '3_p2_aggregate_fafh', type: 'process', dependsOn: { filter3: 'yes' }, data: { label: 'Aggregate the FAFH data to one observation per household/food item/unit for each source of consumption', width: 260, height: 80 }, position: { x: 960, y: 1350 } },
   {id: '3_p3_add_fafh_wide', type: 'process', dependsOn: { filter3: 'yes' }, data: { label: 'Add the data from the module on FAFH to the working dataset' }, position: { x: 1000, y: 1500 } },
   {id: '3_p4_temp_file_for_imputation', type: 'process', data: { label: 'Create a temporary file with the monetary values and quantities from last purchases to be further used for imputation ', width: 300, height: 80 }, position: { x: 140, y: 1650 } },
-  {id: '3_q5_fafh_independent_long', type: 'decision', data: { label: 'Are FAFH collected in an independent module?' }, position: { x: 500, y: 1800 } },
   {id: '3_p5_assign_food_source', type: 'process', dependsOn: { filter3: 'yes' }, data: { label: 'Assign the corresponding food source in the variable «source»' }, position: { x: 750, y: 1800 } },
   {id: '3_p6_aggregate', type: 'process', dependsOn: { filter3: 'yes' }, data: { label: 'Aggregate data to one observation per household/source/food item/unit', width: 240, height: 80 }, position: { x: 1000, y: 1800 } },
   {id: '3_p7_add_fafh_long', type: 'process', dependsOn: { filter3: 'yes' }, data: { label: 'Add the data from the module on FAFH to the working dataset' }, position: { x: 1310, y: 1800 } },
   {id: '3_q6_number_of_meals_fafh_collected', type: 'decision', data: { label: 'Does the survey collect information on the number of meals consumed away from home?', width: 160, height: 120 }, position: { x: 1560, y: 1780 } },
   {id: '3_p8_calc_in_house_meals', type: 'process', data: { label: 'In-house meals = Household members present in the household during the reference period * 3 meals * number of days of the reference period – number of meals consumed away from home in the reference period', width: 300, height: 150 }, position: { x: 1800, y: 1765 } },
-  {id: '3_q7_visitors_yes_meals_fafh', type: 'decision', data: { label: 'Does the survey collect information on visitors?' }, position: { x: 2170, y: 1800 } },
+  
+  // Filterquestion n 7 - visitors
+  {id: '3_q7_visitors_yes_meals_fafh', type: 'decision', dependsOn: { filter7: UNSET }, data: { label: 'Does the survey collect information on visitors?' }, position: { x: 2170, y: 1800 } },
+  {id: '3_q10_visitors_no_meals_fafh', type: 'decision', dependsOn: { filter7: UNSET }, data: { label: 'Does the survey collect information on visitors?' }, position: { x: 1550, y: 2250 } },
+  {id: '3_q7_visitors_yes_meals_fafh_yes', type: 'chosen', dependsOn: { filter7: 'yes' }, strict: true, data: { label: 'Information on visitors is collected' }, position: { x: 2170, y: 1800 } },
+  {id: '3_q10_visitors_no_meals_fafh_yes', type: 'chosen', dependsOn: { filter7: 'yes' }, strict: true, data: { label: 'Information on visitors is collected' }, position: { x: 1550, y: 2250 } },
+  {id: '3_q7_visitors_yes_meals_fafh_no', type: 'chosen', dependsOn: { filter7: 'no' }, strict: true, data: { label: 'Information on visitors is not collected' }, position: { x: 2170, y: 1800 } },
+  {id: '3_q10_visitors_no_meals_fafh_no', type: 'chosen', dependsOn: { filter7: 'no' }, strict: true, data: { label: 'Information on visitors is not collected' }, position: { x: 1550, y: 2250 } },
+
+
   {id: '3_q8_meals_by_visitors_yes_meals_fafh', type: 'decision', data: { label: 'Does the survey collect information on the number of meals consumed by visitors in the whole reference period?', width: 260, height: 80 }, position: { x: 2420, y: 1800 } },
   {id: '3_q9_visitors_days_stayed_yes_meals_fafh', type: 'decision', data: { label: 'Does the survey collect information on the number of visitors and the number of days they stayed', width: 260, height: 80 }, position: { x: 2420, y: 1950 } },
   {id: '3_p9_calc_partakers_1', type: 'process', data: { label: 'Number of partakers = (In-house meals + number of meals consumed by visitors during the reference period) /(3 meals * the number of days of the reference period)', width: 400, height: 80 }, position: { x: 2750, y: 1800 } },
   {id: '3_p10_calc_partakers_2', type: 'process', data: { label: 'Number of partakers = (In-house meals + (number of visitors * number of days they stayed with the household*3))/ (3 meals * number of days of the reference period)', width: 400, height: 80 }, position: { x: 2750, y: 1950 } },
   {id: '3_p11_calc_partakers_3', type: 'process', data: { label: 'Number of partakers = (In-house meals + (number of visitors * number of days of the reference period*3))/ (3 meals * number of days of the reference period)', width: 400, height: 80 }, position: { x: 2750, y: 2100 } },
-  {id: '3_q10_visitors_no_meals_fafh', type: 'decision', data: { label: 'Does the survey collect information on visitors' }, position: { x: 1550, y: 2250 } },
   {id: '3_p12_calc_partakers_1b', type: 'process', data: { label: 'Number of partakers = Number of household members present in the household during the reference period', width: 400, height: 80 }, position: { x: 2030, y: 2250 } },
   {id: '3_q11_meals_by_visitors_no_meals_fafh', type: 'decision', data: { label: 'Does the survey collect information on the number of meals consumed by visitors in the whole reference period', width: 260, height: 80 }, position: { x: 1510, y: 2400 } },
   {id: '3_p13_calc_partakers_1b', type: 'process', data: { label: 'Number of partakers = ((Household members present in the household during the reference period * 3 meals * number of days of the reference period) + number of meals consumed by visitors during the reference period) /(3 meals * the number of days of the reference period)', width: 600, height: 80 }, position: { x: 1930, y: 2400 } },
@@ -353,60 +369,38 @@ export const allEdges = [
 // Filter2 'recall'  
   { id: 'e2_q6_q8_recall', type: 'step', source: '2_q6_recall_yes', sourceHandle: 'out-bottom', target: '2_q8_duplicates_recall', targetHandle: 'in-left', dependsOn: { filter2: 'recall' }, strict: true },
 
-//  { id: 'e2_q3_no_q6', type: 'step', source: '2_q3_total_qty_collected', sourceHandle: 'out-bottom', target: '2_q6_recall', targetHandle: 'in-left', label: 'No', dependsOn: { filter1: 'no' } },
-//  { id: 'e2_q6_no_q8', type: 'step', source: '2_q6_recall', sourceHandle: 'out-bottom', target: '2_q8_duplicates_recall', targetHandle: 'in-left', label: 'Yes', dependsOn: { filter1: UNSET } },
-
-
-
-// Filter1 = 'yes'
-/*  { id: 'e2_q1_yes_q3_yes', type: 'straight', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q3_total_qty_collected_yes', targetHandle: 'in-left', label: 'Yes', dependsOn: { filter1: 'yes' }, strict: true},
-  { id: 'e2_p1_yes_q5_yes', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q3_total_qty_collected_yes', targetHandle: 'in-left', dependsOn: { filter1: 'yes' }, strict: true},
-  { id: 'e2_q3_yes_q5_yes', type: 'straight', source: '2_q3_total_qty_collected_yes', sourceHandle: 'out-right', target: '2_q5_units_same', targetHandle: 'in-left', dependsOn: { filter1: 'yes' }, strict: true },
-
-
-
-  { id: 'e2_q1_yes_q3_no', type: 'straight', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q3_total_qty_collected_no', targetHandle: 'in-left', label: 'Yes', dependsOn: { filter1: 'no' }, strict: true},
-
-  { id: 'e2_p1_yes_q5_no', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q3_total_qty_collected_no', targetHandle: 'in-left', dependsOn: { filter1: 'no' }, strict: true},
-
-
-  { id: 'e2_p3_yes_q6_recall', type: 'straight', source: '2_p3_drop_total_qty_var', sourceHandle: 'out-bottom', target: '2_q6_recall_recall', targetHandle: 'in-top', dependsOn: { filter2: 'recall' }, strict: true},
-  { id: 'e2_p3_yes_q6_diary', type: 'straight', source: '2_p3_drop_total_qty_var', sourceHandle: 'out-bottom', target: '2_q6_recall_diary', targetHandle: 'in-top', dependsOn: { filter2: 'diary' }, strict: true},
-
-  { id: 'e2_q3_no_q6_no_unset', type: 'step', source: '2_q3_total_qty_collected_no', sourceHandle: 'out-bottom', target: '2_q6_recall', targetHandle: 'in-left', dependsOn: { filter1: 'no', filter2: UNSET }, strict: true },
-  { id: 'e2_q3_no_q6_no_recall', type: 'step', source: '2_q3_total_qty_collected_no', sourceHandle: 'out-bottom', target: '2_q6_recall_yes', targetHandle: 'in-left', dependsOn: { filter1: 'no', filter2: 'recall' }, strict: true },
-  { id: 'e2_q3_no_q6_no_diary', type: 'step', source: '2_q3_total_qty_collected_no', sourceHandle: 'out-bottom', target: '2_q6_recall_no', targetHandle: 'in-left', dependsOn: { filter1: 'no', filter2: 'diary' }, strict: true },
-*/
-
-
-
-//  { id: 'e2_q2_no_q6', type: 'step', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q6_recall', targetHandle: 'in-top', label: 'Yes', dependsOn: { filter1: 'no', filter2: UNSET }, strict: true }, // To be used when filter1 is 'no'
-//  { id: 'e2_q2_no_q6_recall', type: 'step', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q6_recall_yes', targetHandle: 'in-top', label: 'Yes', dependsOn: { filter1: 'no', filter2: 'recall' }, strict: true }, // To be used when filter1 is 'no'
-//  { id: 'e2_q2_no_q6_diary', type: 'step', source: '2_q1_qty_money_positive', sourceHandle: 'out-right', target: '2_q6_recall_no', targetHandle: 'in-top', label: 'Yes', dependsOn: { filter1: 'no', filter2: 'diary' }, strict: true }, // To be used when filter1 is 'no'
-
-
-//  { id: 'e2_p1_yes_q3', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q3_total_qty_collected', targetHandle: 'in-left', dependsOn: { filter1: UNSET }}, // Only visible with neutral filter1
-
-
-//  { id: 'e2_p1_yes_q6', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q6_recall', targetHandle: 'in-top', dependsOn: { filter1: 'no', filter2: UNSET }, strict: true }, // To be used when filter1 is 'no'
-//  { id: 'e2_p1_yes_q6_recall', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q6_recall_yes', targetHandle: 'in-top', dependsOn: { filter1: 'no', filter2: 'recall' }, strict: true }, // To be used when filter1 is 'no'
-//  { id: 'e2_p1_yes_q6_diary', type: 'step', source: '2_p1_set_negative_missing', sourceHandle: 'out-right', target: '2_q6_recall_no', targetHandle: 'in-top', dependsOn: { filter1: 'no', filter2: 'diary' }, strict: true }, // To be used when filter1 is 'no'
-
-
 
 
 // Step 3
   { id: 'e3_start_yes_q1', type: 'straight', source: '3_starts', sourceHandle: 'out-right', target: '3_q1_wide_form', targetHandle: 'in-left'},
   { id: 'e3_q1_yes_q2', type: 'straight',source: '3_q1_wide_form', sourceHandle: 'out-right', target: '3_q2_wide_continue', targetHandle: 'in-left', label: 'Yes'},
-  { id: 'e3_q2_yes_q3', type: 'straight',source: '3_q2_wide_continue', sourceHandle: 'out-right', target: '3_q3_fafh_independent_wide', targetHandle: 'in-left', label: 'Yes'},
-  { id: 'e3_q3_yes_p2', type: 'straight',source: '3_q3_fafh_independent_wide', sourceHandle: 'out-bottom', target: '3_p2_aggregate_fafh', targetHandle: 'in-top', label: 'Yes'},
-  { id: 'e3_q3_no_q6', type: 'step',source: '3_q3_fafh_independent_wide', sourceHandle: 'out-right', target: '3_q6_number_of_meals_fafh_collected', targetHandle: 'in-top', label: 'No'},
-  { id: 'e3_q4_yes_q5', type: 'straight',source: '3_q4_monetary_values_at_least_one_source', sourceHandle: 'out-bottom', target: '3_q5_fafh_independent_long', targetHandle: 'in-top', label: 'Yes'},
+
+  { id: 'e3_q2_yes_q3', type: 'straight',source: '3_q2_wide_continue', sourceHandle: 'out-right', target: '3_q3_fafh_independent_wide', targetHandle: 'in-left', dependsOn: { filter3: UNSET }, label: 'Yes'},
+  { id: 'e3_q3_yes_p2', type: 'straight',source: '3_q3_fafh_independent_wide', sourceHandle: 'out-bottom', target: '3_p2_aggregate_fafh', targetHandle: 'in-top', dependsOn: { filter3: UNSET }, label: 'Yes'},
+  { id: 'e3_q3_no_q6', type: 'step',source: '3_q3_fafh_independent_wide', sourceHandle: 'out-right', target: '3_q6_number_of_meals_fafh_collected', targetHandle: 'in-top', dependsOn: { filter3: UNSET }, label: 'No'},
+
+  { id: 'e3_q2_yes_q3_yes', type: 'straight',source: '3_q2_wide_continue', sourceHandle: 'out-right', target: '3_q3_fafh_independent_wide_yes', targetHandle: 'in-left', label: 'Yes'},
+  { id: 'e3_q3_yes_p2_yes', type: 'straight',source: '3_q3_fafh_independent_wide_yes', sourceHandle: 'out-bottom', target: '3_p2_aggregate_fafh', targetHandle: 'in-top'},
+
+  { id: 'e3_q2_yes_q3_no', type: 'straight',source: '3_q2_wide_continue', sourceHandle: 'out-right', target: '3_q3_fafh_independent_wide_no', targetHandle: 'in-left', label: 'Yes'},
+  { id: 'e3_q3_no_q6_no', type: 'step',source: '3_q3_fafh_independent_wide_no', sourceHandle: 'out-right', target: '3_q6_number_of_meals_fafh_collected', targetHandle: 'in-top'},
+
+
   { id: 'e3_p1_yes_q4', type: 'straight',source: '3_p1_restructure_to_long_form', sourceHandle: 'out-bottom', target: '3_q4_monetary_values_at_least_one_source', targetHandle: 'in-top'},
   { id: 'e3_p2_yes_p3', type: 'straight',source: '3_p2_aggregate_fafh', sourceHandle: 'out-bottom', target: '3_p3_add_fafh_wide', targetHandle: 'in-top'},
-  { id: 'e3_p3_yes_food', type: 'straight',source: '3_p3_add_fafh_wide', sourceHandle: 'out-bottom', target: '3_food_dataset_formatted', targetHandle: 'in-top'},
+//  { id: 'e3_p3_yes_food', type: 'straight',source: '3_p3_add_fafh_wide', sourceHandle: 'out-bottom', target: '3_food_dataset_formatted', targetHandle: 'in-top'},
   { id: 'e3_p4_yes_q5', type: 'step',source: '3_p4_temp_file_for_imputation', sourceHandle: 'out-bottom', target: '3_q5_fafh_independent_long', targetHandle: 'in-left'},
-  { id: 'e3_q5_yes_p5', type: 'straight',source: '3_q5_fafh_independent_long', sourceHandle: 'out-right', target: '3_p5_assign_food_source', targetHandle: 'in-left', label: 'Yes'},
+
+  { id: 'e3_q4_yes_q5', type: 'straight',source: '3_q4_monetary_values_at_least_one_source', sourceHandle: 'out-bottom', target: '3_q5_fafh_independent_long', targetHandle: 'in-top', dependsOn: { filter3: UNSET }, label: 'Yes'},
+  { id: 'e3_q5_yes_p5', type: 'straight',source: '3_q5_fafh_independent_long', sourceHandle: 'out-right', target: '3_p5_assign_food_source', targetHandle: 'in-left', dependsOn: { filter3: UNSET }, label: 'Yes'},
+  { id: 'e3_q5_no_q6', type: 'step', source: '3_q5_fafh_independent_long', sourceHandle: 'out-bottom', target: '3_q6_number_of_meals_fafh_collected', targetHandle: 'in-bottom', dependsOn: { filter3: UNSET }, label: 'No' },
+
+  { id: 'e3_q4_yes_q5_f3_yes', type: 'straight',source: '3_q4_monetary_values_at_least_one_source', sourceHandle: 'out-bottom', target: '3_q5_fafh_independent_long_yes', targetHandle: 'in-top', label: 'Yes'},
+  { id: 'e3_q5_yes_p5_f3_yes', type: 'straight',source: '3_q5_fafh_independent_long_yes', sourceHandle: 'out-right', target: '3_p5_assign_food_source', targetHandle: 'in-left'},
+
+  { id: 'e3_q4_yes_q5_f3_no', type: 'straight',source: '3_q4_monetary_values_at_least_one_source', sourceHandle: 'out-bottom', target: '3_q5_fafh_independent_long_no', targetHandle: 'in-top', label: 'Yes'},
+  { id: 'e3_q5_no_q6_f3_no', type: 'step', source: '3_q5_fafh_independent_long_no', sourceHandle: 'out-right', target: '3_q6_number_of_meals_fafh_collected', targetHandle: 'in-left' },
+
   { id: 'e3_p5_yes_p6', type: 'straight',source: '3_p5_assign_food_source', sourceHandle: 'out-right', target: '3_p6_aggregate', targetHandle: 'in-left'},
   { id: 'e3_p6_yes_p7', type: 'straight',source: '3_p6_aggregate', sourceHandle: 'out-right', target: '3_p7_add_fafh_long', targetHandle: 'in-left'},
   { id: 'e3_p7_yes_q6', type: 'straight',source: '3_p7_add_fafh_long', sourceHandle: 'out-right', target: '3_q6_number_of_meals_fafh_collected', targetHandle: 'in-left'},
@@ -429,10 +423,14 @@ export const allEdges = [
   { id: 'e3_p3_yes_q6', type: 'step', source: '3_p3_add_fafh_wide', sourceHandle: 'out-bottom', target: '3_q6_number_of_meals_fafh_collected', targetHandle: 'in-top'},
   { id: 'e3_q1_no_q4', type: 'step', source: '3_q1_wide_form', sourceHandle: 'out-bottom', target: '3_q4_monetary_values_at_least_one_source', targetHandle: 'in-left', label: 'No' },
   { id: 'e3_q2_no_p1', type: 'straight', source: '3_q2_wide_continue', sourceHandle: 'out-bottom', target: '3_p1_restructure_to_long_form', targetHandle: 'in-top', label: 'No' },
-  { id: 'e3_q3_no_food', type: 'step', source: '3_q3_fafh_independent_wide', sourceHandle: 'out-right', target: '3_food_dataset_formatted', targetHandle: 'in-top', label: 'No' },
+//  { id: 'e3_q3_no_food', type: 'step', source: '3_q3_fafh_independent_wide', sourceHandle: 'out-right', target: '3_food_dataset_formatted', targetHandle: 'in-top', label: 'No' },
   { id: 'e3_q4_no_p4', type: 'step', source: '3_q4_monetary_values_at_least_one_source', sourceHandle: 'out-bottom', target: '3_p4_temp_file_for_imputation', targetHandle: 'in-top', label: 'No' },
-  { id: 'e3_q5_no_q6', type: 'step', source: '3_q5_fafh_independent_long', sourceHandle: 'out-bottom', target: '3_q6_number_of_meals_fafh_collected', targetHandle: 'in-bottom', label: 'No' },
-  { id: 'e3_q6_no_q10', type: 'step', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top-75', label: 'No' },
+
+  { id: 'e3_q6_no_q10', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter3: 'yes' }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter3: 'no' }, strict: true, label: 'No' },
+
+
   { id: 'e3_q7_no_p16', type: 'step', source: '3_q7_visitors_yes_meals_fafh', sourceHandle: 'out-top', target: '3_p16_merge_in_information', targetHandle: 'in-top', label: 'No' },
   { id: 'e3_q8_no_q9', type: 'step', source: '3_q8_meals_by_visitors_yes_meals_fafh', sourceHandle: 'out-bottom', target: '3_q9_visitors_days_stayed_yes_meals_fafh', targetHandle: 'in-top', label: 'No' },
   { id: 'e3_q9_no_p11', type: 'step', source: '3_q9_visitors_days_stayed_yes_meals_fafh', sourceHandle: 'out-bottom', target: '3_p11_calc_partakers_3', targetHandle: 'in-left', label: 'No' },
