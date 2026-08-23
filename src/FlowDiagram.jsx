@@ -33,6 +33,8 @@ const nodeTypesStatic = {
 // edge-komponenter trengs for dette diagrammet.
 const edgeTypesStatic = {}
 
+const SIDEBAR_WIDTH = 420
+
 const defaultEdgeOptions = {
   markerEnd: {
     type: MarkerType.ArrowClosed,
@@ -73,8 +75,8 @@ const FILTERS = [
   },
   {
     key: 'filter5',
-    question: 'Are the monetary values for non-purchased food items reported?',
-    options: [['yes', 'Yes'], ['no', 'No']]
+    question: 'Are the monetary values for non-purchased food items reported and are they reliable?',
+    options: [['yes_reliable', 'Yes, reliable'], ['yes_not_reliable', 'Yes, but not reliable'], ['no', 'No']]
   },
   {
     key: 'filter6',
@@ -160,8 +162,8 @@ export default function FlowDiagram() {
       {/* SIDEBAR */}
       <div
         style={{
-          width: sidebarOpen ? 320 : 0,
-          minWidth: sidebarOpen ? 320 : 0,
+          width: sidebarOpen ? SIDEBAR_WIDTH : 0,
+          minWidth: sidebarOpen ? SIDEBAR_WIDTH : 0,
           padding: sidebarOpen ? 16 : 0,
           backgroundColor: '#FFFFFF',
           borderRight: sidebarOpen ? '1px solid #DDD' : 'none',

@@ -71,32 +71,45 @@ export const allNodes = [
   {id: '3_q10_visitors_no_meals_fafh_no', type: 'chosen', dependsOn: { filter7: 'no' }, strict: true, data: { label: 'Information on visitors is not collected' }, position: { x: 1550, y: 2250 } },
 
 
-  {id: '3_q8_meals_by_visitors_yes_meals_fafh', type: 'decision', data: { label: 'Does the survey collect information on the number of meals consumed by visitors in the whole reference period?', width: 260, height: 80 }, position: { x: 2420, y: 1800 } },
-  {id: '3_q9_visitors_days_stayed_yes_meals_fafh', type: 'decision', data: { label: 'Does the survey collect information on the number of visitors and the number of days they stayed', width: 260, height: 80 }, position: { x: 2420, y: 1950 } },
-  {id: '3_p9_calc_partakers_1', type: 'process', data: { label: 'Number of partakers = (In-house meals + number of meals consumed by visitors during the reference period) /(3 meals * the number of days of the reference period)', width: 400, height: 80 }, position: { x: 2750, y: 1800 } },
-  {id: '3_p10_calc_partakers_2', type: 'process', data: { label: 'Number of partakers = (In-house meals + (number of visitors * number of days they stayed with the household*3))/ (3 meals * number of days of the reference period)', width: 400, height: 80 }, position: { x: 2750, y: 1950 } },
-  {id: '3_p11_calc_partakers_3', type: 'process', data: { label: 'Number of partakers = (In-house meals + (number of visitors * number of days of the reference period*3))/ (3 meals * number of days of the reference period)', width: 400, height: 80 }, position: { x: 2750, y: 2100 } },
-  {id: '3_p12_calc_partakers_1b', type: 'process', data: { label: 'Number of partakers = Number of household members present in the household during the reference period', width: 400, height: 80 }, position: { x: 2030, y: 2250 } },
-  {id: '3_q11_meals_by_visitors_no_meals_fafh', type: 'decision', data: { label: 'Does the survey collect information on the number of meals consumed by visitors in the whole reference period', width: 260, height: 80 }, position: { x: 1510, y: 2400 } },
-  {id: '3_p13_calc_partakers_1b', type: 'process', data: { label: 'Number of partakers = ((Household members present in the household during the reference period * 3 meals * number of days of the reference period) + number of meals consumed by visitors during the reference period) /(3 meals * the number of days of the reference period)', width: 600, height: 80 }, position: { x: 1930, y: 2400 } },
-  {id: '3_q9_visitors_days_stayed_no_meals_fafh', type: 'decision', data: { label: 'Does the survey collect information on the number of visitors and the number of days they stayed', width: 260, height: 80 }, position: { x: 1510, y: 2550 } },
-  {id: '3_p14_calc_partakers_1b', type: 'process', data: { label: 'Number of partakers = (Number of household members present in the household during the reference period * number of days of the reference period + number of visitors * number of days they stayed with the household)/ number of days of the reference period', width: 600, height: 80 }, position: { x: 1930, y: 2550 } },
-  {id: '3_p15_calc_partakers_1b', type: 'process', data: { label: 'Number of partakers = Number of household members present in the household during the reference period + number of visitors in the whole reference period ', width: 600, height: 80 }, position: { x: 1930, y: 2700 } },
+  {id: '3_q8_meals_by_visitors_yes_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes' }, data: { label: 'Does the survey collect information on the number of meals consumed by visitors in the whole reference period?', width: 260, height: 80 }, position: { x: 2420, y: 1800 } },
+  {id: '3_q9_visitors_days_stayed_yes_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes' },data: { label: 'Does the survey collect information on the number of visitors and the number of days they stayed', width: 260, height: 80 }, position: { x: 2420, y: 1950 } },
+  {id: '3_p9_calc_partakers_1', type: 'process', dependsOn: { filter7: 'yes' }, data: { label: 'Number of partakers = (In-house meals + number of meals consumed by visitors during the reference period) /(3 meals * the number of days of the reference period)', width: 400, height: 80 }, position: { x: 2750, y: 1800 } },
+  {id: '3_p10_calc_partakers_2', type: 'process', dependsOn: { filter7: 'yes' }, data: { label: 'Number of partakers = (In-house meals + (number of visitors * number of days they stayed with the household*3))/ (3 meals * number of days of the reference period)', width: 400, height: 80 }, position: { x: 2750, y: 1950 } },
+  {id: '3_p11_calc_partakers_3', type: 'process', dependsOn: { filter7: 'yes' }, data: { label: 'Number of partakers = (In-house meals + (number of visitors * number of days of the reference period*3))/ (3 meals * number of days of the reference period)', width: 400, height: 80 }, position: { x: 2750, y: 2100 } },
+  {id: '3_p12_calc_partakers_1b', type: 'process', dependsOn: { filter7: 'no' }, data: { label: 'Number of partakers = Number of household members present in the household during the reference period', width: 400, height: 80 }, position: { x: 2030, y: 2250 } },
+  {id: '3_q11_meals_by_visitors_no_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes' }, data: { label: 'Does the survey collect information on the number of meals consumed by visitors in the whole reference period', width: 260, height: 80 }, position: { x: 1510, y: 2400 } },
+  {id: '3_p13_calc_partakers_1b', type: 'process', dependsOn: { filter7: 'yes' }, data: { label: 'Number of partakers = ((Household members present in the household during the reference period * 3 meals * number of days of the reference period) + number of meals consumed by visitors during the reference period) /(3 meals * the number of days of the reference period)', width: 600, height: 80 }, position: { x: 1930, y: 2400 } },
+  {id: '3_q9_visitors_days_stayed_no_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes' }, data: { label: 'Does the survey collect information on the number of visitors and the number of days they stayed', width: 260, height: 80 }, position: { x: 1510, y: 2550 } },
+  {id: '3_p14_calc_partakers_1b', type: 'process', dependsOn: { filter7: 'yes' }, data: { label: 'Number of partakers = (Number of household members present in the household during the reference period * number of days of the reference period + number of visitors * number of days they stayed with the household)/ number of days of the reference period', width: 600, height: 80 }, position: { x: 1930, y: 2550 } },
+  {id: '3_p15_calc_partakers_1b', type: 'process', dependsOn: { filter7: 'yes' }, data: { label: 'Number of partakers = Number of household members present in the household during the reference period + number of visitors in the whole reference period ', width: 600, height: 80 }, position: { x: 1930, y: 2700 } },
   {id: '3_p16_merge_in_information', type: 'process', data: { label: 'Merge in other relevant external information' }, position: { x: 3230, y: 2700 } },
   {id: '3_finished', type: 'validation', data: { label: 'Step 3 finished' }, position: { x: 3480, y: 2700 } },
 
   {id: '4_starts', type: 'validation', data: { label: 'Step 4 starts' }, position: { x: 0, y: 2850 } },
   {id: '4_p1_clone_original_values', type: 'process', data: { label: 'Clone all the original quantities and monetary values collected in the survey', width: 200, height: 80 }, position: { x: 250, y: 2850 } },
-  {id: '4_q1_collected_value_non_purch', type: 'decision', data: { label: 'Are the self reported monetary values for non-purchased food collected?' }, position: { x: 520, y: 2850 } },
-  {id: '4_q2_values_non_purch_reliable', type: 'decision', data: { label: 'Are the self reported monetary values of non-purchased food items considered reliable?', width: 200, height: 80 }, position: { x: 510, y: 3000 } },
-  {id: '4_p2_self_reported_to_missing', type: 'process', data: { label: 'Set all the self reported monetary values to missing' }, position: { x: 770, y: 3000 } },
-  {id: '4_p3_use_original_non_purchased', type: 'process', data: { label: 'Using the quantity of food consumed  from non-purchased foods' }, position: { x: 770, y: 2850 } },
-  {id: '4_p4_calculate_per_partaker', type: 'process', data: { label: 'Calculate quantity per partaker' }, position: { x: 1020, y: 2850 } },
-  {id: '4_p5_univariate_approach_per_partaker', type: 'process', data: { label: 'Apply the univariate approach on the quantity per capita' }, position: { x: 1270, y: 2850 } },
-  {id: '4_q3_quantity_outlier', type: 'decision', data: { label: 'Is the quantity detected as outlier?' }, position: { x: 1520, y: 2850 } },
-  {id: '4_p6_def_level_of_agg', type: 'process', data: { label: 'Define level of aggregation' }, position: { x: 1520, y: 3000 } },
-  {id: '4_p7_correct_quantity', type: 'process', data: { label: 'Correct the quantity using aggregated quantity' }, position: { x: 1520, y: 3150 } },
-  {id: '4_p8_use_multi_on_non_purchased', type: 'process', data: { label: 'Use the multivariate approach on non-purchased food (after considering purchased food)', width: 200, height: 80 }, position: { x: 510, y: 3300 } },
+
+  //filter 5
+  {id: '4_q1_collected_value_non_purch', type: 'decision', dependsOn: { filter5: UNSET }, strict: true,data: { label: 'Are the self reported monetary values for non-purchased food collected?' }, position: { x: 520, y: 2850 } },
+  {id: '4_q1_collected_value_non_purch_filter5_yes1', type: 'chosen', dependsOn: { filter5: 'yes_reliable' }, strict: true, data: { label: 'The self reported monetary values for non-purchased food are collected' }, position: { x: 520, y: 2850 } },
+  {id: '4_q1_collected_value_non_purch_filter5_yes2', type: 'chosen', dependsOn: { filter5: 'yes_not_reliable' }, strict: true, data: { label: 'The self reported monetary values for non-purchased food are collected' }, position: { x: 520, y: 2850 } },
+  {id: '4_q1_collected_value_non_purch_filter5_no', type: 'chosen', dependsOn: { filter5: 'no' }, strict: true, data: { label: 'The self reported monetary values for non-purchased food are not collected' }, position: { x: 520, y: 2850 } },
+
+  {id: '4_q2_values_non_purch_reliable', type: 'decision', dependsOn: { filter5: UNSET }, strict: true, data: { label: 'Are the self reported monetary values of non-purchased food items considered reliable?', width: 200, height: 80 }, position: { x: 510, y: 3000 } },
+  {id: '4_q2_values_non_purch_reliable_filter5_yes_reliable', type: 'chosen', dependsOn: { filter5: 'yes_reliable' }, strict: true, data: { label: 'The self reported monetary values of non-purchased food items are considered reliable', width: 200, height: 80 }, position: { x: 510, y: 3000 } },
+  {id: '4_q2_values_non_purch_reliable_filter5_yes_not_reliable', type: 'chosen', dependsOn: { filter5: 'yes_not_reliable' }, strict: true, data: { label: 'The self reported monetary values of non-purchased food items are not considered reliable', width: 200, height: 120 }, position: { x: 510, y: 3000 } },
+
+
+  {id: '4_p2_self_reported_to_missing', type: 'process', dependsOn: { filter5: UNSET }, strict: true, data: { label: 'Set all the self reported monetary values to missing' }, position: { x: 770, y: 3000 } },
+  {id: '4_p2_self_reported_to_missing_filter5_yes_not_reliable', type: 'process', dependsOn: { filter5: 'yes_not_reliable' }, strict: true, data: { label: 'Set all the self reported monetary values to missing' }, position: { x: 770, y: 3020 } },
+
+
+  {id: '4_p3_use_original_non_purchased', type: 'process', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, data: { label: 'Using the quantity of food consumed  from non-purchased foods' }, position: { x: 770, y: 2850 } },
+  {id: '4_p4_calculate_per_partaker', type: 'process', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, data: { label: 'Calculate quantity per partaker' }, position: { x: 1020, y: 2850 } },
+  {id: '4_p5_univariate_approach_per_partaker', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, type: 'process', data: { label: 'Apply the univariate approach on the quantity per capita' }, position: { x: 1270, y: 2850 } },
+  {id: '4_q3_quantity_outlier', type: 'decision', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, data: { label: 'Is the quantity detected as outlier?' }, position: { x: 1520, y: 2850 } },
+  {id: '4_p6_def_level_of_agg', type: 'process', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, data: { label: 'Define level of aggregation' }, position: { x: 1520, y: 3000 } },
+  {id: '4_p7_correct_quantity', type: 'process', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, data: { label: 'Correct the quantity using aggregated quantity' }, position: { x: 1520, y: 3150 } },
+  {id: '4_p8_use_multi_on_non_purchased', type: 'process', dependsOn: { filter5: 'yes_reliable' }, data: { label: 'Use the multivariate approach on non-purchased food (after considering purchased food)', width: 200, height: 80 }, position: { x: 510, y: 3300 } },
   {id: '4_q4_last_purchase', type: 'decision', data: { label: 'Are both quantities and values from purchases only collected for the last purchase?', width: 200, height: 80 }, position: { x: 760, y: 3300 } },
   {id: '4_p9_use_last_purchase', type: 'process', data: { label: 'Using quantity and monetary value of last  purchases' }, position: { x: 1020, y: 3300 } },
   {id: '4_p10_calc_unit_value', type: 'process', data: { label: 'Calculate the unit value' }, position: { x: 1270, y: 3300 } },
@@ -408,14 +421,28 @@ export const allEdges = [
   { id: 'e3_p6_yes_p7', type: 'straight',source: '3_p6_aggregate', sourceHandle: 'out-right', target: '3_p7_add_fafh_long', targetHandle: 'in-left'},
   { id: 'e3_p7_yes_q6', type: 'straight',source: '3_p7_add_fafh_long', sourceHandle: 'out-right', target: '3_q6_number_of_meals_fafh_collected', targetHandle: 'in-left'},
   { id: 'e3_q6_yes_p8', type: 'straight',source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-right', target: '3_p8_calc_in_house_meals', targetHandle: 'in-left', label: 'Yes'},
-  { id: 'e3_p8_yes_q7', type: 'straight',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-right', target: '3_q7_visitors_yes_meals_fafh', targetHandle: 'in-left'},
-  { id: 'e3_q7_yes_q8', type: 'straight', source: '3_q7_visitors_yes_meals_fafh', sourceHandle: 'out-right', target: '3_q8_meals_by_visitors_yes_meals_fafh', targetHandle: 'in-left', label: 'Yes'},
+//filter 7
+  { id: 'e3_p8_yes_q7', type: 'straight',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-right', target: '3_q7_visitors_yes_meals_fafh', targetHandle: 'in-left', dependsOn: { filter7: UNSET}, strict: true},
+  { id: 'e3_p8_yes_q7_filter7_yes', type: 'straight',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-right', target: '3_q7_visitors_yes_meals_fafh_yes', targetHandle: 'in-left', dependsOn: { filter7: 'yes'}, strict: true},
+  { id: 'e3_p8_yes_q7_filter7_no', type: 'straight',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-right', target: '3_q7_visitors_yes_meals_fafh_no', targetHandle: 'in-left', dependsOn: { filter7: 'no'}, strict: true},
+
+
+  //filter 7
+  { id: 'e3_q7_yes_q8', type: 'straight', source: '3_q7_visitors_yes_meals_fafh', sourceHandle: 'out-right', target: '3_q8_meals_by_visitors_yes_meals_fafh', targetHandle: 'in-left', dependsOn: { filter7: UNSET}, strict: true, label: 'Yes'},
+  { id: 'e3_q7_yes_q8_filter7_yes', type: 'straight', source: '3_q7_visitors_yes_meals_fafh_yes', sourceHandle: 'out-right', target: '3_q8_meals_by_visitors_yes_meals_fafh', targetHandle: 'in-left', dependsOn: { filter7: 'yes'}, strict: true},
+  { id: 'e3_q7_yes_q8_filter7_no', type: 'step', source: '3_q7_visitors_yes_meals_fafh_no', sourceHandle: 'out-right', target: '3_p16_merge_in_information', dependsOn: { filter7: 'no'}, strict: true, targetHandle: 'in-top'},
+
+
   { id: 'e3_q8_yes_p9', type: 'straight', source: '3_q8_meals_by_visitors_yes_meals_fafh', sourceHandle: 'out-right', target: '3_p9_calc_partakers_1', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e3_q9_yes_p10', type: 'straight', source: '3_q9_visitors_days_stayed_yes_meals_fafh', sourceHandle: 'out-right', target: '3_p10_calc_partakers_2', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e3_p9_yes_p16', type: 'step', source: '3_p9_calc_partakers_1', sourceHandle: 'out-right', target: '3_p16_merge_in_information', targetHandle: 'in-top'},
   { id: 'e3_p10_yes_p16', type: 'step', source: '3_p10_calc_partakers_2', sourceHandle: 'out-right', target: '3_p16_merge_in_information', targetHandle: 'in-top'},
   { id: 'e3_p11_yes_p16', type: 'step', source: '3_p11_calc_partakers_3', sourceHandle: 'out-right', target: '3_p16_merge_in_information', targetHandle: 'in-top'},
-  { id: 'e3_q10_yes_q11', type: 'straight', source: '3_q10_visitors_no_meals_fafh', sourceHandle: 'out-bottom', target: '3_q11_meals_by_visitors_no_meals_fafh', targetHandle: 'in-top', label: 'Yes'},
+  { id: 'e3_q10_yes_q11', type: 'straight', source: '3_q10_visitors_no_meals_fafh', sourceHandle: 'out-bottom', target: '3_q11_meals_by_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter7: UNSET }, label: 'Yes'},
+  { id: 'e3_q10_yes_q11_f7_yes', type: 'straight', source: '3_q10_visitors_no_meals_fafh_yes', sourceHandle: 'out-bottom', target: '3_q11_meals_by_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter7: 'yes' }, strict: true},
+//  { id: 'e3_q10_yes_q11_f7_no', type: 'step', source: '3_q10_visitors_no_meals_fafh_no', sourceHandle: 'out-bottom', target: '3_p16_merge_in_information', targetHandle: 'in-top', dependsOn: { filter7: 'yes' }, strict: true},
+
+
   { id: 'e3_p12_yes_p16', type: 'step', source: '3_p12_calc_partakers_1b', sourceHandle: 'out-right', target: '3_p16_merge_in_information', targetHandle: 'in-top'},
   { id: 'e3_q11_yes_p13', type: 'straight', source: '3_q11_meals_by_visitors_no_meals_fafh', sourceHandle: 'out-right', target: '3_p13_calc_partakers_1b', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e3_p13_yes_p16', type: 'step', source: '3_p13_calc_partakers_1b', sourceHandle: 'out-right', target: '3_p16_merge_in_information', targetHandle: 'in-top'},
@@ -429,24 +456,51 @@ export const allEdges = [
 //  { id: 'e3_q3_no_food', type: 'step', source: '3_q3_fafh_independent_wide', sourceHandle: 'out-right', target: '3_food_dataset_formatted', targetHandle: 'in-top', label: 'No' },
   { id: 'e3_q4_no_p4', type: 'step', source: '3_q4_monetary_values_at_least_one_source', sourceHandle: 'out-bottom', target: '3_p4_temp_file_for_imputation', targetHandle: 'in-top', label: 'No' },
 
-  { id: 'e3_q6_no_q10', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET }, strict: true, label: 'No' },
-  { id: 'e3_q6_no_q10_f3_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter3: 'yes' }, strict: true, label: 'No' },
-  { id: 'e3_q6_no_q10_f3_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter3: 'no' }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET, filter7: UNSET }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter3: 'yes', filter7: UNSET }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter3: 'no', filter7: UNSET }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f7_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh_yes', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET, filter7: 'yes' }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f7_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh_no', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET, filter7: 'no' }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_yes_f7_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_yes', targetHandle: 'in-top', dependsOn: { filter3: 'yes', filter7: 'yes' }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_no_f7_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_yes', targetHandle: 'in-top', dependsOn: { filter3: 'no', filter7: 'yes' }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_yes_f7_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_no', targetHandle: 'in-top', dependsOn: { filter3: 'yes', filter7: 'no' }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_no_f7_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_no', targetHandle: 'in-top', dependsOn: { filter3: 'no', filter7: 'no' }, strict: true, label: 'No' },
 
 
   { id: 'e3_q7_no_p16', type: 'step', source: '3_q7_visitors_yes_meals_fafh', sourceHandle: 'out-top', target: '3_p16_merge_in_information', targetHandle: 'in-top', label: 'No' },
   { id: 'e3_q8_no_q9', type: 'step', source: '3_q8_meals_by_visitors_yes_meals_fafh', sourceHandle: 'out-bottom', target: '3_q9_visitors_days_stayed_yes_meals_fafh', targetHandle: 'in-top', label: 'No' },
   { id: 'e3_q9_no_p11', type: 'step', source: '3_q9_visitors_days_stayed_yes_meals_fafh', sourceHandle: 'out-bottom', target: '3_p11_calc_partakers_3', targetHandle: 'in-left', label: 'No' },
   { id: 'e3_q10_no_p12', type: 'step', source: '3_q10_visitors_no_meals_fafh', sourceHandle: 'out-right', target: '3_p12_calc_partakers_1b', targetHandle: 'in-left', label: 'No' },
+  { id: 'e3_q10_no_p12_f7_no', type: 'step', source: '3_q10_visitors_no_meals_fafh_no', sourceHandle: 'out-right', target: '3_p12_calc_partakers_1b', targetHandle: 'in-left', dependsOn: { filter7: 'no' }, strict: true },
+
+
+
   { id: 'e3_q11_no_q9', type: 'step', source: '3_q11_meals_by_visitors_no_meals_fafh', sourceHandle: 'out-bottom', target: '3_q9_visitors_days_stayed_no_meals_fafh', targetHandle: 'in-top', label: 'No' },
   { id: 'e3_q9_no_p15', type: 'step', source: '3_q9_visitors_days_stayed_no_meals_fafh', sourceHandle: 'out-bottom', target: '3_p15_calc_partakers_1b', targetHandle: 'in-left', label: 'No' },
   { id: 'e3_finished_start', type: 'step', source: '3_finished', sourceHandle: 'out-bottom', target: '4_starts', targetHandle: 'in-top'},
 
   { id: 'e4_start_yes_p1', type: 'straight', source: '4_starts', sourceHandle: 'out-right', target: '4_p1_clone_original_values', targetHandle: 'in-left'},
-  { id: 'e4_p1_yes_q1', type: 'straight', source: '4_p1_clone_original_values', sourceHandle: 'out-right', target: '4_q1_collected_value_non_purch', targetHandle: 'in-left'},
-  { id: 'e4_q1_yes_q2', type: 'straight', source: '4_q1_collected_value_non_purch', sourceHandle: 'out-bottom', target: '4_q2_values_non_purch_reliable', targetHandle: 'in-top', label: 'Yes'},
-  { id: 'e4_q2_yes_p8', type: 'straight', source: '4_q2_values_non_purch_reliable', sourceHandle: 'out-bottom', target: '4_p8_use_multi_on_non_purchased', targetHandle: 'in-top', label: 'Yes'},
-  { id: 'e4_p2_yes_p3', type: 'straight', source: '4_p2_self_reported_to_missing', sourceHandle: 'out-top', target: '4_p3_use_original_non_purchased', targetHandle: 'in-bottom'},
+
+//filter 5
+  { id: 'e4_p1_yes_q1', type: 'straight', source: '4_p1_clone_original_values', sourceHandle: 'out-right', target: '4_q1_collected_value_non_purch', targetHandle: 'in-left', dependsOn: { filter5: UNSET }, strict: true},
+  { id: 'e4_p1_yes_q1_f5_yes1', type: 'straight', source: '4_p1_clone_original_values', sourceHandle: 'out-right', target: '4_q1_collected_value_non_purch_filter5_yes1', targetHandle: 'in-left', dependsOn: { filter5: 'yes_reliable' }, strict: true},
+  { id: 'e4_p1_yes_q1_f5_yes2', type: 'straight', source: '4_p1_clone_original_values', sourceHandle: 'out-right', target: '4_q1_collected_value_non_purch_filter5_yes2', targetHandle: 'in-left', dependsOn: { filter5: 'yes_not_reliable' }, strict: true},
+  { id: 'e4_p1_yes_q1_f5_no', type: 'straight', source: '4_p1_clone_original_values', sourceHandle: 'out-right', target: '4_q1_collected_value_non_purch_filter5_no', targetHandle: 'in-left', dependsOn: { filter5: 'no' }, strict: true},
+
+  { id: 'e4_q1_yes_q2', type: 'straight', source: '4_q1_collected_value_non_purch', sourceHandle: 'out-bottom', target: '4_q2_values_non_purch_reliable', targetHandle: 'in-top', label: 'Yes', dependsOn: { filter5: UNSET }, strict: true},
+  { id: 'e4_q1_yes_q2_f5_yes1', type: 'straight', source: '4_q1_collected_value_non_purch_filter5_yes1', sourceHandle: 'out-bottom', target: '4_q2_values_non_purch_reliable_filter5_yes_reliable', targetHandle: 'in-top', dependsOn: { filter5: 'yes_reliable' }, strict: true},
+  { id: 'e4_q1_yes_q2_f5_yes2', type: 'straight', source: '4_q1_collected_value_non_purch_filter5_yes2', sourceHandle: 'out-bottom', target: '4_q2_values_non_purch_reliable_filter5_yes_not_reliable', targetHandle: 'in-top', dependsOn: { filter5: 'yes_not_reliable' }, strict: true},
+  
+  //Filter 5
+  { id: 'e4_q2_yes_p8', type: 'straight', source: '4_q2_values_non_purch_reliable', sourceHandle: 'out-bottom', target: '4_p8_use_multi_on_non_purchased', targetHandle: 'in-top', label: 'Yes', dependsOn: { filter5: UNSET }, strict: true},
+  { id: 'e4_q2_yes_p8_f5_yes_reliable', type: 'straight', source: '4_q2_values_non_purch_reliable_filter5_yes_reliable', sourceHandle: 'out-bottom', target: '4_p8_use_multi_on_non_purchased', targetHandle: 'in-top', dependsOn: { filter5: 'yes_reliable' }, strict: true},
+
+
+  //Filter 5
+  { id: 'e4_p2_yes_p3', type: 'straight', source: '4_p2_self_reported_to_missing', sourceHandle: 'out-top', target: '4_p3_use_original_non_purchased', targetHandle: 'in-bottom', dependsOn: { filter5: UNSET }, strict: true},
+  { id: 'e4_p2_yes_p3_f5_yes_not_reliable', type: 'straight', source: '4_p2_self_reported_to_missing_filter5_yes_not_reliable', sourceHandle: 'out-top', target: '4_p3_use_original_non_purchased', targetHandle: 'in-bottom', dependsOn: { filter5: 'yes_not_reliable' }, strict: true},
+
+
   { id: 'e4_p3_yes_p4', type: 'straight', source: '4_p3_use_original_non_purchased', sourceHandle: 'out-right', target: '4_p4_calculate_per_partaker', targetHandle: 'in-left'},
   { id: 'e4_p4_yes_p5', type: 'straight', source: '4_p4_calculate_per_partaker', sourceHandle: 'out-right', target: '4_p5_univariate_approach_per_partaker', targetHandle: 'in-left'},
   { id: 'e4_p5_yes_q3', type: 'straight', source: '4_p5_univariate_approach_per_partaker', sourceHandle: 'out-right', target: '4_q3_quantity_outlier', targetHandle: 'in-left'},
@@ -487,8 +541,14 @@ export const allEdges = [
   { id: 'e4_finished_yes_starts', type: 'step', source: '4_finished', sourceHandle: 'out-bottom', target: '5_starts', targetHandle: 'in-top'},
 
 
-  { id: 'e4_q1_no_p3', type: 'straight', source: '4_q1_collected_value_non_purch', sourceHandle: 'out-right', target: '4_p3_use_original_non_purchased', targetHandle: 'in-left', label: 'No' },
-  { id: 'e4_q2_no_p2', type: 'straight', source: '4_q2_values_non_purch_reliable', sourceHandle: 'out-right', target: '4_p2_self_reported_to_missing', targetHandle: 'in-left', label: 'No' },
+//filter 5
+  { id: 'e4_q1_no_p3', type: 'straight', source: '4_q1_collected_value_non_purch', sourceHandle: 'out-right', target: '4_p3_use_original_non_purchased', targetHandle: 'in-left', label: 'No', dependsOn: { filter5: UNSET }, strict: true },
+  { id: 'e4_q1_no_p3_filter5_no', type: 'straight', source: '4_q1_collected_value_non_purch_filter5_no', sourceHandle: 'out-right', target: '4_p3_use_original_non_purchased', targetHandle: 'in-left', dependsOn: { filter5: 'no' }, strict: true},
+
+  { id: 'e4_q2_no_p2', type: 'straight', source: '4_q2_values_non_purch_reliable', sourceHandle: 'out-right', target: '4_p2_self_reported_to_missing', targetHandle: 'in-left', label: 'No', dependsOn: { filter5: UNSET }, strict: true },
+  { id: 'e4_q2_no_p2_f5_yes_no_reliable', type: 'straight', source: '4_q2_values_non_purch_reliable_filter5_yes_not_reliable', sourceHandle: 'out-right', target: '4_p2_self_reported_to_missing_filter5_yes_not_reliable', targetHandle: 'in-left', dependsOn: { filter5: 'yes_not_reliable' }, strict: true },
+
+
   { id: 'e4_q3_no_q4', type: 'step', source: '4_q3_quantity_outlier', sourceHandle: 'out-right', target: '4_q4_last_purchase', targetHandle: 'in-top', label: 'No' },
   { id: 'e4_q4_no_p13', type: 'straight', source: '4_q4_last_purchase', sourceHandle: 'out-bottom', target: '4_p13_use_multi_approach', targetHandle: 'in-top', label: 'No' },
   { id: 'e4_q5_no_q6', type: 'straight', source: '4_q5_unit_value_outlier', sourceHandle: 'out-bottom', target: '4_q6_multi_approach_used', targetHandle: 'in-top', label: 'No' },

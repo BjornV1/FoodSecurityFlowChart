@@ -1,14 +1,17 @@
 // filterLogic.js
 
-// ⭐ Spesiell markør: brukes i dependsOn for å si "vis kun når filteret er ubesvart"
 export const UNSET = '__unset__'
 
 function matchesCondition(filterKey, requiredValue, answers) {
   const userAnswer = answers[filterKey]
 
-  // ⭐ Spesialtilfelle: krever eksplisitt at spørsmålet IKKE er besvart
   if (requiredValue === UNSET) {
     return userAnswer === null || userAnswer === undefined
+  }
+
+  // ⭐ Nytt: hvis requiredValue er en liste, matcher vi hvis svaret er ETT av dem
+  if (Array.isArray(requiredValue)) {
+    return requiredValue.includes(userAnswer)
   }
 
   return userAnswer === requiredValue
@@ -22,7 +25,6 @@ function matchesDependsOn(dependsOn, answers) {
 
 function matchesDependsOnLoose(dependsOn, answers) {
   return Object.entries(dependsOn).every(([filterKey, requiredValue]) => {
-    // ⭐ Spesialtilfelle gjelder uansett strict/loose
     if (requiredValue === UNSET) {
       const userAnswer = answers[filterKey]
       return userAnswer === null || userAnswer === undefined
@@ -32,6 +34,11 @@ function matchesDependsOnLoose(dependsOn, answers) {
 
     if (userAnswer === null || userAnswer === undefined) {
       return true
+    }
+
+    // ⭐ Nytt: samme liste-støtte i loose-modus
+    if (Array.isArray(requiredValue)) {
+      return requiredValue.includes(userAnswer)
     }
 
     return userAnswer === requiredValue
