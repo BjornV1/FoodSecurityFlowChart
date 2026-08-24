@@ -89,7 +89,7 @@ export const allNodes = [
   {id: '4_p1_clone_original_values', type: 'process', data: { label: 'Clone all the original quantities and monetary values collected in the survey', width: 200, height: 80 }, position: { x: 250, y: 2850 } },
 
   //filter 5
-  {id: '4_q1_collected_value_non_purch', type: 'decision', dependsOn: { filter5: UNSET }, strict: true,data: { label: 'Are the self reported monetary values for non-purchased food collected?' }, position: { x: 520, y: 2850 } },
+  {id: '4_q1_collected_value_non_purch', type: 'decision', dependsOn: { filter5: UNSET }, strict: true, data: { label: 'Are the self reported monetary values for non-purchased food collected?' }, position: { x: 520, y: 2850 } },
   {id: '4_q1_collected_value_non_purch_filter5_yes1', type: 'chosen', dependsOn: { filter5: 'yes_reliable' }, strict: true, data: { label: 'The self reported monetary values for non-purchased food are collected' }, position: { x: 520, y: 2850 } },
   {id: '4_q1_collected_value_non_purch_filter5_yes2', type: 'chosen', dependsOn: { filter5: 'yes_not_reliable' }, strict: true, data: { label: 'The self reported monetary values for non-purchased food are collected' }, position: { x: 520, y: 2850 } },
   {id: '4_q1_collected_value_non_purch_filter5_no', type: 'chosen', dependsOn: { filter5: 'no' }, strict: true, data: { label: 'The self reported monetary values for non-purchased food are not collected' }, position: { x: 520, y: 2850 } },
@@ -161,34 +161,43 @@ export const allNodes = [
   {id: '5_finished', type: 'validation', data: { label: 'Step 5 finished' }, position: { x: 2180, y: 5690 } },
 
   {id: '6_starts', type: 'validation', data: { label: 'Step 6 starts' }, position: { x: 0, y: 5840 } },
+
   {id: '6_q1_well_described', type: 'decision', data: { label: 'Is the food item  well described?' }, position: { x: 250, y: 5840 } },
-  {id: '6_q2_standard_unit', type: 'decision', data: { label: 'Is the quantity reported in a standard unit of measurement?' }, position: { x: 520, y: 5840 } },
+
+//filter 6 yes
+  {id: '6_q2_standard_unit', type: 'decision', dependsOn: { filter6: [UNSET, 'no'] }, data: { label: 'Is the quantity reported in a standard unit of measurement?' }, position: { x: 520, y: 5840 } },
+  {id: '6_q2_standard_unit_filter6_yes', type: 'chosen', dependsOn: { filter6: 'yes' }, strict: true, data: { label: 'All food items are measured in standard units' }, position: { x: 520, y: 5840 } },
+  {id: '6_q9_rep_standard_unit', type: 'decision', dependsOn: { filter6: [UNSET, 'no'] }, data: { label: 'Is it reported in a standard unit?' }, position: { x: 250, y: 6940 } },
+  {id: '6_q9_rep_standard_unit_filter6_yes', type: 'chosen', dependsOn: { filter6: 'yes' }, strict: true, data: { label: 'All food items are measured in standard units' }, position: { x: 250, y: 6940 } },
+
+
   {id: '6_q3_volumetric', type: 'decision', data: { label: 'Is the standard unit a volumetric measurement, such as litres or millilitres?' }, position: { x: 790, y: 5840 } },
   {id: '6_p1_density_factor', type: 'process', data: { label: 'Convert to grams using density factor' }, position: { x: 1080, y: 5840 } },
   {id: '6_p2_calc_quant_in_grams', type: 'process', data: { label: 'Quantities in grams = quantities (in standard unit) * Density (grams per standard unit)', width: 220, height: 80 }, position: { x: 1370, y: 5840 } },
   {id: '6_p3_convert_grams_standard_unit', type: 'process', data: { label: 'Convert to grams using the weight in gram of one standard unit ' }, position: { x: 1080, y: 5990 } },
   {id: '6_p4_calc_price', type: 'process', data: { label: 'Price = monetary value / quantities in grams' }, position: { x: 1980, y: 6300 } },
-  {id: '6_q4_source', type: 'decision', data: { label: 'Is a weight in grams for the non-standard unit available from a market survey or other reliable sources?', width: 240, height: 80 }, position: { x: 490, y: 6140 } },
-  {id: '6_p5_convert_grams_standard_unit_2', type: 'process', data: { label: 'Convert to grams using the weight in gram of one unit' }, position: { x: 800, y: 6140 } },
-  {id: '6_p6_calc_quant_in_grams', type: 'process', data: { label: 'Quantities in grams = Quantities (in non-standard units) * Conversion factor (grams per non-standard unit)', width: 240, height: 80 }, position: { x: 1050, y: 6140 } },
-  {id: '6_q5_market_survey', type: 'decision', data: { label: 'Is a well-undertaken market survey on prices per gram (LCU) from the same area and time as the data collection available?', width: 240, height: 100 }, position: { x: 490, y: 6290 } },
-  {id: '6_q6_mon_value_available', type: 'decision', data: { label: 'Is the monetary value corresponding to the reported quantity available?' }, position: { x: 800 , y: 6300 } },
-  {id: '6_p7_calc_price_2', type: 'process', data: { label: 'Price = market price per gram (LCU)' }, position: { x: 1080, y: 6300 } },
-  {id: '6_p8_conv_value_div_price', type: 'process', data: { label: 'Convert into grams using monetary value divided by price per gram' }, position: { x: 1400, y: 6300 } },
-  {id: '6_p9_calc_quant_in_grams_2', type: 'process', data: { label: 'Quantities in grams = Monetary value (LCU) / price per gram (LCU per gram)', width: 220, height: 80 }, position: { x: 1680, y: 6300 } },
-  {id: '6_val_flag', type: 'flag', data: { label: 'Flag observation – if too many observations are flagged, it is important to refer to national experts or secondary sources to obtain the weight in grams – monetary value can later be estimated using the price in gram after the quantity is converted', width: 240, height: 200 }, position: { x: 770, y: 6480 } },
-  {id: '6_p10_calc_price_3', type: 'process', data: { label: 'Price = median price per gram (LCU)' }, position: { x: 1400, y: 6780 } },
-  {id: '6_q7_estimated', type: 'decision', data: { label: 'Could a price per gram for that food item be estimated from the survey? (At least 10 observations, and 60 % of the quantities converted to grams)', width: 240, height: 100 }, position: { x: 490 , y: 6770 } },
-  {id: '6_q8_mon_value_rep_quant', type: 'decision', data: { label: 'Do we have the monetary value of the reported quantity?' }, position: { x: 800, y: 6780 } },
-  {id: '6_p11_def_lev_agg', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 1080, y: 6780 } },
-  {id: '6_q9_rep_standard_unit', type: 'decision', data: { label: 'Is it reported in a standard unit?' }, position: { x: 250, y: 6940 } },
+
+//filter 6 no
+  {id: '6_q4_source', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Is a weight in grams for the non-standard unit available from a market survey or other reliable sources?', width: 240, height: 80 }, position: { x: 490, y: 6140 } },
+  {id: '6_p5_convert_grams_standard_unit_2', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Convert to grams using the weight in gram of one unit' }, position: { x: 800, y: 6140 } },
+  {id: '6_p6_calc_quant_in_grams', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Quantities in grams = Quantities (in non-standard units) * Conversion factor (grams per non-standard unit)', width: 240, height: 80 }, position: { x: 1050, y: 6140 } },
+  {id: '6_q5_market_survey', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Is a well-undertaken market survey on prices per gram (LCU) from the same area and time as the data collection available?', width: 240, height: 100 }, position: { x: 490, y: 6290 } },
+  {id: '6_q6_mon_value_available', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Is the monetary value corresponding to the reported quantity available?' }, position: { x: 800 , y: 6300 } },
+  {id: '6_p7_calc_price_2', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Price = market price per gram (LCU)' }, position: { x: 1080, y: 6300 } },
+  {id: '6_p8_conv_value_div_price', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Convert into grams using monetary value divided by price per gram' }, position: { x: 1400, y: 6300 } },
+  {id: '6_p9_calc_quant_in_grams_2', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Quantities in grams = Monetary value (LCU) / price per gram (LCU per gram)', width: 220, height: 80 }, position: { x: 1680, y: 6300 } },
+  {id: '6_val_flag', type: 'flag', dependsOn: { filter6: 'no' }, data: { label: 'Flag observation – if too many observations are flagged, it is important to refer to national experts or secondary sources to obtain the weight in grams – monetary value can later be estimated using the price in gram after the quantity is converted', width: 240, height: 200 }, position: { x: 770, y: 6480 } },
+  {id: '6_p10_calc_price_3', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Price = median price per gram (LCU)' }, position: { x: 1400, y: 6780 } },
+  {id: '6_q7_estimated', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Could a price per gram for that food item be estimated from the survey? (At least 10 observations, and 60 % of the quantities converted to grams)', width: 240, height: 100 }, position: { x: 490 , y: 6770 } },
+  {id: '6_q8_mon_value_rep_quant', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Do we have the monetary value of the reported quantity?' }, position: { x: 800, y: 6780 } },
+  {id: '6_p11_def_lev_agg', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Define the level of disaggregation to use' }, position: { x: 1080, y: 6780 } },
   {id: '6_p12_conv_to_grams', type: 'process', data: { label: 'Convert to grams' }, position: { x: 250, y: 7240 } },
-  {id: '6_q10_same_food_group', type: 'decision', data: { label: 'Does the food item refer to several foods from the same food group, like «other vegetables»?', width: 240, height: 80 }, position: { x: 490, y: 6940 } },
-  {id: '6_p13_later', type: 'flag', data: { label: 'Quantities cannot be converted into grams. Nutrient values will be estimated at a later stage', width: 240, height: 80 }, position: { x: 490, y: 7090 } },
-  {id: '6_p14_def_lev_agg', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 800, y: 6940 } },
-  {id: '6_p15_calc_price', type: 'process', data: { label: 'Price = median price per gram for the food group' }, position: { x: 1080, y: 6940 } },
-  {id: '6_p16_conv_grams', type: 'process', data: { label: 'Convert into grams using monetary value divided by price per gram' }, position: { x: 1400, y: 6940 } },
-  {id: '6_p17_calc_quant', type: 'process', data: { label: 'Quantities in grams = Monetary value / median price per gram for the food group' }, position: { x: 1710, y: 6940 } },
+  {id: '6_q10_same_food_group', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Does the food item refer to several foods from the same food group, like «other vegetables»?', width: 240, height: 80 }, position: { x: 490, y: 6940 } },
+  {id: '6_p13_later', type: 'flag', dependsOn: { filter6: 'no' }, data: { label: 'Quantities cannot be converted into grams. Nutrient values will be estimated at a later stage', width: 240, height: 80 }, position: { x: 490, y: 7090 } },
+  {id: '6_p14_def_lev_agg', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Define the level of disaggregation to use' }, position: { x: 800, y: 6940 } },
+  {id: '6_p15_calc_price', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Price = median price per gram for the food group' }, position: { x: 1080, y: 6940 } },
+  {id: '6_p16_conv_grams', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Convert into grams using monetary value divided by price per gram' }, position: { x: 1400, y: 6940 } },
+  {id: '6_p17_calc_quant', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Quantities in grams = Monetary value / median price per gram for the food group' }, position: { x: 1710, y: 6940 } },
   {id: '6_finished', type: 'validation', data: { label: 'Step 6 finished' }, position: { x: 2130, y: 7240 } },
 
   {id: '7_starts', type: 'validation', data: { label: 'Step 7 starts' }, position: { x: 0, y: 7490 } },
@@ -588,8 +597,18 @@ export const allEdges = [
 
   { id: 'e5_finished_starts', type: 'step', source: '5_finished', sourceHandle: 'out-bottom', target: '6_starts', targetHandle: 'in-top'},
   { id: 'e6_starts_yes_q1', type: 'straight', source: '6_starts', sourceHandle: 'out-right', target: '6_q1_well_described', targetHandle: 'in-left'},
+
+//filter 6 yes 
   { id: 'e6_q1_yes_q2', type: 'straight', source: '6_q1_well_described', sourceHandle: 'out-right', target: '6_q2_standard_unit', targetHandle: 'in-left', label: 'Yes'},
+  { id: 'e6_q1_yes_q2_f6_yes', type: 'straight', source: '6_q1_well_described', sourceHandle: 'out-right', target: '6_q2_standard_unit_filter6_yes', targetHandle: 'in-left', label: 'Yes'},
+  { id: 'e6_q1_no_q2', type: 'straight', source: '6_q1_well_described', sourceHandle: 'out-bottom', target: '6_q9_rep_standard_unit', targetHandle: 'in-top', label: 'No'},
+  { id: 'e6_q1_no_q2_f6_yes', type: 'straight', source: '6_q1_well_described', sourceHandle: 'out-bottom', target: '6_q9_rep_standard_unit_filter6_yes', targetHandle: 'in-top', label: 'No'},
   { id: 'e6_q2_yes_q3', type: 'straight', source: '6_q2_standard_unit', sourceHandle: 'out-right', target: '6_q3_volumetric', targetHandle: 'in-left', label: 'Yes'},
+  { id: 'e6_q2_yes_q3_yes', type: 'straight', source: '6_q2_standard_unit_filter6_yes', sourceHandle: 'out-right', target: '6_q3_volumetric', targetHandle: 'in-left'},
+  { id: 'e6_q9_yes_p12', type: 'straight', source: '6_q9_rep_standard_unit', sourceHandle: 'out-bottom', target: '6_p12_conv_to_grams', targetHandle: 'in-top', label: 'Yes'},
+  { id: 'e6_q9_yes_p12_yes', type: 'straight', source: '6_q9_rep_standard_unit_filter6_yes', sourceHandle: 'out-bottom', target: '6_p12_conv_to_grams', targetHandle: 'in-top'},
+
+
   { id: 'e6_q3_yes_p1', type: 'straight', source: '6_q3_volumetric', sourceHandle: 'out-right', target: '6_p1_density_factor', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e6_p1_yes_p2', type: 'straight', source: '6_p1_density_factor', sourceHandle: 'out-right', target: '6_p2_calc_quant_in_grams', targetHandle: 'in-left'},
   { id: 'e6_p2_yes_p4', type: 'step', source: '6_p2_calc_quant_in_grams', sourceHandle: 'out-right', target: '6_p4_calc_price', targetHandle: 'in-top'},
@@ -607,7 +626,6 @@ export const allEdges = [
   { id: 'e6_q7_yes_q8', type: 'straight', source: '6_q7_estimated', sourceHandle: 'out-right', target: '6_q8_mon_value_rep_quant', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e6_q8_yes_p11', type: 'straight', source: '6_q8_mon_value_rep_quant', sourceHandle: 'out-right', target: '6_p11_def_lev_agg', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e6_p11_yes_p10', type: 'straight', source: '6_p11_def_lev_agg', sourceHandle: 'out-right', target: '6_p10_calc_price_3', targetHandle: 'in-left'},
-  { id: 'e6_q9_yes_p12', type: 'straight', source: '6_q9_rep_standard_unit', sourceHandle: 'out-bottom', target: '6_p12_conv_to_grams', targetHandle: 'in-top', label: 'Yes'},
   { id: 'e6_p12_yes_finished', type: 'straight', source: '6_p12_conv_to_grams', sourceHandle: 'out-right', target: '6_finished', targetHandle: 'in-left'},
   { id: 'e6_q10_yes_p14', type: 'straight', source: '6_q10_same_food_group', sourceHandle: 'out-right', target: '6_p14_def_lev_agg', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e6_p13_yes_finished', type: 'step', source: '6_p13_later', sourceHandle: 'out-bottom', target: '6_finished', targetHandle: 'in-left'},
@@ -616,7 +634,6 @@ export const allEdges = [
   { id: 'e6_p16_yes_p17', type: 'straight', source: '6_p16_conv_grams', sourceHandle: 'out-right', target: '6_p17_calc_quant', targetHandle: 'in-left'},
   { id: 'e6_p17_yes_finished', type: 'step', source: '6_p17_calc_quant', sourceHandle: 'out-right', target: '6_finished', targetHandle: 'in-top'},
 
-  { id: 'e6_q1_no_q2', type: 'straight', source: '6_q1_well_described', sourceHandle: 'out-bottom', target: '6_q9_rep_standard_unit', targetHandle: 'in-top', label: 'No'},
   { id: 'e6_q2_no_q4', type: 'straight', source: '6_q2_standard_unit', sourceHandle: 'out-bottom', target: '6_q4_source', targetHandle: 'in-top', label: 'No' },
   { id: 'e6_q3_no_p3', type: 'step', source: '6_q3_volumetric', sourceHandle: 'out-bottom', target: '6_p3_convert_grams_standard_unit', targetHandle: 'in-left', label: 'No' },
   { id: 'e6_q4_no_q5', type: 'straight', source: '6_q4_source', sourceHandle: 'out-bottom', target: '6_q5_market_survey', targetHandle: 'in-top', label: 'No' },
