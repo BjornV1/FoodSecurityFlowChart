@@ -80,7 +80,7 @@ const FILTERS = [
   },
   {
     key: 'filter4',
-    question: 'Are the monetary values collected only for the last purchases?',
+    question: 'Are the monetary values only collected for the last purchase?',
     options: [['yes', 'Yes'], ['no', 'No']]
   },
   {
