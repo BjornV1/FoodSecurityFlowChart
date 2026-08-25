@@ -17,9 +17,9 @@ export const allNodes = [
   {id: '2_q3_total_qty_collected_no', type: 'chosen', dependsOn: { filter1: 'no' }, strict: true, data: { label: '«Total quantity consumed» is not collected ' }, position: { x: 750, y: 0 } }, // Only visible with filter1='no'
 
 
-  {id: '2_q4_total_equals_sum', type: 'decision', dependsOn: { filter1: 'yes' }, data: { label: 'Does the total quantity reported correspond to the sum of the quantities reported by food source?', width: 260, height: 80 }, position: { x: 1250, y: 0 } },
+  {id: '2_q4_total_equals_sum', type: 'decision', dependsOn: { filter1: 'yes' }, data: { label: 'Does the total quantity collected correspond to the sum of the quantities collected by food source?', width: 260, height: 80 }, position: { x: 1250, y: 0 } },
   {id: '2_p3_drop_total_qty_var', type: 'process', dependsOn: { filter1: 'yes' }, data: { label: 'Drop the variable\n «Total quantity consumed» ' }, position: { x: 1500, y: 300 } },
-  {id: '2_q5_units_same', type: 'decision', dependsOn: { filter1: 'yes' }, data: { label: 'Are all quantities reported by food source, in the same unit as the total quantity? ' }, position: { x: 1000, y: 0 } },
+  {id: '2_q5_units_same', type: 'decision', dependsOn: { filter1: 'yes' }, data: { label: 'Are all quantities collected by food source, in the same unit as the total quantity? ' }, position: { x: 1000, y: 0 } },
   {id: '2_p4_check_modify_error', type: 'process', dependsOn: { filter1: 'yes' }, data: { label: 'Check all the quantities and\n modify the likely error. ' }, position: { x: 1290, y: 150 } },
 
   {id: '2_q6_recall', type: 'decision', dependsOn: { filter2: UNSET }, data: { label: 'Is the data collected through a recall? ' }, position: { x: 1500, y: 450 } }, // Only visible with neutral filter2
@@ -156,7 +156,7 @@ export const allNodes = [
   {id: '5_p7_lcu_3', type: 'process', data: { label: 'Monetary value of the quantity consumed (LCU) = quantity consumed (unit)* price (LCU/unit)', width: 220, height: 80 }, position: { x: 1040, y: 5390 } },
   {id: '5_p8_best_source', type: 'process', data: { label: 'Decide which is the best available source for prices' }, position: { x: 500, y: 5390 } },
   {id: '5_p9_market_survey', type: 'process', data: { label: 'A well-undertaken market survey on price per unit (LCU) from the same area and time as the data collection', width: 220, height: 80 }, position: { x: 750, y: 5240 } },
-  {id: '5_p10_agg_unit_values', type: 'process', data: { label: 'Aggregated unit values based on reported values not flagged as outliers', width: 220, height: 80 }, position: { x: 750, y: 5390 } },
+  {id: '5_p10_agg_unit_values', type: 'process', data: { label: 'Aggregated unit values based on collected values not flagged as outliers', width: 220, height: 80 }, position: { x: 750, y: 5390 } },
   {id: '5_p11_other', type: 'process', data: { label: 'Other sources like ad-hoc surveys for collecting CPI/FPI', width: 220, height: 80 }, position: { x: 750, y: 5540 } },
   {id: '5_finished', type: 'validation', data: { label: 'Step 5 finished' }, position: { x: 2180, y: 5690 } },
 
@@ -182,14 +182,14 @@ export const allNodes = [
   {id: '6_p5_convert_grams_standard_unit_2', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Convert to grams using the weight in gram of one unit' }, position: { x: 800, y: 6140 } },
   {id: '6_p6_calc_quant_in_grams', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Quantities in grams = Quantities (in non-standard units) * Conversion factor (grams per non-standard unit)', width: 240, height: 80 }, position: { x: 1050, y: 6140 } },
   {id: '6_q5_market_survey', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Is a well-undertaken market survey on prices per gram (LCU) from the same area and time as the data collection available?', width: 240, height: 100 }, position: { x: 490, y: 6290 } },
-  {id: '6_q6_mon_value_available', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Is the monetary value corresponding to the reported quantity available?' }, position: { x: 800 , y: 6300 } },
+  {id: '6_q6_mon_value_available', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Is the monetary value corresponding to the collected quantity available?' }, position: { x: 800 , y: 6300 } },
   {id: '6_p7_calc_price_2', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Price = market price per gram (LCU)' }, position: { x: 1080, y: 6300 } },
   {id: '6_p8_conv_value_div_price', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Convert into grams using monetary value divided by price per gram' }, position: { x: 1400, y: 6300 } },
   {id: '6_p9_calc_quant_in_grams_2', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Quantities in grams = Monetary value (LCU) / price per gram (LCU per gram)', width: 220, height: 80 }, position: { x: 1680, y: 6300 } },
   {id: '6_val_flag', type: 'flag', dependsOn: { filter6: 'no' }, data: { label: 'Flag observation – if too many observations are flagged, it is important to refer to national experts or secondary sources to obtain the weight in grams – monetary value can later be estimated using the price in gram after the quantity is converted', width: 240, height: 200 }, position: { x: 770, y: 6480 } },
   {id: '6_p10_calc_price_3', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Price = median price per gram (LCU)' }, position: { x: 1400, y: 6780 } },
   {id: '6_q7_estimated', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Could a price per gram for that food item be estimated from the survey? (At least 10 observations, and 60 % of the quantities converted to grams)', width: 240, height: 100 }, position: { x: 490 , y: 6770 } },
-  {id: '6_q8_mon_value_rep_quant', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Do we have the monetary value of the reported quantity?' }, position: { x: 800, y: 6780 } },
+  {id: '6_q8_mon_value_rep_quant', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Do we have the monetary value of the collected quantity?' }, position: { x: 800, y: 6780 } },
   {id: '6_p11_def_lev_agg', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Define the level of disaggregation to use' }, position: { x: 1080, y: 6780 } },
   {id: '6_p12_conv_to_grams', type: 'process', data: { label: 'Convert to grams' }, position: { x: 250, y: 7240 } },
   {id: '6_q10_same_food_group', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Does the food item refer to several foods from the same food group, like «other vegetables»?', width: 240, height: 80 }, position: { x: 490, y: 6940 } },
@@ -230,7 +230,7 @@ export const allNodes = [
   {id: '8_p3_merge_nct', type: 'process', data: { label: 'Merge in the Nutrient Conversion Table (NCT)' }, position: { x: 830, y: 8390 } },
   {id: '8_p4_corr_nct', type: 'process', data: { label: 'Correct the NCT or revise food matching' }, position: { x: 830, y: 8540 } },
   {id: '8_q1_errors', type: 'decision', data: { label: 'Are there any errors detected in the merge?' }, position: { x: 1080, y: 8390 } },
-  {id: '8_p5_calc_ed_quant', type: 'process', data: { label: 'Calculate edible quantity:\nEdible quantity (grams)= reported quantity (grams)*(1-refuse factor/100) ', width: 280, height: 80 }, position: { x: 1330, y: 8390 } },
+  {id: '8_p5_calc_ed_quant', type: 'process', data: { label: 'Calculate edible quantity:\nEdible quantity (grams)= collected quantity (grams)*(1-refuse factor/100) ', width: 280, height: 80 }, position: { x: 1330, y: 8390 } },
   {id: '8_p6_calc_cal', type: 'process', data: { label: 'Calculate calories: Calories (kcal)=Edible quantity (grams)*kcal per 100 edible grams/100 ', width: 240, height: 80 }, position: { x: 1660, y: 8390 } },
   {id: '8_p7_calc_macro', type: 'process', data: { label: 'Calculate macronutrients (grams) – example: Quantity of fats (grams)=Edible quantity (grams)*fat content per 100 edible grams/100', width: 320, height: 80 }, position: { x: 1950, y: 8390 } },
   {id: '8_finished', type: 'validation', data: { label: 'Step 8 finished' }, position: { x: 2020, y: 8540 } },

@@ -42,7 +42,7 @@ const nodeTypesStatic = {
 const edgeTypesStatic = {}
 
 // ⭐ Bredde på venstre filter-sidebar og høyre legend-panel - endre kun her
-const SIDEBAR_WIDTH = 420
+const SIDEBAR_WIDTH = 520
 const LEGEND_WIDTH = 280
 
 const defaultEdgeOptions = {
@@ -75,18 +75,18 @@ const FILTERS = [
   },
   {
     key: 'filter7',
-    question: 'Does the survey collects information on visitors?',
+    question: 'Does the survey collect information on visitors?',
     options: [['yes', 'Yes'], ['no', 'No']]
   },
   {
     key: 'filter4',
-    question: 'How are the monetary values for purchases reported?',
-    options: [['last', 'For last purchase'], ['all', 'For all purchases']]
+    question: 'Are the monetary values collected only for the last purchases?',
+    options: [['yes', 'Yes'], ['no', 'No']]
   },
   {
     key: 'filter5',
-    question: 'Are the monetary values for non-purchased food items reported and are they reliable?',
-    options: [['yes_reliable', 'Reported and reliable'], ['yes_not_reliable', 'Reported, but not reliable'], ['no', 'Not reported']]
+    question: 'Are the monetary values for non-purchased food items collected and are they considered reliable?',
+    options: [['yes_reliable', 'Collected and considered reliable'], ['yes_not_reliable', 'Collected, but not considered reliable'], ['no', 'Not collected']]
   },
   {
     key: 'filter6',
@@ -101,8 +101,8 @@ const initialAnswers = Object.fromEntries(FILTERS.map(f => [f.key, null]))
 const LEGEND_ITEMS = [
   { color: '#D6EAF8', border: '#3498DB', label: 'Decision', description: 'A yes/no or multiple-choice question' },
   { color: '#D5F5E3', border: '#27AE60', label: 'Process', description: 'An action or calculation step' },
-  { color: '#FCF3CF', border: '#F1C40F', label: 'Validation', description: 'Marks the start or end of a step' },
-  { color: '#f8c5f4', border: '#ec0dc7', label: 'Flag', description: 'Observation flagged for review' },
+  { color: '#FCF3CF', border: '#F1C40F', label: 'Start/end', description: 'Marks the start or the end of a step' },
+  { color: '#f8c5f4', border: '#ec0dc7', label: 'Flag', description: 'Flagged for review' },
   { color: '#f0ede9', border: '#8d6c10', label: 'Chosen', description: 'Decision affected by filter question' },
 ]
 
