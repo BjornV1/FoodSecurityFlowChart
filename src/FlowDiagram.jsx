@@ -401,7 +401,7 @@ export default function FlowDiagram() {
 
               {FILTERS.map(({ key, question, options }) => (
                 <div key={key} style={{ marginBottom: 20 }}>
-                  <p>{question}</p>
+                  <p style={{ color: '#000000' }}>{question}</p>
                   {options.map(([value, label]) => {
                     const isActive = answers[key] === value
                     return (
@@ -558,8 +558,8 @@ export default function FlowDiagram() {
                     }}
                   />
                   <div>
-                    <div style={{ fontWeight: 'bold', fontSize: 13, color: '#222' }}>{label}</div>
-                    <div style={{ fontSize: 12, color: '#666' }}>{description}</div>
+                    <div style={{ fontWeight: 'bold', fontSize: 13, color: '#000000' }}>{label}</div>
+                    <div style={{ fontSize: 12, color: '#000000' }}>{description}</div>
                   </div>
                 </div>
               ))}
