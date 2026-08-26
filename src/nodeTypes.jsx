@@ -134,6 +134,7 @@ export function FormulaNode({ data }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        color: '#000000',
       }}
     >
       <div dangerouslySetInnerHTML={{ __html: html }} />
@@ -163,6 +164,7 @@ export function FormulaTextNode({ data }) {
         justifyContent: 'center',
         gap: 14,
         fontFamily: 'Arial, sans-serif',
+        color: '#000000',
       }}
     >
       {data.description && (
