@@ -15,6 +15,7 @@ const baseStyle = {
   whiteSpace: 'pre-wrap',
   overflow: 'hidden',
   textAlign: 'center',
+  color: '#000000',
 }
 
 // Alle handle-posisjoner en boks trenger: midt på hver side (synlig, kan brukes til
