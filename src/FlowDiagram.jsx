@@ -42,8 +42,22 @@ const nodeTypesStatic = {
 const edgeTypesStatic = {}
 
 // ⭐ Overskrift og innledende tekst - juster fritt her
-const PAGE_TITLE = 'Food Security Flow Chart (working title)'
-const PAGE_INTRO = 'This flow chart illustrates the step-by-step process for cleaning, validating, and analysing food consumption data according to the guidelines (link). Use the filters on the left to tailor the diagram to your specific survey design.'
+const PAGE_TITLE = 'HCES Food Data Flow Chart'
+// const PAGE_INTRO = 'This flow chart illustrates the step-by-step process for cleaning, validating, and analysing food consumption data according to the guidelines (link). Use the filters on the left to tailor the diagram to your specific survey design.'
+
+const PAGE_INTRO = (
+  <>
+    This flow chart illustrates the step-by-step process for cleaning, validating, and analysing food consumption data according to  {' '}
+    
+      <a href="https://openknowledge.fao.org/items/309602e9-96a6-4035-8116-aa583f389b46"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ color: '#3498DB', textDecoration: 'underline' }}>
+      the guidelines
+    </a>.
+    Use the filters on the left to tailor the diagram to your specific survey design. For more background, see the
+  </>
+)
 
 // ⭐ Bredde på venstre filter-sidebar og høyre legend-panel - endre kun her
 const SIDEBAR_WIDTH = 520
