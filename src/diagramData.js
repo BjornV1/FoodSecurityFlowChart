@@ -6,7 +6,7 @@ export const allNodes = [
   //
   // START
   //
-  {id: '2_start', type: 'validation', data: { label: 'Step 2 starts\nThe food data ' }, position: { x: 0, y: 0 } },
+  {id: '2_start', type: 'validation', data: { label: 'Step 2 starts\nDomain editing, obvious\nand systematic errors (DOS)', width: 200, height: 80 }, position: { x: 0, y: 0 } },
   {id: '2_q1_qty_money_positive', type: 'decision', data: { label: 'Are both quantity and monetary value larger than zero? ' }, position: { x: 250, y: 0 } },
   {id: '2_p1_set_negative_missing', type: 'process', data: { label: 'Set negative or zero\n value to missing\n (for further cleaning later) ' }, position: { x: 500, y: 150 } },
   {id: '2_q2_both_missing', type: 'decision', data: { label: 'Are both quantity and monetary value missing? ' }, position: { x: 250, y: 150 } },
@@ -38,7 +38,7 @@ export const allNodes = [
   {id: '2_p8_correct_source', type: 'process', data: { label: 'Correct using national or own expert’s\njudgment or logical deduction ', width: 220, height: 80 }, position: { x: 2930, y: 900 } },
   {id: '2_step_finished', type: 'validation', data: { label: 'Step 2 finished ' }, position: { x: 3230, y: 1050 } },
   
-  {id: '3_starts', type: 'validation', data: { label: 'Step 3 starts ' }, position: { x: 0, y: 1200 } },
+  {id: '3_starts', type: 'validation', data: { label: 'Step 3 starts\nAdjust and merge\ndata files', width: 200, height: 80 }, position: { x: 0, y: 1200 } },
   {id: '3_q1_wide_form', type: 'decision', data: { label: 'Are the data in wide form (a column for each source of consumption)?' }, position: { x: 250, y: 1200 } },
   {id: '3_q2_wide_continue', type: 'decision', data: { label: 'Do you want to continue working in the wide form?' }, position: { x: 500, y: 1200 } },
 
@@ -64,8 +64,21 @@ export const allNodes = [
   {id: '3_p6_aggregate', type: 'process', dependsOn: { filter3: 'yes' }, data: { label: 'Aggregate data to one observation per household/source/food item/unit', width: 240, height: 80 }, position: { x: 1000, y: 1800 } },
   {id: '3_p7_add_fafh_long', type: 'process', dependsOn: { filter3: 'yes' }, data: { label: 'Add the data from the module on FAFH to the working dataset' }, position: { x: 1310, y: 1800 } },
   {id: '3_q6_number_of_meals_fafh_collected', type: 'decision', data: { label: 'Does the survey collect information on the number of meals consumed away from home?', width: 160, height: 120 }, position: { x: 1560, y: 1780 } },
-  {id: '3_p8_calc_in_house_meals', type: 'process', data: { label: 'In-house meals = Household members present in the household during the reference period * 3 meals * number of days of the reference period – number of meals consumed away from home in the reference period', width: 300, height: 150 }, position: { x: 1800, y: 1765 } },
-  
+//  {id: '3_p8_calc_in_house_meals', type: 'process', data: { label: 'In-house meals = Household members present in the household during the reference period * 3 meals * number of days of the reference period – number of meals consumed away from home in the reference period', width: 300, height: 150 }, position: { x: 1800, y: 1765 } },
+
+  {
+    id: '3_p8_calc_in_house_meals',
+    type: 'formulaText',
+    data: {
+      latex:
+        '\\text{In-house meals} = \\text{In-house meals} + (\\text{Household members present in the household during the reference period} \\times \\text{3 meals} \\times \\text{Number of days of the reference period - Number of meals consumed away from home in the reference period}',
+      width: 2000,
+      height: 60
+    },
+    position: { x: 1850, y: 1600 }
+  },
+
+
   // Filterquestion n 7 - visitors
   {id: '3_q7_visitors_yes_meals_fafh', type: 'decision', dependsOn: { filter7: UNSET }, data: { label: 'Does the survey collect information on visitors?' }, position: { x: 2170, y: 1800 } },
   {id: '3_q10_visitors_no_meals_fafh', type: 'decision', dependsOn: { filter7: UNSET }, data: { label: 'Does the survey collect information on visitors?' }, position: { x: 1550, y: 2250 } },
@@ -179,7 +192,7 @@ export const allNodes = [
 
 
 
-  {id: '4_starts', type: 'validation', data: { label: 'Step 4 starts' }, position: { x: 0, y: 2850 } },
+  {id: '4_starts', type: 'validation', data: { label: 'Step 4 starts\nCleaning data at\nmeasurement level', width: 200, height: 80 }, position: { x: 0, y: 2850 } },
   {id: '4_p1_clone_original_values', type: 'process', data: { label: 'Clone all the original quantities and monetary values collected in the survey', width: 200, height: 80 }, position: { x: 250, y: 2850 } },
 
   //filter 5
@@ -285,7 +298,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected monetary value (LCU per partaker)} = \\text{corrected quantity (unit per partaker)} * \\text{price (LCU/unit)}',
+        '\\text{Corrected monetary value (LCU per partaker)} = \\text{corrected quantity (unit per partaker)} \\times \\text{price (LCU/unit)}',
       width: 900,
       height: 68
     },
@@ -301,7 +314,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected monetary value (LCU)} = \\text{Price (LCU/unit)} * \\text{Original quantity (unit per partaker)}',
+        '\\text{Corrected monetary value (LCU)} = \\text{Price (LCU/unit)} \\times \\text{Original quantity (unit per partaker)}',
       width: 800,
       height: 68
     },
@@ -326,9 +339,9 @@ export const allNodes = [
   },
 
 
-  {id: '4_finished', type: 'validation', data: { label: 'Step 4 finished\nData checked at measurement level' }, position: { x: 5500, y: 4790 } },
+  {id: '4_finished', type: 'validation', data: { label: 'Step 4 finished\n' }, position: { x: 5500, y: 4790 } },
 
-  {id: '5_starts', type: 'validation', data: { label: 'Step 5 starts' }, position: { x: 0, y: 4940 } },
+  {id: '5_starts', type: 'validation', data: { label: 'Step 5 starts\nMonetary value\nimputation', width: 200, height: 80 }, position: { x: 0, y: 4940 } },
   {id: '5_q1_mon_value_all', type: 'decision', data: { label: 'Is the monetary value available for all food sources?' }, position: { x: 250, y: 4940 } },
   {id: '5_q2_househ_unit_value_miss', type: 'decision', data: { label: 'Is the household unit value for purchases missing?' }, position: { x: 500, y: 4940 } },
   {id: '5_q3_unit_measurement_same', type: 'decision', data: { label: 'Is the unit of measurement for the purchases and non purchases the same?' }, position: { x: 750, y: 4940 } },
@@ -340,7 +353,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Monetary value of quantity consumed (LCU)} = \\text{Quantity consumed (unit)} * \\text{Unit value of purchases (LCU/unit)}',
+        '\\text{Monetary value of quantity consumed (LCU)} = \\text{Quantity consumed (unit)} \\times \\text{Unit value of purchases (LCU/unit)}',
       width: 900,
       height: 68
     },
@@ -373,7 +386,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Monetary value of quantity consumed (LCU)} = \\text{Quantity consumed (unit)} * \\text{Unit value of purchases (LCU/gram)}',
+        '\\text{Monetary value of quantity consumed (LCU)} = \\text{Quantity consumed (unit)} \\times \\text{Unit value of purchases (LCU/gram)}',
       width: 900,
       height: 68
     },
@@ -387,7 +400,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Monetary value of the quantity consumed (LCU)} = \\text{Quantity consumed (unit)} * \\text{Price (LCU/unit)}',
+        '\\text{Monetary value of the quantity consumed (LCU)} = \\text{Quantity consumed (unit)} \\times \\text{Price (LCU/unit)}',
       width: 800,
       height: 68
     },
@@ -401,7 +414,7 @@ export const allNodes = [
   {id: '5_p11_other', type: 'process', data: { label: 'Other sources like ad-hoc surveys for collecting CPI/FPI', width: 260, height: 80 }, position: { x: 750, y: 5540 } },
   {id: '5_finished', type: 'validation', data: { label: 'Step 5 finished' }, position: { x: 3200, y: 5690 } },
 
-  {id: '6_starts', type: 'validation', data: { label: 'Step 6 starts' }, position: { x: 0, y: 5840 } },
+  {id: '6_starts', type: 'validation', data: { label: 'Step 6 starts\nConvert food quanities\ninto grams', width: 200, height: 80 }, position: { x: 0, y: 5840 } },
 
   {id: '6_q1_well_described', type: 'decision', data: { label: 'Is the food item  well described?' }, position: { x: 250, y: 5840 } },
 
@@ -421,7 +434,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Quantities in grams} = \\text{Quantities (in standard unit)} * \\text{Density (grams per standard unit)}',
+        '\\text{Quantities in grams} = \\text{Quantities (in standard unit)} \\times \\text{Density (grams per standard unit)}',
       width: 700,
       height: 68
     },
@@ -454,7 +467,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Quantities in grams} = \\text{Quantities (in non-standard units)} * \\text{Conversion factor (grams per non-standard unit)}',
+        '\\text{Quantities in grams} = \\text{Quantities (in non-standard units)} \\times \\text{Conversion factor (grams per non-standard unit)}',
       width: 900,
       height: 68
     },
@@ -554,7 +567,7 @@ export const allNodes = [
 
   {id: '6_finished', type: 'validation', data: { label: 'Step 6 finished' }, position: { x: 3200, y: 7240 } },
 
-  {id: '7_starts', type: 'validation', data: { label: 'Step 7 starts' }, position: { x: 0, y: 7490 } },
+  {id: '7_starts', type: 'validation', data: { label: 'Step 7 starts\nEditing after converting\nto grams', width: 200, height: 80 }, position: { x: 0, y: 7490 } },
   {id: '7_q1_syst_missing', type: 'decision', data: { label: 'Are the quantities in grams systematically missing for the food item?' }, position: { x: 250, y: 7490 } },
   {id: '7_q2_mon_values', type: 'decision', data: { label: 'Does the food item have monetary values?' }, position: { x: 250, y: 7940 } },
   {id: '7_p1_est_mon_value', type: 'process', data: { label: 'Estimate monetary values per food item per partaker' }, position: { x: 500, y: 7940 } },
@@ -617,7 +630,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected monetary value per partaker (LCU)} = \\text{Corrected quantity per partaker (grams)} * \\text{Price (LCU per gram)}',
+        '\\text{Corrected monetary value per partaker (LCU)} = \\text{Corrected quantity per partaker (grams)} \\times \\text{Price (LCU per gram)}',
       width: 900,
       height: 68
     },
@@ -634,7 +647,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected monetary value per partaker (LCU)} = \\text{Quantity per partaker (grams)} * \\text{Price (LCU per gram)}',
+        '\\text{Corrected monetary value per partaker (LCU)} = \\text{Quantity per partaker (grams)} \\times \\text{Price (LCU per gram)}',
       width: 850,
       height: 68
     },
@@ -643,27 +656,94 @@ export const allNodes = [
 
   {id: '7_finished', type: 'validation', data: { label: 'Step 7 finished' }, position: { x: 3500, y: 8090 } },
 
-  {id: '8_starts', type: 'validation', data: { label: 'Step 8 starts' }, position: { x: 0, y: 8390 } },
-  {id: '8_p1_calc_quant', type: 'process', data: { label: 'Quantities in grams = Quantities in grams per partaker * number of partakers', width: 240, height: 80 }, position: { x: 250, y: 8390 } },
-  {id: '8_p2_calc_mon_value', type: 'process', data: { label: 'Monetary value (LCU) = monetary value per partaker (LCU) * number of partakers', width: 240, height: 80 }, position: { x: 540, y: 8390 } },
-  {id: '8_p3_merge_nct', type: 'process', data: { label: 'Merge in the Nutrient Conversion Table (NCT)' }, position: { x: 830, y: 8390 } },
-  {id: '8_p4_corr_nct', type: 'process', data: { label: 'Correct the NCT or revise food matching' }, position: { x: 830, y: 8540 } },
-  {id: '8_q1_errors', type: 'decision', data: { label: 'Are there any errors detected in the merge?' }, position: { x: 1080, y: 8390 } },
-  {id: '8_p5_calc_ed_quant', type: 'process', data: { label: 'Calculate edible quantity:\nEdible quantity (grams)= collected quantity (grams)*(1-refuse factor/100) ', width: 280, height: 80 }, position: { x: 1330, y: 8390 } },
-  {id: '8_p6_calc_cal', type: 'process', data: { label: 'Calculate calories: Calories (kcal)=Edible quantity (grams)*kcal per 100 edible grams/100 ', width: 240, height: 80 }, position: { x: 1660, y: 8390 } },
-  {id: '8_p7_calc_macro', type: 'process', data: { label: 'Calculate macronutrients (grams) – example: Quantity of fats (grams)=Edible quantity (grams)*fat content per 100 edible grams/100', width: 320, height: 80 }, position: { x: 1950, y: 8390 } },
-  {id: '8_finished', type: 'validation', data: { label: 'Step 8 finished' }, position: { x: 2020, y: 8540 } },
+  {id: '8_starts', type: 'validation', data: { label: 'Step 8 starts\nCalculate dietary energy\nfor food items\nreported in grams', width: 200, height: 120 }, position: { x: 0, y: 8370 } },
+//  {id: '8_p1_calc_quant', type: 'process', data: { label: 'Quantities in grams = Quantities in grams per partaker * number of partakers', width: 240, height: 80 }, position: { x: 250, y: 8390 } },
 
-  {id: '9_starts', type: 'validation', data: { label: 'Step 9 starts' }, position: { x: 0, y: 8840 } },
-  {id: '9_calories_missing', type: 'decision', data: { label: 'Are the calories for the food item missing?' }, position: { x: 250, y: 8840 } },
-  {id: '9_free_food', type: 'decision', data: { label: 'Is it free food, like school meals?' }, position: { x: 250, y: 8990 } },
-  {id: '9_calculate_calories', type: 'process', data: { label: 'Use the providers information to calculate: Calories = number of meals*nutrient content', width: 240, height: 80 }, position: { x: 500, y: 8990 } },
-  {id: '9_specific_food_group', type: 'decision', data: { label: 'Does the food item belong to a specific food group, e.g. ‘other dairy products’?' }, position: { x: 250, y: 9290 } },
-  {id: '9_unspecified_food', type: 'process', data: { label: 'Assign a food group to the ‘unspecified’ food' }, position: { x: 500, y: 9290 } },
-  {id: '9_median_dietary_energy_unit_cost_food_group', type: 'process', data: { label: 'Calculate the median dietary energy unit cost for that food group' }, position: { x: 1570, y: 9290 } },
-  {id: '9_level_of_disaggregation_1', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 1320, y: 9290 } },
-  {id: '9_level_of_disaggregation_2', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 670, y: 9675 } },
-  {id: '9_median_dietary_energy_unit_cost', type: 'process', data: { label: 'Calculate the median dietary energy unit cost' }, position: { x: 930, y: 9675 } },
+  {
+    id: '8_p1_calc_quant',
+    type: 'formulaText',
+    data: {
+      latex:
+        '\\text{Quantities in grams} = \\text{Quantities in grams per partaker} \\times \\text{Number of partakers}',
+      width: 850,
+      height: 68
+    },
+    position: { x: 250, y: 8390 }
+  },
+
+//  {id: '8_p2_calc_mon_value', type: 'process', data: { label: 'Monetary value (LCU) = monetary value per partaker (LCU) * number of partakers', width: 240, height: 80 }, position: { x: 540, y: 8390 } },
+
+  {
+    id: '8_p2_calc_mon_value',
+    type: 'formulaText',
+    data: {
+      latex:
+        '\\text{Monetary value (LCU)} = \\text{Monetary value per partaker (LCU)} \\times \\text{Number of partakers}',
+      width: 850,
+      height: 68
+    },
+    position: { x: 250, y: 8540 }
+  },
+
+  {id: '8_p3_merge_nct', type: 'process', data: { label: 'Merge in the Nutrient Conversion Table (NCT)' }, position: { x: 1240, y: 8540 } },
+  {id: '8_p4_corr_nct', type: 'process', data: { label: 'Correct the NCT or revise food matching' }, position: { x: 1490, y: 8390 } },
+  {id: '8_q1_errors', type: 'decision', data: { label: 'Are there any errors detected in the merge?' }, position: { x: 1490, y: 8540 } },
+//  {id: '8_p5_calc_ed_quant', type: 'process', data: { label: 'Calculate edible quantity:\nEdible quantity (grams)= collected quantity (grams)*(1-refuse factor/100) ', width: 280, height: 80 }, position: { x: 1330, y: 8390 } },
+
+  {
+    id: '8_p5_calc_ed_quant',
+    type: 'formulaText',
+    data: {
+      description: 'Calculate edible quantity:',
+      latex:
+        '\\text{Edible quantity (grams)} = \\text{Collected quantity (grams)} \\times \\left(1 - \\dfrac{\\text{Refuse factor}}{100}\\right)',
+      width: 700,
+      height: 68
+    },
+    position: { x: 250, y: 8740 }
+  },
+
+//  {id: '8_p6_calc_cal', type: 'process', data: { label: 'Calculate calories: Calories (kcal)=Edible quantity (grams)*kcal per 100 edible grams/100 ', width: 240, height: 80 }, position: { x: 1660, y: 8390 } },
+  {
+    id: '8_p6_calc_cal',
+    type: 'formulaText',
+    data: {
+      description: 'Calculate calories:',
+      latex:
+        '\\text{Calories (kcal)} = \\text{Edible quantity (grams)} \\times \\dfrac{\\text{kcal per 100 edible grams}}{100}',
+      width: 700,
+      height: 68
+    },
+    position: { x: 250, y: 8940 }
+  },
+
+//  {id: '8_p7_calc_macro', type: 'process', data: { label: 'Calculate macronutrients (grams) – example: Quantity of fats (grams)=Edible quantity (grams)*fat content per 100 edible grams/100', width: 320, height: 80 }, position: { x: 1950, y: 8390 } },
+
+  {
+    id: '8_p7_calc_macro',
+    type: 'formulaText',
+    data: {
+      description: 'Calculate macronutrients (grams) – example:',
+      latex:
+        '\\text{Quantity of fats (grams)} = \\text{Edible quantity (grams)} \\times \\dfrac{\\text{Fat content per 100 edible grams}}{100}',
+      width: 700,
+      height: 160
+    },
+    position: { x: 250, y: 9140 }
+  },
+
+  {id: '8_finished', type: 'validation', data: { label: 'Step 8 finished' }, position: { x: 1220, y: 9186 } },
+
+  {id: '9_starts', type: 'validation', data: { label: 'Step 9 starts\nImputing dietary energy\nfor the remaining\nfood items', width: 200, height: 120 }, position: { x: 0, y: 9420 } },
+  {id: '9_calories_missing', type: 'decision', data: { label: 'Are the calories for the food item missing?' }, position: { x: 250, y: 9440 } },
+  {id: '9_free_food', type: 'decision', data: { label: 'Is it free food, like school meals?' }, position: { x: 250, y: 9590 } },
+  {id: '9_calculate_calories', type: 'process', data: { label: 'Use the providers information to calculate: Calories = number of meals*nutrient content', width: 240, height: 80 }, position: { x: 500, y: 9590 } },
+  {id: '9_specific_food_group', type: 'decision', data: { label: 'Does the food item belong to a specific food group, e.g. ‘other dairy products’?' }, position: { x: 250, y: 9890 } },
+  {id: '9_unspecified_food', type: 'process', data: { label: 'Assign a food group to the ‘unspecified’ food' }, position: { x: 500, y: 9890 } },
+  {id: '9_median_dietary_energy_unit_cost_food_group', type: 'process', data: { label: 'Calculate the median dietary energy unit cost for that food group' }, position: { x: 1570, y: 9890 } },
+  {id: '9_level_of_disaggregation_1', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 1320, y: 9890 } },
+  {id: '9_level_of_disaggregation_2', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 670, y: 10275 } },
+  {id: '9_median_dietary_energy_unit_cost', type: 'process', data: { label: 'Calculate the median dietary energy unit cost' }, position: { x: 930, y: 10275 } },
   {id: '9_calculate_household_dietary_energy_1', type: 'formulaText', data: {
     description:
       'Calculate the household dietary energy unit cost for that food group (use only purchased food from in-house consumption with non-missing calories).',
@@ -674,7 +754,7 @@ export const allNodes = [
     width: 480,
     height: 220
   },
-  position: { x: 750, y: 9215 } },
+  position: { x: 750, y: 9815 } },
   {
   id: '9_impute_missing_1',
   type: 'formulaText',
@@ -688,7 +768,7 @@ export const allNodes = [
     width: 520,
     height: 220
   },
-  position: { x: 1820, y: 9215 }
+  position: { x: 1820, y: 9815 }
   },
   {
   id: '9_calculate_household_dietary_energy_2',
@@ -703,7 +783,7 @@ export const allNodes = [
     width: 500,
     height: 220
   },
-  position: { x: 80, y: 9599 }
+  position: { x: 80, y: 10199 }
   },  
   {
   id: '9_impute_missing_2',
@@ -718,22 +798,22 @@ export const allNodes = [
     width: 520,
     height: 200
   },
-  position: { x: 1180, y: 9609 }
+  position: { x: 1180, y: 10209 }
   },
-  {id: '9_finished', type: 'validation', data: { label: 'Step 9 finished' }, position: { x: 2450, y: 9675 } },
+  {id: '9_finished', type: 'validation', data: { label: 'Step 9 finished' }, position: { x: 2450, y: 10275 } },
 
-  {id: '10_starts', type: 'validation', data: { label: 'Step 10 starts' }, position: { x: 0, y: 9975 } },
-  {id: '10_aggregate_information', type: 'process', data: { label: 'Aggregate all information on household level' }, position: { x: 250, y: 9975 } },
-  {id: '10_express_calories_consumption', type: 'process', data: { label: 'Decide how to express calories consumption' }, position: { x: 500, y: 9975 } },
-  {id: '10_per_capita_1', type: 'process', data: { label: 'Per capita: Total calories consumed divided by number of partakers', width: 280, height: 80 }, position: { x: 770, y: 9915 } },
-  {id: '10_per_adult_male_equivalent_1', type: 'process', data: { label: 'Per adult male equivalents: Total calories consumed divided by household size expressed in adult male equivalents', width: 280, height: 80 }, position: { x: 770, y: 10035 } },
-  {id: '10_per_capita_2', type: 'process', data: { label: 'Per capita per day: Calories consumed per capita divided by the number of days in the reference period', width: 320, height: 80 }, position: { x: 1120, y: 9915 } },
-  {id: '10_per_adult_male_equivalent_2', type: 'process', data: { label: 'Per adult male equivalents per day: Calories consumed per adult male equivalents divided by the number of days in the reference period', width: 320, height: 80 }, position: { x: 1120, y: 10035 } },
-  {id: '10_analyse_distribution', type: 'process', data: { label: 'Analyse the distribution of  calories using expert judgement or a robust outlier-detection method', width: 240, height: 80 }, position: { x: 1530, y: 9975 } },
-  {id: '10_outlier', type: 'decision', data: { label: 'Are the calories an outlier?' }, position: { x: 1840, y: 9975 } },
-  {id: '10_identify_errors', type: 'process', data: { label: 'Identify errors, correct and re-run the steps leading up to step 10' }, position: { x: 2090, y: 9975 } },
-  {id: '10_go_back', type: 'flag', data: { label: 'Go to relevant step' }, position: { x: 2340, y: 9975 } },
-  {id: '10_finished', type: 'validation', data: { label: 'Step 10 finished' }, position: { x: 1840, y: 10125 } },
+  {id: '10_starts', type: 'validation', data: { label: 'Step 10 starts\nAggregation and\nmacro editing', width: 200, height: 80 }, position: { x: 0, y: 10575 } },
+  {id: '10_aggregate_information', type: 'process', data: { label: 'Aggregate all information on household level' }, position: { x: 250, y: 10575 } },
+  {id: '10_express_calories_consumption', type: 'process', data: { label: 'Decide how to express calories consumption' }, position: { x: 500, y: 10575 } },
+  {id: '10_per_capita_1', type: 'process', data: { label: 'Per capita: Total calories consumed divided by number of partakers', width: 280, height: 80 }, position: { x: 770, y: 10515 } },
+  {id: '10_per_adult_male_equivalent_1', type: 'process', data: { label: 'Per adult male equivalents: Total calories consumed divided by household size expressed in adult male equivalents', width: 280, height: 80 }, position: { x: 770, y: 10635 } },
+  {id: '10_per_capita_2', type: 'process', data: { label: 'Per capita per day: Calories consumed per capita divided by the number of days in the reference period', width: 320, height: 80 }, position: { x: 1120, y: 10515 } },
+  {id: '10_per_adult_male_equivalent_2', type: 'process', data: { label: 'Per adult male equivalents per day: Calories consumed per adult male equivalents divided by the number of days in the reference period', width: 320, height: 80 }, position: { x: 1120, y: 10635 } },
+  {id: '10_analyse_distribution', type: 'process', data: { label: 'Analyse the distribution of  calories using expert judgement or a robust outlier-detection method', width: 240, height: 80 }, position: { x: 1530, y: 10575 } },
+  {id: '10_outlier', type: 'decision', data: { label: 'Are the calories an outlier?' }, position: { x: 1840, y: 10575 } },
+  {id: '10_identify_errors', type: 'process', data: { label: 'Identify errors, correct and re-run the steps leading up to step 10' }, position: { x: 2090, y: 10575 } },
+  {id: '10_go_back', type: 'flag', data: { label: 'Go to relevant step' }, position: { x: 2340, y: 10575 } },
+  {id: '10_finished', type: 'validation', data: { label: 'Step 10 finished' }, position: { x: 1840, y: 10725 } },
 
 
 
@@ -853,11 +933,11 @@ export const allEdges = [
   { id: 'e3_p5_yes_p6', type: 'straight',source: '3_p5_assign_food_source', sourceHandle: 'out-right', target: '3_p6_aggregate', targetHandle: 'in-left'},
   { id: 'e3_p6_yes_p7', type: 'straight',source: '3_p6_aggregate', sourceHandle: 'out-right', target: '3_p7_add_fafh_long', targetHandle: 'in-left'},
   { id: 'e3_p7_yes_q6', type: 'straight',source: '3_p7_add_fafh_long', sourceHandle: 'out-right', target: '3_q6_number_of_meals_fafh_collected', targetHandle: 'in-left'},
-  { id: 'e3_q6_yes_p8', type: 'straight',source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-right', target: '3_p8_calc_in_house_meals', targetHandle: 'in-left', label: 'Yes'},
+  { id: 'e3_q6_yes_p8', type: 'step',source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-right', target: '3_p8_calc_in_house_meals', targetHandle: 'in-left', label: 'Yes'},
 //filter 7
-  { id: 'e3_p8_yes_q7', type: 'straight',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-right', target: '3_q7_visitors_yes_meals_fafh', targetHandle: 'in-left', dependsOn: { filter7: UNSET}, strict: true},
-  { id: 'e3_p8_yes_q7_filter7_yes', type: 'straight',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-right', target: '3_q7_visitors_yes_meals_fafh_yes', targetHandle: 'in-left', dependsOn: { filter7: 'yes'}, strict: true},
-  { id: 'e3_p8_yes_q7_filter7_no', type: 'straight',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-right', target: '3_q7_visitors_yes_meals_fafh_no', targetHandle: 'in-left', dependsOn: { filter7: 'no'}, strict: true},
+  { id: 'e3_p8_yes_q7', type: 'step',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-right', target: '3_q7_visitors_yes_meals_fafh', targetHandle: 'in-left', dependsOn: { filter7: UNSET}, strict: true},
+  { id: 'e3_p8_yes_q7_filter7_yes', type: 'step',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-right', target: '3_q7_visitors_yes_meals_fafh_yes', targetHandle: 'in-left', dependsOn: { filter7: 'yes'}, strict: true},
+  { id: 'e3_p8_yes_q7_filter7_no', type: 'step',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-right', target: '3_q7_visitors_yes_meals_fafh_no', targetHandle: 'in-left', dependsOn: { filter7: 'no'}, strict: true},
 
 
   //filter 7
@@ -1126,16 +1206,16 @@ export const allEdges = [
   { id: 'e7_q8_no_finished', type: 'step', source: '7_q8_mon_val_outlier_3', sourceHandle: 'out-top', target: '7_finished', targetHandle: 'in-top', label: 'No' },
 
   { id: 'e8_starts_yes_p1', type: 'straight', source: '8_starts', sourceHandle: 'out-right', target: '8_p1_calc_quant', targetHandle: 'in-left'},
-  { id: 'e8_p1_yes_p2', type: 'straight', source: '8_p1_calc_quant', sourceHandle: 'out-right', target: '8_p2_calc_mon_value', targetHandle: 'in-left'},
+  { id: 'e8_p1_yes_p2', type: 'step', source: '8_p1_calc_quant', sourceHandle: 'out-bottom', target: '8_p2_calc_mon_value', targetHandle: 'in-top'},
   { id: 'e8_p2_yes_p3', type: 'straight', source: '8_p2_calc_mon_value', sourceHandle: 'out-right', target: '8_p3_merge_nct', targetHandle: 'in-left'},
   { id: 'e8_p3_yes_q1', type: 'straight', source: '8_p3_merge_nct', sourceHandle: 'out-right', target: '8_q1_errors', targetHandle: 'in-left'},
-  { id: 'e8_p4_yes_p3', type: 'straight', source: '8_p4_corr_nct', sourceHandle: 'out-top', target: '8_p3_merge_nct', targetHandle: 'in-bottom'},
-  { id: 'e8_q1_yes_p4', type: 'step', source: '8_q1_errors', sourceHandle: 'out-bottom', target: '8_p4_corr_nct', targetHandle: 'in-right', label: 'Yes'},
-  { id: 'e8_p5_yes_p6', type: 'straight', source: '8_p5_calc_ed_quant', sourceHandle: 'out-right', target: '8_p6_calc_cal', targetHandle: 'in-left'},
-  { id: 'e8_p6_yes_p7', type: 'straight', source: '8_p6_calc_cal', sourceHandle: 'out-right', target: '8_p7_calc_macro', targetHandle: 'in-left'},
-  { id: 'e8_p7_yes_finished', type: 'straight', source: '8_p7_calc_macro', sourceHandle: 'out-bottom', target: '8_finished', targetHandle: 'in-top'},
+  { id: 'e8_p4_yes_p3', type: 'step', source: '8_p4_corr_nct', sourceHandle: 'out-left', target: '8_p3_merge_nct', targetHandle: 'in-top'},
+  { id: 'e8_q1_yes_p4', type: 'step', source: '8_q1_errors', sourceHandle: 'out-top', target: '8_p4_corr_nct', targetHandle: 'in-bottom', label: 'Yes'},
+  { id: 'e8_p5_yes_p6', type: 'step', source: '8_p5_calc_ed_quant', sourceHandle: 'out-bottom', target: '8_p6_calc_cal', targetHandle: 'in-top'},
+  { id: 'e8_p6_yes_p7', type: 'step', source: '8_p6_calc_cal', sourceHandle: 'out-bottom', target: '8_p7_calc_macro', targetHandle: 'in-top'},
+  { id: 'e8_p7_yes_finished', type: 'step', source: '8_p7_calc_macro', sourceHandle: 'out-right', target: '8_finished', targetHandle: 'in-left'},
   { id: 'e8_finished_yes_starts', type: 'step', source: '8_finished', sourceHandle: 'out-bottom', target: '9_starts', targetHandle: 'in-top'},
-  { id: 'e8_q1_no_p5', type: 'straight', source: '8_q1_errors', sourceHandle: 'out-right', target: '8_p5_calc_ed_quant', targetHandle: 'in-left', label: 'No' },
+  { id: 'e8_q1_no_p5', type: 'step', source: '8_q1_errors', sourceHandle: 'out-right', target: '8_p5_calc_ed_quant', targetHandle: 'in-top', label: 'No' },
 
   { id: 'e9_starts_yes_calories', type: 'straight', source: '9_starts', sourceHandle: 'out-right', target: '9_calories_missing', targetHandle: 'in-left'},
   { id: 'e9_calories_yes_free', type: 'straight', source: '9_calories_missing', sourceHandle: 'out-bottom', target: '9_free_food', targetHandle: 'in-top', label: 'Yes'},

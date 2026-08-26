@@ -41,6 +41,10 @@ const nodeTypesStatic = {
 // edge-komponenter trengs for dette diagrammet.
 const edgeTypesStatic = {}
 
+// ⭐ Overskrift og innledende tekst - juster fritt her
+const PAGE_TITLE = 'Food Security Flow Chart (working title)'
+const PAGE_INTRO = 'This flow chart illustrates the step-by-step process for cleaning, validating, and analysing food consumption data according to the guidelines (link). Use the filters on the left to tailor the diagram to your specific survey design.'
+
 // ⭐ Bredde på venstre filter-sidebar og høyre legend-panel - endre kun her
 const SIDEBAR_WIDTH = 520
 const LEGEND_WIDTH = 280
@@ -209,349 +213,369 @@ export default function FlowDiagram() {
   // Bruker React Flow sin ekte setViewport (samme mekanisme som når brukeren
   // selv zoomer/panorerer) for å garantere skarp, korrekt rendering, og
   // tvinger hvit bakgrunn på edge-labels (Yes/No) for å unngå svarte bokser.
-async function handleExportToPdf() {
-  if (memoNodes.length === 0) return
-  setIsExporting(true)
+  async function handleExportToPdf() {
+    if (memoNodes.length === 0) return
+    setIsExporting(true)
 
-  try {
-    const nodesBounds = getNodesBounds(memoNodes)
-    const padding = 0.08
+    try {
+      const nodesBounds = getNodesBounds(memoNodes)
+      const padding = 0.08
 
-    const targetWidth = 3000
-    const targetHeight = Math.round(
-      targetWidth * ((nodesBounds.height + 100) / (nodesBounds.width + 100))
-    )
+      const targetWidth = 3000
+      const targetHeight = Math.round(
+        targetWidth * ((nodesBounds.height + 100) / (nodesBounds.width + 100))
+      )
 
-    const zoomX = targetWidth / (nodesBounds.width + 100)
-    const zoomY = targetHeight / (nodesBounds.height + 100)
-    const zoom = Math.min(zoomX, zoomY) * (1 - padding)
+      const zoomX = targetWidth / (nodesBounds.width + 100)
+      const zoomY = targetHeight / (nodesBounds.height + 100)
+      const zoom = Math.min(zoomX, zoomY) * (1 - padding)
 
-    const x = -nodesBounds.x * zoom + (targetWidth - nodesBounds.width * zoom) / 2
-    const y = -nodesBounds.y * zoom + (targetHeight - nodesBounds.height * zoom) / 2
+      const x = -nodesBounds.x * zoom + (targetWidth - nodesBounds.width * zoom) / 2
+      const y = -nodesBounds.y * zoom + (targetHeight - nodesBounds.height * zoom) / 2
 
-    reactFlowInstance.setViewport({ x, y, zoom }, { duration: 0 })
+      reactFlowInstance.setViewport({ x, y, zoom }, { duration: 0 })
 
-    // Vent til React Flow faktisk har re-rendret med ny viewport
-    await new Promise(resolve =>
-      requestAnimationFrame(() => requestAnimationFrame(resolve))
-    )
+      // Vent til React Flow faktisk har re-rendret med ny viewport
+      await new Promise(resolve =>
+        requestAnimationFrame(() => requestAnimationFrame(resolve))
+      )
 
-    // ⭐ Fiks svarte edge-label-bokser (Yes/No) - må skje ETTER setViewport,
-    // siden React Flow bytter ut DOM-elementene ved viewport-endring
-    document.querySelectorAll('.react-flow__edge-textbg').forEach(el => {
-      el.style.fill = '#FFFFFF'
-    })
+      // ⭐ Fiks svarte edge-label-bokser (Yes/No) - må skje ETTER setViewport,
+      // siden React Flow bytter ut DOM-elementene ved viewport-endring
+      document.querySelectorAll('.react-flow__edge-textbg').forEach(el => {
+        el.style.fill = '#FFFFFF'
+      })
 
-    const viewportEl = document.querySelector('.react-flow__viewport')
-    if (!viewportEl) {
-      throw new Error('Fant ikke .react-flow__viewport i DOM-en')
+      const viewportEl = document.querySelector('.react-flow__viewport')
+      if (!viewportEl) {
+        throw new Error('Fant ikke .react-flow__viewport i DOM-en')
+      }
+
+      // ⭐ Hent SVG i stedet for PNG direkte - unngår html-to-image sin kjente
+      // bug der SVG-markers (pilspisser) rasteriseres som solide, svarte bokser
+      const svgDataUrl = await toSvg(viewportEl, {
+        backgroundColor: '#FAFAFA',
+        width: targetWidth,
+        height: targetHeight,
+        cacheBust: true,
+        style: {
+          width: `${targetWidth}px`,
+          height: `${targetHeight}px`,
+        },
+      })
+
+      // ⭐ La nettleseren selv tegne SVG-en inn i et canvas (korrekt marker-støtte),
+      // og hent PNG-data derfra
+      const img = new Image()
+      await new Promise((resolve, reject) => {
+        img.onload = resolve
+        img.onerror = reject
+        img.src = svgDataUrl
+      })
+
+      const canvas = document.createElement('canvas')
+      canvas.width = targetWidth
+      canvas.height = targetHeight
+      const ctx = canvas.getContext('2d')
+      ctx.fillStyle = '#FAFAFA'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.drawImage(img, 0, 0, targetWidth, targetHeight)
+
+      const dataUrl = canvas.toDataURL('image/png')
+
+      const imageWidth = targetWidth
+      const imageHeight = targetHeight
+      const imageAspect = imageWidth / imageHeight
+      const isImageLandscape = imageAspect >= 1
+
+      const [shortSideMm, longSideMm] = POSTER_SIZES[posterSize]
+      const pageWidthMm = isImageLandscape ? longSideMm : shortSideMm
+      const pageHeightMm = isImageLandscape ? shortSideMm : longSideMm
+
+      const marginMm = 10
+      const maxContentWidthMm = pageWidthMm - marginMm * 2
+      const maxContentHeightMm = pageHeightMm - marginMm * 2
+      const pageAspect = maxContentWidthMm / maxContentHeightMm
+
+      let drawWidthMm, drawHeightMm
+      if (imageAspect > pageAspect) {
+        drawWidthMm = maxContentWidthMm
+        drawHeightMm = drawWidthMm / imageAspect
+      } else {
+        drawHeightMm = maxContentHeightMm
+        drawWidthMm = drawHeightMm * imageAspect
+      }
+
+      const offsetXMm = (pageWidthMm - drawWidthMm) / 2
+      const offsetYMm = (pageHeightMm - drawHeightMm) / 2
+
+      const pdf = new jsPDF({
+        orientation: isImageLandscape ? 'landscape' : 'portrait',
+        unit: 'mm',
+        format: [pageWidthMm, pageHeightMm],
+      })
+      pdf.addImage(dataUrl, 'PNG', offsetXMm, offsetYMm, drawWidthMm, drawHeightMm)
+      pdf.save(`flowchart_${posterSize}.pdf`)
+
+      reactFlowInstance.fitView({ padding: 0.2, duration: 0 })
+    } catch (err) {
+      console.error('PDF-eksport feilet:', err)
+      alert('Eksport til PDF feilet. Sjekk konsollen for detaljer.')
+    } finally {
+      document.querySelectorAll('.react-flow__edge-textbg').forEach(el => {
+        el.style.fill = ''
+      })
+      setIsExporting(false)
     }
-
-    // ⭐ Hent SVG i stedet for PNG direkte - unngår html-to-image sin kjente
-    // bug der SVG-markers (pilspisser) rasteriseres som solide, svarte bokser
-    const svgDataUrl = await toSvg(viewportEl, {
-      backgroundColor: '#FAFAFA',
-      width: targetWidth,
-      height: targetHeight,
-      cacheBust: true,
-      style: {
-        width: `${targetWidth}px`,
-        height: `${targetHeight}px`,
-      },
-    })
-
-    // ⭐ La nettleseren selv tegne SVG-en inn i et canvas (korrekt marker-støtte),
-    // og hent PNG-data derfra
-    const img = new Image()
-    await new Promise((resolve, reject) => {
-      img.onload = resolve
-      img.onerror = reject
-      img.src = svgDataUrl
-    })
-
-    const canvas = document.createElement('canvas')
-    canvas.width = targetWidth
-    canvas.height = targetHeight
-    const ctx = canvas.getContext('2d')
-    ctx.fillStyle = '#FAFAFA'
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
-    ctx.drawImage(img, 0, 0, targetWidth, targetHeight)
-
-    const dataUrl = canvas.toDataURL('image/png')
-
-    const imageWidth = targetWidth
-    const imageHeight = targetHeight
-    const imageAspect = imageWidth / imageHeight
-    const isImageLandscape = imageAspect >= 1
-
-    const [shortSideMm, longSideMm] = POSTER_SIZES[posterSize]
-    const pageWidthMm = isImageLandscape ? longSideMm : shortSideMm
-    const pageHeightMm = isImageLandscape ? shortSideMm : longSideMm
-
-    const marginMm = 10
-    const maxContentWidthMm = pageWidthMm - marginMm * 2
-    const maxContentHeightMm = pageHeightMm - marginMm * 2
-    const pageAspect = maxContentWidthMm / maxContentHeightMm
-
-    let drawWidthMm, drawHeightMm
-    if (imageAspect > pageAspect) {
-      drawWidthMm = maxContentWidthMm
-      drawHeightMm = drawWidthMm / imageAspect
-    } else {
-      drawHeightMm = maxContentHeightMm
-      drawWidthMm = drawHeightMm * imageAspect
-    }
-
-    const offsetXMm = (pageWidthMm - drawWidthMm) / 2
-    const offsetYMm = (pageHeightMm - drawHeightMm) / 2
-
-    const pdf = new jsPDF({
-      orientation: isImageLandscape ? 'landscape' : 'portrait',
-      unit: 'mm',
-      format: [pageWidthMm, pageHeightMm],
-    })
-    pdf.addImage(dataUrl, 'PNG', offsetXMm, offsetYMm, drawWidthMm, drawHeightMm)
-    pdf.save(`flowchart_${posterSize}.pdf`)
-
-    reactFlowInstance.fitView({ padding: 0.2, duration: 0 })
-  } catch (err) {
-    console.error('PDF-eksport feilet:', err)
-    alert('Eksport til PDF feilet. Sjekk konsollen for detaljer.')
-  } finally {
-    document.querySelectorAll('.react-flow__edge-textbg').forEach(el => {
-      el.style.fill = ''
-    })
-    setIsExporting(false)
   }
-}
-  return (
-    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#F5F5F5', position: 'relative' }}>
 
-      {/* FILTER SIDEBAR (venstre) */}
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', backgroundColor: '#F5F5F5' }}>
+
+      {/* HEADER */}
       <div
         style={{
-          width: sidebarOpen ? SIDEBAR_WIDTH : 0,
-          minWidth: sidebarOpen ? SIDEBAR_WIDTH : 0,
-          padding: sidebarOpen ? 16 : 0,
+          padding: '16px 24px',
           backgroundColor: '#FFFFFF',
-          borderRight: sidebarOpen ? '1px solid #DDD' : 'none',
-          overflowY: 'auto',
-          overflowX: 'hidden',
-          height: '100vh',
-          boxSizing: 'border-box',
-          transition: 'width 0.2s ease, padding 0.2s ease',
+          borderBottom: '1px solid #DDD',
+          flexShrink: 0,
         }}
       >
-        {sidebarOpen && (
-          <>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ color: '#222', margin: 0 }}>Filters</h3>
-              <button
-                onClick={() => setSidebarOpen(false)}
-                style={{
-                  border: 'none',
-                  background: 'none',
-                  fontSize: 18,
-                  cursor: 'pointer',
-                  color: '#666',
-                }}
-                title="Close filterpanel (Esc)"
-              >
-                ✕
-              </button>
-            </div>
+        <h1 style={{ margin: 0, fontSize: 22, color: '#222' }}>{PAGE_TITLE}</h1>
+        <p style={{ margin: '6px 0 0 0', fontSize: 14, color: '#555', maxWidth: 900 }}>
+          {PAGE_INTRO}
+        </p>
+      </div>
 
+      {/* RESTEN AV LAYOUTEN (sidebar + diagram + legend) */}
+      <div style={{ display: 'flex', flex: 1, position: 'relative', minHeight: 0 }}>
 
-            {FILTERS.map(({ key, question, options }) => (
-              <div key={key} style={{ marginBottom: 20 }}>
-                <p>{question}</p>
-                {options.map(([value, label]) => {
-                  const isActive = answers[key] === value
-                  return (
-                    <button
-                      key={value}
-                      onClick={() => setAnswer(key, value)}
-                      style={getButtonStyle(isActive, 'option')}
-                    >
-                      {label}
-                    </button>
-                  )
-                })}
+        {/* FILTER SIDEBAR (venstre) */}
+        <div
+          style={{
+            width: sidebarOpen ? SIDEBAR_WIDTH : 0,
+            minWidth: sidebarOpen ? SIDEBAR_WIDTH : 0,
+            padding: sidebarOpen ? 16 : 0,
+            backgroundColor: '#FFFFFF',
+            borderRight: sidebarOpen ? '1px solid #DDD' : 'none',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            height: '100%',
+            boxSizing: 'border-box',
+            transition: 'width 0.2s ease, padding 0.2s ease',
+          }}
+        >
+          {sidebarOpen && (
+            <>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h3 style={{ color: '#222', margin: 0 }}>Filters</h3>
                 <button
-                  onClick={() => setAnswer(key, null)}
-                  style={getButtonStyle(answers[key] === null, 'reset')}
+                  onClick={() => setSidebarOpen(false)}
+                  style={{
+                    border: 'none',
+                    background: 'none',
+                    fontSize: 18,
+                    cursor: 'pointer',
+                    color: '#666',
+                  }}
+                  title="Close filterpanel (Esc)"
                 >
-                  Reset
+                  ✕
                 </button>
               </div>
-            ))}
 
-            {/* ⭐ Velg plakatstørrelse og eksporter til PDF */}
-            <div style={{ marginTop: 16, marginBottom: 20 }}>
-              <label style={{ display: 'block', fontSize: 13, marginBottom: 6, color: '#222' }}>
-                Size of exported flow diagram
-              </label>
-              <select
-                value={posterSize}
-                onChange={(e) => setPosterSize(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '6px 8px',
-                  marginBottom: 8,
-                  borderRadius: 4,
-                  border: '1px solid #CCC',
-                  fontSize: 13,
-                }}
-              >
-                <option value="A4">A4</option>
-                <option value="A3">A3</option>
-                <option value="A2">A2</option>
-                <option value="A1">A1</option>
-                <option value="A0">A0</option>
-              </select>
 
-              <button
-                onClick={handleExportToPdf}
-                disabled={isExporting}
-                style={{
-                  width: '100%',
-                  padding: '10px 14px',
-                  backgroundColor: isExporting ? '#A9DFBF' : '#27AE60',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  borderRadius: 4,
-                  cursor: isExporting ? 'default' : 'pointer',
-                  fontWeight: 'bold',
-                  fontSize: 14,
-                }}
-              >
-                {isExporting ? 'Exporting...' : `⬇ Export to ${posterSize}`}
-              </button>
-            </div>
-           
-          </>
-        )}
-      </div>
-
-      {/* Åpne-knapp for filter-sidebar, vises kun når panelet er lukket */}
-      {!sidebarOpen && (
-        <button
-          onClick={() => setSidebarOpen(true)}
-          style={{
-            position: 'absolute',
-            top: 16,
-            left: 16,
-            zIndex: 10,
-            padding: '8px 12px',
-            backgroundColor: '#3498DB',
-            color: '#FFFFFF',
-            border: 'none',
-            borderRadius: 4,
-            cursor: 'pointer',
-            fontWeight: 'bold',
-          }}
-          title="Open filterpanel"
-        >
-          ☰ Filters
-        </button>
-      )}
-
-      {/* FLOW AREA */}
-      <div style={{ flex: 1, position: 'relative' }}>
-        <ReactFlow
-          nodes={memoNodes}
-          edges={memoEdges}
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
-          defaultEdgeOptions={defaultEdgeOptions}
-          defaultViewport={defaultViewport}
-          minZoom={0.05}
-          maxZoom={2}
-          style={{ width: '100%', height: '100%', backgroundColor: '#FAFAFA' }}
-        >
-          <Background color="#DDD" gap={16} />
-          <Controls />
-        </ReactFlow>
-      </div>
-
-      {/* LEGEND PANEL (høyre) */}
-      <div
-        style={{
-          width: legendOpen ? LEGEND_WIDTH : 0,
-          minWidth: legendOpen ? LEGEND_WIDTH : 0,
-          padding: legendOpen ? 16 : 0,
-          backgroundColor: '#FFFFFF',
-          borderLeft: legendOpen ? '1px solid #DDD' : 'none',
-          overflowY: 'auto',
-          overflowX: 'hidden',
-          height: '100vh',
-          boxSizing: 'border-box',
-          transition: 'width 0.2s ease, padding 0.2s ease',
-        }}
-      >
-        {legendOpen && (
-          <>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ color: '#222', margin: 0 }}>Legend</h3>
-              <button
-                onClick={() => setLegendOpen(false)}
-                style={{
-                  border: 'none',
-                  background: 'none',
-                  fontSize: 18,
-                  cursor: 'pointer',
-                  color: '#666',
-                }}
-                title="Close legend (Esc)"
-              >
-                ✕
-              </button>
-            </div>
-
-            {LEGEND_ITEMS.map(({ color, border, label, description }) => (
-              <div key={label} style={{ display: 'flex', gap: 10, marginTop: 16, alignItems: 'flex-start' }}>
-                <div
-                  style={{
-                    width: 32,
-                    height: 24,
-                    flexShrink: 0,
-                    backgroundColor: color,
-                    border: `2px solid ${border}`,
-                    borderRadius: 4,
-                  }}
-                />
-                <div>
-                  <div style={{ fontWeight: 'bold', fontSize: 13, color: '#222' }}>{label}</div>
-                  <div style={{ fontSize: 12, color: '#666' }}>{description}</div>
+              {FILTERS.map(({ key, question, options }) => (
+                <div key={key} style={{ marginBottom: 20 }}>
+                  <p>{question}</p>
+                  {options.map(([value, label]) => {
+                    const isActive = answers[key] === value
+                    return (
+                      <button
+                        key={value}
+                        onClick={() => setAnswer(key, value)}
+                        style={getButtonStyle(isActive, 'option')}
+                      >
+                        {label}
+                      </button>
+                    )
+                  })}
+                  <button
+                    onClick={() => setAnswer(key, null)}
+                    style={getButtonStyle(answers[key] === null, 'reset')}
+                  >
+                    Reset
+                  </button>
                 </div>
+              ))}
+
+              {/* ⭐ Velg plakatstørrelse og eksporter til PDF */}
+              <div style={{ marginTop: 16, marginBottom: 20 }}>
+                <label style={{ display: 'block', fontSize: 13, marginBottom: 6, color: '#222' }}>
+                  Size of exported flow diagram
+                </label>
+                <select
+                  value={posterSize}
+                  onChange={(e) => setPosterSize(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '6px 8px',
+                    marginBottom: 8,
+                    borderRadius: 4,
+                    border: '1px solid #CCC',
+                    fontSize: 13,
+                  }}
+                >
+                  <option value="A4">A4</option>
+                  <option value="A3">A3</option>
+                  <option value="A2">A2</option>
+                  <option value="A1">A1</option>
+                  <option value="A0">A0</option>
+                </select>
+
+                <button
+                  onClick={handleExportToPdf}
+                  disabled={isExporting}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    backgroundColor: isExporting ? '#A9DFBF' : '#27AE60',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: 4,
+                    cursor: isExporting ? 'default' : 'pointer',
+                    fontWeight: 'bold',
+                    fontSize: 14,
+                  }}
+                >
+                  {isExporting ? 'Exporting...' : `⬇ Export to ${posterSize}`}
+                </button>
               </div>
-            ))}
-          </>
+
+            </>
+          )}
+        </div>
+
+        {/* Åpne-knapp for filter-sidebar, vises kun når panelet er lukket */}
+        {!sidebarOpen && (
+          <button
+            onClick={() => setSidebarOpen(true)}
+            style={{
+              position: 'absolute',
+              top: 16,
+              left: 16,
+              zIndex: 10,
+              padding: '8px 12px',
+              backgroundColor: '#3498DB',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: 4,
+              cursor: 'pointer',
+              fontWeight: 'bold',
+            }}
+            title="Open filterpanel"
+          >
+            ☰ Filters
+          </button>
+        )}
+
+        {/* FLOW AREA */}
+        <div style={{ flex: 1, position: 'relative' }}>
+          <ReactFlow
+            nodes={memoNodes}
+            edges={memoEdges}
+            nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
+            defaultEdgeOptions={defaultEdgeOptions}
+            defaultViewport={defaultViewport}
+            minZoom={0.05}
+            maxZoom={2}
+            style={{ width: '100%', height: '100%', backgroundColor: '#FAFAFA' }}
+          >
+            <Background color="#DDD" gap={16} />
+            <Controls />
+          </ReactFlow>
+        </div>
+
+        {/* LEGEND PANEL (høyre) */}
+        <div
+          style={{
+            width: legendOpen ? LEGEND_WIDTH : 0,
+            minWidth: legendOpen ? LEGEND_WIDTH : 0,
+            padding: legendOpen ? 16 : 0,
+            backgroundColor: '#FFFFFF',
+            borderLeft: legendOpen ? '1px solid #DDD' : 'none',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            height: '100%',
+            boxSizing: 'border-box',
+            transition: 'width 0.2s ease, padding 0.2s ease',
+          }}
+        >
+          {legendOpen && (
+            <>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h3 style={{ color: '#222', margin: 0 }}>Legend</h3>
+                <button
+                  onClick={() => setLegendOpen(false)}
+                  style={{
+                    border: 'none',
+                    background: 'none',
+                    fontSize: 18,
+                    cursor: 'pointer',
+                    color: '#666',
+                  }}
+                  title="Close legend (Esc)"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {LEGEND_ITEMS.map(({ color, border, label, description }) => (
+                <div key={label} style={{ display: 'flex', gap: 10, marginTop: 16, alignItems: 'flex-start' }}>
+                  <div
+                    style={{
+                      width: 32,
+                      height: 24,
+                      flexShrink: 0,
+                      backgroundColor: color,
+                      border: `2px solid ${border}`,
+                      borderRadius: 4,
+                    }}
+                  />
+                  <div>
+                    <div style={{ fontWeight: 'bold', fontSize: 13, color: '#222' }}>{label}</div>
+                    <div style={{ fontSize: 12, color: '#666' }}>{description}</div>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+
+        {/* Åpne-knapp for legend, vises kun når panelet er lukket */}
+        {!legendOpen && (
+          <button
+            onClick={() => setLegendOpen(true)}
+            style={{
+              position: 'absolute',
+              top: 16,
+              right: 16,
+              zIndex: 10,
+              padding: '8px 12px',
+              backgroundColor: '#27AE60',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: 4,
+              cursor: 'pointer',
+              fontWeight: 'bold',
+            }}
+            title="Open legend"
+          >
+            ℹ️ Legend
+          </button>
         )}
       </div>
-
-      {/* Åpne-knapp for legend, vises kun når panelet er lukket */}
-      {!legendOpen && (
-        <button
-          onClick={() => setLegendOpen(true)}
-          style={{
-            position: 'absolute',
-            top: 16,
-            right: 16,
-            zIndex: 10,
-            padding: '8px 12px',
-            backgroundColor: '#27AE60',
-            color: '#FFFFFF',
-            border: 'none',
-            borderRadius: 4,
-            cursor: 'pointer',
-            fontWeight: 'bold',
-          }}
-          title="Open legend"
-        >
-          ℹ️ Legend
-        </button>
-      )}
     </div>
   )
 }
