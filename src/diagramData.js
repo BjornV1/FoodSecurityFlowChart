@@ -71,8 +71,8 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{In-house meals} = \\text{In-house meals} + (\\text{Household members present in the household during the reference period} \\times \\text{3 meals} \\times \\text{Number of days of the reference period - Number of meals consumed away from home in the reference period}',
-      width: 2000,
+        '\\text{In-house meals} = \\text{Household members present in the household during the reference period} \\times \\text{3 meals} \\times \\text{Number of days of the reference period - Number of meals consumed away from home in the reference period}',
+      width: 1800,
       height: 60
     },
     position: { x: 1850, y: 1600 }
