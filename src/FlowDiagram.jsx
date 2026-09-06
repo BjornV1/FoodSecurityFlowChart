@@ -92,11 +92,6 @@ const FILTERS = [
     options: [['yes', 'Yes'], ['no', 'No']]
   },
   {
-    key: 'filter7',
-    question: 'Does the survey collect information on visitors?',
-    options: [['yes', 'Yes'], ['no', 'No']]
-  },
-  {
     key: 'filter4',
     question: 'For purchased foods, does the survey collect monetary values and their respective quantities only for last purchases?',
     options: [['yes', 'Yes'], ['no', 'No']]
@@ -106,6 +101,11 @@ const FILTERS = [
     question: 'Does the survey collect reliable monetary values for non-purchased food items?',
     options: [['yes_reliable', 'Collected and considered reliable'], ['yes_not_reliable', 'Collected, but not considered reliable'], ['no', 'Not collected']]
   },  
+  {
+    key: 'filter7',
+    question: 'Does the survey collect information on visitors?',
+    options: [['yes', 'Yes'], ['no', 'No']]
+  },
   {
     key: 'filter8',
     question: 'Does the survey collect the number of meals consumed away from home?',

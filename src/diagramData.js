@@ -69,7 +69,9 @@ export const allNodes = [
   {id: '3_p5_assign_food_source', type: 'process', dependsOn: { filter3: 'yes' }, data: { label: 'Assign the corresponding food source in the variable «source»' }, position: { x: 750, y: 1800 } },
 //  {id: '3_p6_aggregate', type: 'process', dependsOn: { filter3: 'yes' }, data: { label: 'Aggregate data to one observation per household/source/food item/unit', width: 240, height: 80 }, position: { x: 1000, y: 1800 } },
   {id: '3_p7_add_fafh_long', type: 'process', dependsOn: { filter3: 'yes' }, data: { label: 'Add FAFH data to the working dataset and create a FAFH dummy variable\n(1=FAFH, 0=in-house)\nto be used for filtering in step 4', width: 300, height: 100 }, position: { x: 1190, y: 1790 } },
-  {id: '3_q6_number_of_meals_fafh_collected', type: 'decision', data: { label: 'Does the survey collect information on the number of meals consumed away from home?', width: 160, height: 120 }, position: { x: 1560, y: 1780 } },
+  {id: '3_q6_number_of_meals_fafh_collected', type: 'decision', dependsOn: { filter8: UNSET }, strict: true, data: { label: 'Does the survey collect information on the number of meals consumed away from home?', width: 160, height: 120 }, position: { x: 1560, y: 1780 } },
+  {id: '3_q6_number_of_meals_fafh_collected', type: 'chosen', dependsOn: { filter8: 'yes' }, strict: true, data: { label: 'The survey collects information on the number of meals consumed away from home', width: 160, height: 120 }, position: { x: 1560, y: 1780 } },
+  {id: '3_q6_number_of_meals_fafh_collected', type: 'chosen', dependsOn: { filter8: 'no' }, strict: true, data: { label: 'The survey does not collect information on the number of meals consumed away from home', width: 160, height: 120 }, position: { x: 1560, y: 1780 } },
 //  {id: '3_p8_calc_in_house_meals', type: 'process', data: { label: 'In-house meals = Household members present in the household during the reference period * 3 meals * number of days of the reference period – number of meals consumed away from home in the reference period', width: 300, height: 150 }, position: { x: 1800, y: 1765 } },
 
   {
@@ -87,23 +89,31 @@ export const allNodes = [
 
 
   // Filterquestion n 7 - visitors
-  {id: '3_q7_visitors_yes_meals_fafh', type: 'decision', dependsOn: { filter7: UNSET }, data: { label: 'Does the survey collect information on visitors?' }, position: { x: 2170, y: 1650 } },
-  {id: '3_q10_visitors_no_meals_fafh', type: 'decision', dependsOn: { filter7: UNSET }, data: { label: 'Does the survey collect information on visitors?' }, position: { x: 1550, y: 2250 } },
-  {id: '3_q7_visitors_yes_meals_fafh_yes', type: 'chosen', dependsOn: { filter7: 'yes' }, strict: true, data: { label: 'Information on visitors is collected' }, position: { x: 2170, y: 1650 } },
-  {id: '3_q10_visitors_no_meals_fafh_yes', type: 'chosen', dependsOn: { filter7: 'yes' }, strict: true, data: { label: 'Information on visitors is collected' }, position: { x: 1550, y: 2250 } },
-  {id: '3_q7_visitors_yes_meals_fafh_no', type: 'chosen', dependsOn: { filter7: 'no' }, strict: true, data: { label: 'Information on visitors is not collected' }, position: { x: 2170, y: 1650 } },
-  {id: '3_q10_visitors_no_meals_fafh_no', type: 'chosen', dependsOn: { filter7: 'no' }, strict: true, data: { label: 'Information on visitors is not collected' }, position: { x: 1550, y: 2250 } },
+  {id: '3_q7_visitors_yes_meals_fafh', type: 'decision', dependsOn: { filter7: UNSET, filter8: UNSET }, data: { label: 'Does the survey collect information on visitors?' }, position: { x: 2170, y: 1650 } },
+  {id: '3_q7_visitors_yes_meals_fafh', type: 'decision', dependsOn: { filter7: UNSET, filter8: 'yes' }, data: { label: 'Does the survey collect information on visitors?' }, position: { x: 2170, y: 1650 } },
+  {id: '3_q10_visitors_no_meals_fafh', type: 'decision', dependsOn: { filter7: UNSET, filter8: 'no' }, data: { label: 'Does the survey collect information on visitors?' }, position: { x: 1550, y: 2250 } },
+  {id: '3_q10_visitors_no_meals_fafh', type: 'decision', dependsOn: { filter7: UNSET, filter8: UNSET }, data: { label: 'Does the survey collect information on visitors?' }, position: { x: 1550, y: 2250 } },
+  {id: '3_q7_visitors_yes_meals_fafh_yes', type: 'chosen', dependsOn: { filter7: 'yes', filter8: 'yes' }, strict: true, data: { label: 'Information on visitors is collected' }, position: { x: 2170, y: 1650 } },
+  {id: '3_q7_visitors_yes_meals_fafh_yes', type: 'chosen', dependsOn: { filter7: 'yes', filter8: UNSET }, strict: true, data: { label: 'Information on visitors is collected' }, position: { x: 2170, y: 1650 } },
+  {id: '3_q10_visitors_no_meals_fafh_yes', type: 'chosen', dependsOn: { filter7: 'yes', filter8: 'no' }, strict: true, data: { label: 'Information on visitors is collected' }, position: { x: 1550, y: 2250 } },
+  {id: '3_q10_visitors_no_meals_fafh_yes', type: 'chosen', dependsOn: { filter7: 'yes', filter8: UNSET }, strict: true, data: { label: 'Information on visitors is collected' }, position: { x: 1550, y: 2250 } },
+  {id: '3_q7_visitors_yes_meals_fafh_no', type: 'chosen', dependsOn: { filter7: 'no', filter8: 'yes' }, strict: true, data: { label: 'Information on visitors is not collected' }, position: { x: 2170, y: 1650 } },
+  {id: '3_q7_visitors_yes_meals_fafh_no', type: 'chosen', dependsOn: { filter7: 'no', filter8: UNSET }, strict: true, data: { label: 'Information on visitors is not collected' }, position: { x: 2170, y: 1650 } },
+  {id: '3_q10_visitors_no_meals_fafh_no', type: 'chosen', dependsOn: { filter7: 'no', filter8: 'no' }, strict: true, data: { label: 'Information on visitors is not collected' }, position: { x: 1550, y: 2250 } },
+  {id: '3_q10_visitors_no_meals_fafh_no', type: 'chosen', dependsOn: { filter7: 'no', filter8: UNSET }, strict: true, data: { label: 'Information on visitors is not collected' }, position: { x: 1550, y: 2250 } },
 
 
-  {id: '3_q8_meals_by_visitors_yes_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes' }, data: { label: 'Does the survey collect information on the number of meals consumed by visitors in the whole reference period?', width: 260, height: 80 }, position: { x: 2420, y: 1650 } },
-  {id: '3_q9_visitors_days_stayed_yes_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes' },data: { label: 'Does the survey collect information on the number of visitors and the number of days they stayed', width: 260, height: 80 }, position: { x: 2420, y: 1800 } },
+  {id: '3_q8_meals_by_visitors_yes_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes', filter8: UNSET }, data: { label: 'Does the survey collect information on the number of meals consumed by visitors in the whole reference period?', width: 260, height: 80 }, position: { x: 2420, y: 1650 } },
+  {id: '3_q8_meals_by_visitors_yes_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes', filter8: 'yes' }, data: { label: 'Does the survey collect information on the number of meals consumed by visitors in the whole reference period?', width: 260, height: 80 }, position: { x: 2420, y: 1650 } },
+  {id: '3_q9_visitors_days_stayed_yes_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes', filter8: UNSET }, data: { label: 'Does the survey collect information on the number of visitors and the number of days they stayed', width: 260, height: 80 }, position: { x: 2420, y: 1800 } },
+  {id: '3_q9_visitors_days_stayed_yes_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes', filter8: 'yes' }, data: { label: 'Does the survey collect information on the number of visitors and the number of days they stayed', width: 260, height: 80 }, position: { x: 2420, y: 1800 } },
 
 
 
   {
     id: '3_p9_calc_partakers_4',
     type: 'formulaText',
-    dependsOn: { filter7: 'no' },
+    dependsOn: { filter7: 'no', filter8: 'yes' },
     data: {
       latex:
         '\\text{Number of partakers} = \\dfrac{\\text{In-house meals}}{3\\text{ meals} \\times \\text{Number of days of the reference period}}',
@@ -115,7 +125,7 @@ export const allNodes = [
   {
     id: '3_p9_calc_partakers_1',
     type: 'formulaText',
-    dependsOn: { filter7: 'yes' },
+    dependsOn: { filter7: 'yes', filter8: 'yes' },
     data: {
       latex:
         '\\text{Number of partakers} = \\dfrac{\\text{In-house meals} + \\text{Meals consumed by visitors during the reference period}}{3\\text{ meals} \\times \\text{Number of days of the reference period}}',
@@ -127,7 +137,7 @@ export const allNodes = [
   {
     id: '3_p10_calc_partakers_2',
     type: 'formulaText',
-    dependsOn: { filter7: 'yes' },
+    dependsOn: { filter7: 'yes', filter8: 'yes' },
     data: {
       latex:
         '\\text{Number of partakers} = \\dfrac{\\text{In-house meals} + (\\text{Number of visitors} \\times \\text{Number of days they stayed with the household} \\times 3)}{3\\text{ meals} \\times \\text{Number of days of the reference period}}',
@@ -139,7 +149,7 @@ export const allNodes = [
   {
     id: '3_p11_calc_partakers_3',
     type: 'formulaText',
-    dependsOn: { filter7: 'yes' },
+    dependsOn: { filter7: 'yes', filter8: 'yes' },
     data: {
       latex:
         '\\text{Number of partakers} = \\dfrac{\\text{In-house meals} + (\\text{Number of visitors} \\times \\text{Number of days of the reference period} \\times 3)}{3\\text{ meals} \\times \\text{Number of days of the reference period}}',
@@ -151,7 +161,7 @@ export const allNodes = [
   {
     id: '3_p12_calc_partakers_1b',
     type: 'formulaText',
-    dependsOn: { filter7: 'no' },
+    dependsOn: { filter7: 'no', filter8: 'no' },
     data: {
       latex:
         '\\text{Number of partakers} = \\text{Number of household members present in the household during the reference period}',
@@ -163,7 +173,7 @@ export const allNodes = [
   {
     id: '3_p13_calc_partakers_1b',
     type: 'formulaText',
-    dependsOn: { filter7: 'yes' },
+    dependsOn: { filter7: 'yes', filter8: 'no' },
     data: {
       latex:
         '\\text{Number of partakers} = \\dfrac{(\\text{Household members present} \\times 3\\text{ meals} \\times \\text{Number of days of the reference period}) + \\text{Meals consumed by visitors during the reference period}}{3\\text{ meals} \\times \\text{Number of days of the reference period}}',
@@ -175,7 +185,7 @@ export const allNodes = [
   {
     id: '3_p14_calc_partakers_1b',
     type: 'formulaText',
-    dependsOn: { filter7: 'yes' },
+    dependsOn: { filter7: 'yes', filter8: 'no' },
     data: {
       latex:
         '\\text{Number of partakers} = \\dfrac{(\\text{Household members present} \\times \\text{Number of days of the reference period}) + (\\text{Number of visitors} \\times \\text{Number of days they stayed with the household})}{\\text{Number of days of the reference period}}',
@@ -187,7 +197,7 @@ export const allNodes = [
   {
     id: '3_p15_calc_partakers_1b',
     type: 'formulaText',
-    dependsOn: { filter7: 'yes' },
+    dependsOn: { filter7: 'yes', filter8: 'no' },
     data: {
       latex:
         '\\text{Number of partakers} = \\text{Number of household members present in the household during the reference period} + \\text{Number of visitors in the whole reference period}',
@@ -204,8 +214,8 @@ export const allNodes = [
 //  {id: '3_p13_calc_partakers_1b', type: 'process', dependsOn: { filter7: 'yes' }, data: { label: 'Number of partakers = ((Household members present in the household during the reference period * 3 meals * number of days of the reference period) + number of meals consumed by visitors during the reference period) /(3 meals * the number of days of the reference period)', width: 600, height: 80 }, position: { x: 1930, y: 2400 } },
 //  {id: '3_p14_calc_partakers_1b', type: 'process', dependsOn: { filter7: 'yes' }, data: { label: 'Number of partakers = (Number of household members present in the household during the reference period * number of days of the reference period + number of visitors * number of days they stayed with the household)/ number of days of the reference period', width: 600, height: 80 }, position: { x: 1930, y: 2550 } },
 //  {id: '3_p15_calc_partakers_1b', type: 'process', dependsOn: { filter7: 'yes' }, data: { label: 'Number of partakers = Number of household members present in the household during the reference period + number of visitors in the whole reference period ', width: 600, height: 80 }, position: { x: 1930, y: 2700 } },
-  {id: '3_q9_visitors_days_stayed_no_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes' }, data: { label: 'Does the survey collect information on the number of visitors and the number of days they stayed', width: 260, height: 80 }, position: { x: 1510, y: 2550 } },
-  {id: '3_q11_meals_by_visitors_no_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes' }, data: { label: 'Does the survey collect information on the number of meals consumed by visitors in the whole reference period', width: 260, height: 80 }, position: { x: 1510, y: 2400 } },
+  {id: '3_q9_visitors_days_stayed_no_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes', filter8: 'no' }, data: { label: 'Does the survey collect information on the number of visitors and the number of days they stayed', width: 260, height: 80 }, position: { x: 1510, y: 2550 } },
+  {id: '3_q11_meals_by_visitors_no_meals_fafh', type: 'decision', dependsOn: { filter7: 'yes', filter8: 'no' }, data: { label: 'Does the survey collect information on the number of meals consumed by visitors in the whole reference period', width: 260, height: 80 }, position: { x: 1510, y: 2400 } },
   {id: '3_p16x_divide', type: 'process', data: { label: 'Divide monetary values and quantities of in-house consumption by number of partakers', width: 240, height: 80 }, position: { x: 3730, y: 2696 } },
   {id: '3_p16_merge_in_information', type: 'process', data: { label: 'Merge in other relevant external information' }, position: { x: 4040, y: 2696 } },
   {id: '3_finished', type: 'validation', data: { label: 'Step 3 finished' }, position: { x: 4290, y: 2696 } },
@@ -975,8 +985,10 @@ export const allEdges = [
   { id: 'e3_p5_yes_p6', type: 'straight',source: '3_p5_assign_food_source', sourceHandle: 'out-right', target: '3_p7_add_fafh_long', targetHandle: 'in-left'},
   { id: 'e3_p6_yes_p7', type: 'straight',source: '3_p6_aggregate', sourceHandle: 'out-right', target: '3_p7_add_fafh_long', targetHandle: 'in-left'},
   { id: 'e3_p7_yes_q6', type: 'straight',source: '3_p7_add_fafh_long', sourceHandle: 'out-right', target: '3_q6_number_of_meals_fafh_collected', targetHandle: 'in-left'},
-  { id: 'e3_q6_yes_p8', type: 'step',source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-right', target: '3_p8_calc_in_house_meals', targetHandle: 'in-left', label: 'Yes'},
-//filter 7
+  { id: 'e3_q6_yes_p8', type: 'step', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-right', target: '3_p8_calc_in_house_meals', targetHandle: 'in-left', dependsOn: { filter8: UNSET}, strict: true, label: 'Yes'},
+  { id: 'e3_q6_yes_p8', type: 'step', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-right', target: '3_p8_calc_in_house_meals', targetHandle: 'in-left', dependsOn: { filter8: 'yes'}, strict: true},
+
+  //filter 7
   { id: 'e3_p8_yes_q7', type: 'step',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-bottom', target: '3_q7_visitors_yes_meals_fafh', targetHandle: 'in-top', dependsOn: { filter7: UNSET}, strict: true},
   { id: 'e3_p8_yes_q7_filter7_yes', type: 'step',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-bottom', target: '3_q7_visitors_yes_meals_fafh_yes', targetHandle: 'in-top', dependsOn: { filter7: 'yes'}, strict: true},
   { id: 'e3_p8_yes_q7_filter7_no', type: 'step',source: '3_p8_calc_in_house_meals', sourceHandle: 'out-bottom', target: '3_q7_visitors_yes_meals_fafh_no', targetHandle: 'in-top', dependsOn: { filter7: 'no'}, strict: true},
@@ -1019,15 +1031,25 @@ export const allEdges = [
   { id: 'e3_q4_no_p4', type: 'step', source: '3_q4_monetary_values_at_least_one_source', sourceHandle: 'out-bottom', target: '3_p4_temp_file_for_imputation', targetHandle: 'in-top', dependsOn: { filter4: UNSET}, label: 'Yes' },
   { id: 'e3_q4_no_p4_f5_yes', type: 'step', source: '3_q4_monetary_values_at_least_one_source_f4_yes', sourceHandle: 'out-bottom', target: '3_p4_temp_file_for_imputation', targetHandle: 'in-top', dependsOn: { filter4: 'yes'}, strict: true },
 
-  { id: 'e3_q6_no_q10', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET, filter7: UNSET }, strict: true, label: 'No' },
-  { id: 'e3_q6_no_q10_f3_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter3: 'yes', filter7: UNSET }, strict: true, label: 'No' },
-  { id: 'e3_q6_no_q10_f3_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter3: 'no', filter7: UNSET }, strict: true, label: 'No' },
-  { id: 'e3_q6_no_q10_f7_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh_yes', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET, filter7: 'yes' }, strict: true, label: 'No' },
-  { id: 'e3_q6_no_q10_f7_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh_no', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET, filter7: 'no' }, strict: true, label: 'No' },
-  { id: 'e3_q6_no_q10_f3_yes_f7_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_yes', targetHandle: 'in-top', dependsOn: { filter3: 'yes', filter7: 'yes' }, strict: true, label: 'No' },
-  { id: 'e3_q6_no_q10_f3_no_f7_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_yes', targetHandle: 'in-top', dependsOn: { filter3: 'no', filter7: 'yes' }, strict: true, label: 'No' },
-  { id: 'e3_q6_no_q10_f3_yes_f7_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_no', targetHandle: 'in-top', dependsOn: { filter3: 'yes', filter7: 'no' }, strict: true, label: 'No' },
-  { id: 'e3_q6_no_q10_f3_no_f7_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_no', targetHandle: 'in-top', dependsOn: { filter3: 'no', filter7: 'no' }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET, filter7: UNSET, filter8: UNSET}, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter3: 'yes', filter7: UNSET, filter8: UNSET }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter3: 'no', filter7: UNSET, filter8: UNSET }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f7_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh_yes', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET, filter7: 'yes', filter8: UNSET }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f7_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh_no', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET, filter7: 'no', filter8: UNSET }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_yes_f7_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_yes', targetHandle: 'in-top', dependsOn: { filter3: 'yes', filter7: 'yes', filter8: UNSET }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_no_f7_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_yes', targetHandle: 'in-top', dependsOn: { filter3: 'no', filter7: 'yes', filter8: UNSET }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_yes_f7_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_no', targetHandle: 'in-top', dependsOn: { filter3: 'yes', filter7: 'no', filter8: UNSET }, strict: true, label: 'No' },
+  { id: 'e3_q6_no_q10_f3_no_f7_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_no', targetHandle: 'in-top', dependsOn: { filter3: 'no', filter7: 'no', filter8: UNSET }, strict: true, label: 'No' },
+
+  { id: 'e3_q6_no_q10', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET, filter7: UNSET, filter8: 'no'}, strict: true },
+  { id: 'e3_q6_no_q10_f3_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter3: 'yes', filter7: UNSET, filter8: 'no' }, strict: true },
+  { id: 'e3_q6_no_q10_f3_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh', targetHandle: 'in-top', dependsOn: { filter3: 'no', filter7: UNSET, filter8: 'no' }, strict: true },
+  { id: 'e3_q6_no_q10_f7_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh_yes', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET, filter7: 'yes', filter8: 'no' }, strict: true },
+  { id: 'e3_q6_no_q10_f7_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom-75', target: '3_q10_visitors_no_meals_fafh_no', targetHandle: 'in-top-75', dependsOn: { filter3: UNSET, filter7: 'no', filter8: 'no' }, strict: true },
+  { id: 'e3_q6_no_q10_f3_yes_f7_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_yes', targetHandle: 'in-top', dependsOn: { filter3: 'yes', filter7: 'yes', filter8: 'no' }, strict: true },
+  { id: 'e3_q6_no_q10_f3_no_f7_yes', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_yes', targetHandle: 'in-top', dependsOn: { filter3: 'no', filter7: 'yes', filter8: 'no' }, strict: true },
+  { id: 'e3_q6_no_q10_f3_yes_f7_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_no', targetHandle: 'in-top', dependsOn: { filter3: 'yes', filter7: 'no', filter8: 'no' }, strict: true },
+  { id: 'e3_q6_no_q10_f3_no_f7_no', type: 'straight', source: '3_q6_number_of_meals_fafh_collected', sourceHandle: 'out-bottom', target: '3_q10_visitors_no_meals_fafh_no', targetHandle: 'in-top', dependsOn: { filter3: 'no', filter7: 'no', filter8: 'no' }, strict: true },
 
 
   { id: 'e3_q7_no_p16', type: 'step', source: '3_q7_visitors_yes_meals_fafh', sourceHandle: 'out-bottom', target: '3_p9_calc_partakers_4', targetHandle: 'in-left', dependsOn: { filter7: UNSET }, strict: true, label: 'No' },
@@ -1246,7 +1268,6 @@ export const allEdges = [
   { id: 'e6_p3_yes_p2x', type: 'step', source: '6_p3_convert_grams_standard_unit', sourceHandle: 'out-right', target: '6_p2_calc_quant_in_grams_per_partaker', targetHandle: 'in-left'},
   { id: 'e6_p2x_yes_p4', type: 'step', source: '6_p2_calc_quant_in_grams_per_partaker', sourceHandle: 'out-right', target: '6_p4_calc_price', targetHandle: 'in-top'},
 
-
   { id: 'e6_p4_yes_finished', type: 'step', source: '6_p4_calc_price', sourceHandle: 'out-bottom', target: '6_finished', targetHandle: 'in-top'},
   { id: 'e6_q4_yes_p5', type: 'straight', source: '6_q4_source', sourceHandle: 'out-right', target: '6_p5_convert_grams_standard_unit_2', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e6_p5_yes_p6', type: 'straight', source: '6_p5_convert_grams_standard_unit_2', sourceHandle: 'out-right', target: '6_p6_calc_quant_in_grams', targetHandle: 'in-left'},
@@ -1254,8 +1275,6 @@ export const allEdges = [
   { id: 'e6_p6_no_p4x', type: 'step', source: '6_q5x_flagged_step_5', sourceHandle: 'out-right', target: '6_p4_calc_price', targetHandle: 'in-left', label: 'No'},
   { id: 'e6_p6_yes_p4x', type: 'step', source: '6_q5x_flagged_step_5', sourceHandle: 'out-bottom', target: '6_estimate_monetary_value', targetHandle: 'in-top', label: 'Yes'},
   { id: 'e6_p4x_no_p4', type: 'step', source: '6_estimate_monetary_value', sourceHandle: 'out-right', target: '6_p4_calc_price', targetHandle: 'in-left'},
-
-
   
   { id: 'e6_q5_yes_q6', type: 'straight', source: '6_q5_market_survey', sourceHandle: 'out-right', target: '6_q6_mon_value_available', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e6_q6_yes_p7', type: 'straight', source: '6_q6_mon_value_available', sourceHandle: 'out-right', target: '6_p7_calc_price_2', targetHandle: 'in-left', label: 'Yes'},
