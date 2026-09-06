@@ -78,7 +78,7 @@ const defaultViewport = { x: 50, y: 50, zoom: 0.5 }
 const FILTERS = [
   {
     key: 'filter1',
-    question: 'Is a variable on "Total quantity consumed" collected?',
+    question: 'Does the survey collect "Total quantity consumed"?',
     options: [['yes', 'Yes'], ['no', 'No']]
   },
   {
@@ -88,7 +88,7 @@ const FILTERS = [
   },
   {
     key: 'filter3',
-    question: 'Are FAFH collected in an independent module?',
+    question: 'Does the survey collect in-house food and FAFH (food away from home) in separate modules?',
     options: [['yes', 'Yes'], ['no', 'No']]
   },
   {
@@ -98,17 +98,27 @@ const FILTERS = [
   },
   {
     key: 'filter4',
-    question: 'Are the monetary values only collected for the last purchase?',
+    question: 'For purchased foods, does the survey collect monetary values and their respective quantities only for last purchases?',
     options: [['yes', 'Yes'], ['no', 'No']]
   },
   {
     key: 'filter5',
-    question: 'Are the monetary values for non-purchased food items collected and are they considered reliable?',
+    question: 'Does the survey collect reliable monetary values for non-purchased food items?',
     options: [['yes_reliable', 'Collected and considered reliable'], ['yes_not_reliable', 'Collected, but not considered reliable'], ['no', 'Not collected']]
+  },  
+  {
+    key: 'filter8',
+    question: 'Does the survey collect the number of meals consumed away from home?',
+    options: [['yes', 'Yes'], ['no', 'No']]
+  },
+  {
+    key: 'filter9',
+    question: 'Does the survey collect FAFH at the individual level?',
+    options: [['yes', 'Yes'], ['no', 'No']]
   },
   {
     key: 'filter6',
-    question: 'Are all food items measured in standard units (kilo, liter)?',
+    question: 'Does the survey collect food quantities in standard units (e.g., grams, kilograms, litres, etc.)?',
     options: [['yes', 'Yes'], ['no', 'No']]
   }
 ]
@@ -117,7 +127,7 @@ const initialAnswers = Object.fromEntries(FILTERS.map(f => [f.key, null]))
 
 // ⭐ Tegnforklaring - farger hentet fra nodeTypes.jsx
 const LEGEND_ITEMS = [
-  { color: '#D6EAF8', border: '#3498DB', label: 'Decision', description: 'A yes/no or multiple-choice question' },
+  { color: '#D6EAF8', border: '#3498DB', label: 'Decision', description: 'A yes/no question' },
   { color: '#D5F5E3', border: '#27AE60', label: 'Process', description: 'An action or calculation step' },
   { color: '#FCF3CF', border: '#F1C40F', label: 'Start/end', description: 'Marks the start or the end of a step' },
   { color: '#f8c5f4', border: '#ec0dc7', label: 'Flag', description: 'Flagged for review' },
