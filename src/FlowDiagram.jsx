@@ -55,7 +55,7 @@ const PAGE_INTRO = (
       style={{ color: '#3498DB', textDecoration: 'underline' }}>
       the guidelines
     </a>.
-    Use the filters on the left to tailor the diagram to your specific survey design. For more background, see the
+    Use the filters on the left to tailor the diagram to your specific survey design.
   </>
 )
 
