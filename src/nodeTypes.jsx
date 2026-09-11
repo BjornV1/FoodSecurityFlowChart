@@ -184,6 +184,12 @@ export function FormulaTextNode({ data }) {
         </div>
       )}
 
+      {data.notex && (
+        <div style={{ fontSize: 15, lineHeight: 1.4 }}>
+          {data.notex}
+        </div>
+      )}
+
       <Handle type="source" id="out-left" position={Position.Left} />
       <Handle type="target" id="in-left" position={Position.Left} />
       <Handle type="source" id="out-right" position={Position.Right} />

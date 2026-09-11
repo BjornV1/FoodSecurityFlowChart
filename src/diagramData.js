@@ -305,7 +305,7 @@ export const allNodes = [
 
 
 
-  {id: '4_p20_def_level_agg', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 2930, y: 4190 } },
+  {id: '4_p20_def_level_agg', type: 'process', data: { label: 'Define the level of aggregation to use' }, position: { x: 2930, y: 4190 } },
 
   {
     id: '4_p21_med_unit_value',
@@ -321,7 +321,7 @@ export const allNodes = [
 
 
   {id: '4_q14_both_corrected', type: 'decision', data: { label: 'Must both quantity and monetary value be corrrected?' }, position: { x: 3580, y: 4340 } },
-  {id: '4_p22_def_lev_agg_2', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 3850, y: 4340 } },
+  {id: '4_p22_def_lev_agg_2', type: 'process', data: { label: 'Define the level of aggregation to use' }, position: { x: 3850, y: 4340 } },
 
   {
     id: '4_p23_corr_quant',
@@ -507,11 +507,12 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Price} = \\dfrac{\\text{Monetary value}}{\\text{Quantities in grams}}',
-      width: 250,
+        '\\text{Unit value (LCU per gram)} = \\dfrac{\\text{Monetary value per partaker (LCU)}}{\\text{Quantity per partaker (grams)}}',
+      notex: 'and set aside to be used to estimate the median price.',  
+      width: 600,
       height: 68
     },
-    position: { x: 3155, y: 6138 - Y_SHIFT_STEP_5_10 }
+    position: { x: 3155, y: 6120 - Y_SHIFT_STEP_5_10 }
   },
 
   {id: '6_q4_source', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Is a weight in grams for the non-standard unit available from a market survey or other reliable sources?', width: 240, height: 80 }, position: { x: 490, y: 6140 - Y_SHIFT_STEP_5_10 } },
@@ -595,11 +596,11 @@ export const allNodes = [
 
   {id: '6_q7_estimated', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Could a price per gram for that food item be estimated from the survey? (At least 10 observations, and 60 % of the quantities converted to grams)', width: 240, height: 100 }, position: { x: 490 , y: 6770 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '6_q8_mon_value_rep_quant', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Do we have the monetary value of the collected quantity?' }, position: { x: 800, y: 6780 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
-  {id: '6_p11_def_lev_agg', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Define the level of disaggregation to use' }, position: { x: 1080, y: 6780 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '6_p11_def_lev_agg', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Define the level of aggregation to use' }, position: { x: 1080, y: 6780 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '6_p12_conv_to_grams', type: 'process', data: { label: 'Convert to grams' }, position: { x: 250, y: 7240 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '6_q10_same_food_group', type: 'decision', dependsOn: { filter6: 'no' }, data: { label: 'Does the food item refer to several foods from the same food group, like «other vegetables»?', width: 240, height: 80 }, position: { x: 490, y: 6940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '6_p13_later', type: 'flag', dependsOn: { filter6: 'no' }, data: { label: 'Quantities cannot be converted into grams. Nutrient values will be estimated at a later stage', width: 240, height: 80 }, position: { x: 490, y: 7090 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
-  {id: '6_p14_def_lev_agg', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Define the level of disaggregation to use' }, position: { x: 800, y: 6940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '6_p14_def_lev_agg', type: 'process', dependsOn: { filter6: 'no' }, data: { label: 'Define the level of aggregation to use' }, position: { x: 800, y: 6940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
 
   {
     id: '6_p15_calc_price',
@@ -630,15 +631,15 @@ export const allNodes = [
   },
 
 
-  {id: '6_finished', type: 'validation', data: { label: 'Step 6 finished' }, position: { x: 3200, y: 7240 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '6_finished', type: 'validation', data: { label: 'Step 6 finished' }, position: { x: 3374, y: 7240 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
 
   {id: '7_starts', type: 'validation', data: { label: 'Step 7 starts\nEditing after converting\nto grams', width: 200, height: 80 }, position: { x: 0, y: 7490 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_q1_syst_missing', type: 'decision', data: { label: 'Are the quantities in grams systematically missing for the food item?' }, position: { x: 250, y: 7490 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_q2_mon_values', type: 'decision', data: { label: 'Does the food item have monetary values?' }, position: { x: 250, y: 7940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
-  {id: '7_p1_est_mon_value', type: 'process', data: { label: 'Estimate monetary values per food item per partaker' }, position: { x: 500, y: 7940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+//  {id: '7_p1_est_mon_value', type: 'process', data: { label: 'Estimate monetary values per food item per partaker' }, position: { x: 500, y: 7940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_p2_detect_outlier_mon_value', type: 'process', data: { label: 'Detect outliers in monetary values per food item per partaker' }, position: { x: 750, y: 7940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_q3_mon_value_outlier', type: 'decision', data: { label: 'Is the monetary value per partaker identified as an outlier? ' }, position: { x: 1000, y: 7940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
-  {id: '7_p3_def_lev_agg', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 1250, y: 7940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '7_p3_def_lev_agg', type: 'process', data: { label: 'Define the level of aggregation to use' }, position: { x: 1250, y: 7940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
 
   {
     id: '7_p4_calc_corr_mon_val',
@@ -652,10 +653,10 @@ export const allNodes = [
     position: { x: 1750, y: 7940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
   },
 
-  {id: '7_p5_drop', type: 'process', data: { label: 'Drop these observations' }, position: { x: 500, y: 8090 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '7_p5_drop', type: 'process', data: { label: 'Drop these observations if they correspond to very few cases' }, position: { x: 500, y: 8090 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_p6_det_outlier_quant', type: 'process', data: { label: 'Detect outliers in quantities in grams per food item per partaker' }, position: { x: 500, y: 7490 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_q4_quant_outlier', type: 'decision', data: { label: 'Is the quantity in grams per partaker identified as an outlier? ' }, position: { x: 750, y: 7490 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
-  {id: '7_q5_coll_mon_value_cons', type: 'decision', data: { label: 'Does the survey collect the estimated monetary value of consumption ' }, position: { x: 1000, y: 7490 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '7_q5_coll_mon_value_cons', type: 'decision', data: { label: 'Was the monetary value of food comsumption collected?' }, position: { x: 1000, y: 7490 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_p7_det_outlier_mon_value_2', type: 'process', data: { label: 'Detect outliers in monetary values per food item per partaker' }, position: { x: 1250, y: 7490 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_q6_mon_value_outlier_2', type: 'decision', data: { label: 'Is the monetary value per partaker identified as an outlier' }, position: { x: 1500, y: 7490 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
 
@@ -664,21 +665,21 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected quantity per partaker (grams)} = \\dfrac{\\text{Monetary value per partaker (LCU)}}{\\text{Price (LCU per gram)}}',
+        '\\text{Corrected quantities (grams per partaker)} = \\dfrac{\\text{Monetary value per partaker (LCU)}}{\\text{Price (LCU per gram)}}',
       width: 650,
       height: 68
     },
     position: { x: 1750, y: 7488 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
   },
 
-  {id: '7_p9_def_lev_agg_2', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 1000, y: 7640 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '7_p9_def_lev_agg_2', type: 'process', data: { label: 'Define the level of aggregation to use' }, position: { x: 1000, y: 7640 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
 
   {
     id: '7_p10_calc_corr_quant_2',
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected quantity per partaker (grams)} = \\text{median quantity per partaker (grams)}',
+        '\\text{Corrected quantities (grams per partaker)} = \\text{median quantity per partaker (grams)}',
       width: 650,
       height: 68
     },
@@ -690,14 +691,14 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected monetary value per partaker (LCU)} = \\text{Corrected quantity per partaker (grams)} \\times \\text{Price (LCU per gram)}',
+        '\\text{Corrected monetary value (LCU per partaker)} = \\text{Corrected quantity per partaker (grams)} \\times \\text{Price (LCU per gram)}',
       width: 900,
       height: 68
     },
     position: { x: 2550, y: 7640 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
   },
 
-  {id: '7_q7_coll_mon_value_cons_2', type: 'decision', data: { label: 'Does the survey collect the estimated monetary value of consumption?' }, position: { x: 750, y: 7790 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+//  {id: '7_q7_coll_mon_value_cons_2', type: 'decision', data: { label: 'Does the survey collect the estimated monetary value of consumption?' }, position: { x: 750, y: 7790 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_p12_det_outlier_mon_value_3', type: 'process', data: { label: 'Detect outliers in monetary values per food item per partaker' }, position: { x: 1000, y: 7790 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_q8_mon_val_outlier_3', type: 'decision', data: { label: 'Is the monetary value per partaker identified as an outlier?' }, position: { x: 1250, y: 7790 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
 
@@ -706,7 +707,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected monetary value per partaker (LCU)} = \\text{Quantity per partaker (grams)} \\times \\text{Price (LCU per gram)}',
+        '\\text{Corrected monetary value (LCU  per partaker)} = \\text{Quantity per partaker (grams)} \\times \\text{Price (LCU per gram)}',
       width: 850,
       height: 68
     },
@@ -722,7 +723,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Quantities in grams} = \\text{Quantities in grams per partaker} \\times \\text{Number of partakers}',
+        '\\text{Quantity (grams)} = \\text{Quantity (grams per partaker)} \\times \\text{Household size}',
       width: 850,
       height: 68
     },
@@ -734,16 +735,16 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Monetary value (LCU)} = \\text{Monetary value per partaker (LCU)} \\times \\text{Number of partakers}',
+        '\\text{Monetary values (LCU)} = \\text{Monetary values (LCU per partaker)} \\times \\text{Household size}',
       width: 850,
       height: 68
     },
-    position: { x: 250, y: 8540 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
+    position: { x: 300, y: 8540 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
   },
 
-  {id: '8_p3_merge_nct', type: 'process', data: { label: 'Merge in the Nutrient Conversion Table (NCT)' }, position: { x: 1240, y: 8540 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
-  {id: '8_p4_corr_nct', type: 'process', data: { label: 'Correct the NCT or revise food matching' }, position: { x: 1490, y: 8390 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
-  {id: '8_q1_errors', type: 'decision', data: { label: 'Are there any errors detected in the merge?' }, position: { x: 1490, y: 8540 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '8_p3_merge_nct', type: 'process', data: { label: 'Merge in the Nutrient Conversion Table (NCT)' }, position: { x: 1290, y: 8540 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '8_p4_corr_nct', type: 'process', data: { label: 'Correct the NCT or revise food matching' }, position: { x: 1540, y: 8390 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '8_q1_errors', type: 'decision', data: { label: 'Are there any errors detected in the merge?' }, position: { x: 1540, y: 8540 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
 
   {
     id: '8_p5_calc_ed_quant',
@@ -751,11 +752,11 @@ export const allNodes = [
     data: {
       description: 'Calculate edible quantity:',
       latex:
-        '\\text{Edible quantity (grams)} = \\text{Collected quantity (grams)} \\times \\left(1 - \\dfrac{\\text{Refuse factor}}{100}\\right)',
+        '\\text{Edible quantity (grams)} = \\text{Quantity (grams)} \\times \\left(1 - \\dfrac{\\text{Refuse factor}}{100}\\right)',
       width: 700,
       height: 68
     },
-    position: { x: 250, y: 8740 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
+    position: { x: 300, y: 8740 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
   },
 
   {
@@ -768,7 +769,7 @@ export const allNodes = [
       width: 700,
       height: 68
     },
-    position: { x: 250, y: 8940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY}
+    position: { x: 300, y: 8940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY}
   },
 
   {
@@ -777,8 +778,8 @@ export const allNodes = [
     data: {
       description: 'Calculate macronutrients (grams) – example:',
       latex:
-        '\\text{Quantity of fats (grams)} = \\text{Edible quantity (grams)} \\times \\dfrac{\\text{Fat content per 100 edible grams}}{100}',
-      width: 700,
+        '\\text{Quantity of fats (grams)} = \\text{Edible quantity (grams)} \\times \\dfrac{\\text{Fat content (grams) per 100 edible grams}}{100}',
+      width: 800,
       height: 160
     },
     position: { x: 250, y: 9140 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
@@ -789,12 +790,20 @@ export const allNodes = [
   {id: '9_starts', type: 'validation', data: { label: 'Step 9 starts\nImputing dietary energy\nfor the remaining\nfood items', width: 200, height: 120 }, position: { x: 0, y: 9420 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '9_calories_missing', type: 'decision', data: { label: 'Are the calories for the food item missing?' }, position: { x: 250, y: 9440 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '9_free_food', type: 'decision', data: { label: 'Is it free food, like school meals?' }, position: { x: 250, y: 9590 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY} },
-  {id: '9_calculate_calories', type: 'process', data: { label: 'Use the providers information to calculate: Calories = number of meals*nutrient content', width: 240, height: 80 }, position: { x: 500, y: 9590 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '9_calculate_calories', type: 'process', data: { label: 'Obtain information on energy content in school meals from school meal provider', width: 240, height: 80 }, position: { x: 500, y: 9590 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '9_calories_from_school_meals', type: 'formulaText', data: {
+    latex:
+      '\\text{Calories from school meals (kcal)} = \\dfrac{\\text{Number of school meals}}{\\text{Energy content (kcal per meal)}}',
+    width: 600,
+    height: 120
+  },
+  position: { x: 800, y: 9564 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+
   {id: '9_specific_food_group', type: 'decision', data: { label: 'Does the food item belong to a specific food group, e.g. ‘other dairy products’?' }, position: { x: 250, y: 9890 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '9_unspecified_food', type: 'process', data: { label: 'Assign a food group to the ‘unspecified’ food' }, position: { x: 500, y: 9890 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '9_median_dietary_energy_unit_cost_food_group', type: 'process', data: { label: 'Calculate the median dietary energy unit cost for that food group' }, position: { x: 1570, y: 9890 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
-  {id: '9_level_of_disaggregation_1', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 1320, y: 9890 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
-  {id: '9_level_of_disaggregation_2', type: 'process', data: { label: 'Define the level of disaggregation to use' }, position: { x: 670, y: 10275 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '9_level_of_disaggregation_1', type: 'process', data: { label: 'Define the level of aggregation to use' }, position: { x: 1320, y: 9890 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '9_level_of_disaggregation_2', type: 'process', data: { label: 'Define the level of aggregation to use' }, position: { x: 670, y: 10275 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '9_median_dietary_energy_unit_cost', type: 'process', data: { label: 'Calculate the median dietary energy unit cost' }, position: { x: 930, y: 10275 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '9_calculate_household_dietary_energy_1', type: 'formulaText', data: {
     description:
@@ -854,8 +863,99 @@ export const allNodes = [
   },
   {id: '9_finished', type: 'validation', data: { label: 'Step 9 finished' }, position: { x: 2450, y: 10275 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
 
-  {id: '10_starts', type: 'validation', data: { label: 'Step 10 starts\nAggregation and\nmacro editing', width: 200, height: 80 }, position: { x: 0, y: 10575 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
-  {id: '10_aggregate_information', type: 'process', data: { label: 'Aggregate all information on household level' }, position: { x: 250, y: 10575 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '10_starts', type: 'validation', data: { label: 'Step 10 starts\nAggregation and\nmacro editing', width: 200, height: 80 }, position: { x: 0, y: 10875 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '10_hhsize_eq_partakers', type: 'decision', data: { label: 'Is the household size equal to the number of partakers?' }, position: { x: 250, y: 10875 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '10_per_capita_var', type: 'process', data: { label: 'Create per capita or per AME variables' }, position: { x: 500, y: 10875 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {
+  id: '10_per_capita_and_ame_1',
+  type: 'formulaText',
+  data: {
+    latex:
+      '\\begin{array}{c}\\text{Calories per capita} = \\dfrac{\\text{Total household calories}}{\\text{Household size}}\\\\[14pt]\\text{OR}\\\\[14pt]\\text{Calories per AME} = \\dfrac{\\text{Total household calories}}{\\text{Household size expressed in AME}}\\end{array}',
+    width: 500,
+    height: 160
+  },
+  position: { x: 800, y: 10680 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
+  },
+  {
+    id: '10_mon_per_cap',
+    type: 'formulaText',
+    data: {
+      latex:
+        '\\text{Monetary value per capita} = \\dfrac{\\text{Total monetary value}}{\\text{Household size}}',
+      width: 500,
+      height: 100
+    },
+    position: { x: 800, y: 10960 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
+  },
+  {id: '10_obs_fafh', type: 'decision', data: { label: 'Does the observation refer to FAFH (dummy variable equals to 1)?' }, position: { x: 250, y: 11450 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '10_create_new_var', type: 'process', data: { label: 'Create a new variable for monetary value to be used for poverty analysis on food expenditure\n(which is not adjusted for partakers)', width: 350, height: 80 }, position: { x: 500, y: 11450 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY} },
+  {
+    id: '10_calc_exp',
+    type: 'formulaText',
+    data: {
+      latex:
+        '\\text{Expenditure (LCU)} = \\dfrac{\\text{Monetary value} \\times \\text{Household size}}{\\text{Number of partakers}}',
+      width: 500,
+      height: 100
+    },
+    position: { x: 950, y: 11434 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
+  },
+  {id: '10_create_pc', type: 'process', data: { label: 'Create per capita variables' }, position: { x: 1550, y: 11450 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {
+  id: '10_per_capita_and_ame_2',
+  type: 'formulaText',
+  data: {
+    latex:
+      '\\begin{array}{c}\\text{Calories per capita} = \\dfrac{\\text{Total household calories adjusted for partakers}}{\\text{Household size}}\\\\[14pt]\\text{OR}\\\\[14pt]\\text{Calories per AME} = \\dfrac{\\text{Total household calories adjusted per partaker}}{\\text{Household size expressed in AME}}\\end{array}',
+    width: 650,
+    height: 160
+  },
+  position: { x: 1850, y: 11180 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
+  },
+  {
+    id: '10_monval_cap',
+    type: 'formulaText',
+    data: {
+      latex:
+        '\\text{Monetary value per capita} = \\dfrac{\\text{Monetary value per partaker (LCU per partaker)}}{\\text{Household size}}',
+      width: 650,
+      height: 100
+    },
+    position: { x: 1850, y: 11434 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
+  },
+  {
+    id: '10_expenditure',
+    type: 'formulaText',
+    data: {
+      latex:
+        '\\text{Expenditure per capita} = \\dfrac{\\text{Expenditure (LCU)}}{\\text{Household size}}',
+      width: 650,
+      height: 100
+    },
+    position: { x: 1850, y: 11610 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
+  },
+  {
+    id: '10_expenditure_yes',
+    type: 'formulaText',
+    data: {
+      latex:
+        '\\text{Expenditure (LCU))} = \\text{Monetary value (LCU)}',
+      width: 380,
+      height: 100
+    },
+    position: { x: 140, y: 11690 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
+  },
+  {id: '10_convert', type: 'process', data: { label: 'Convert to per day in deviding by the number of days of the reference period' }, position: { x: 2650, y: 11450 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '10_sum_up', type: 'process', data: { label: 'Sum up all the food consumption for each household' }, position: { x: 2650, y: 11650 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '10_finished', type: 'validation', data: { label: 'Step 10 finished' }, position: { x: 2650, y: 11850 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+
+
+
+
+  
+
+  /*  {id: '10_aggregate_information', type: 'process', data: { label: 'Aggregate all information on household level' }, position: { x: 250, y: 10575 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '10_express_calories_consumption', type: 'process', data: { label: 'Decide how to express calories consumption' }, position: { x: 500, y: 10575 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '10_per_capita_1', type: 'process', data: { label: 'Per capita: Total calories consumed divided by number of partakers', width: 280, height: 80 }, position: { x: 770, y: 10515 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '10_per_adult_male_equivalent_1', type: 'process', data: { label: 'Per adult male equivalents: Total calories consumed divided by household size expressed in adult male equivalents', width: 280, height: 80 }, position: { x: 770, y: 10635 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
@@ -865,8 +965,7 @@ export const allNodes = [
   {id: '10_outlier', type: 'decision', data: { label: 'Are the calories an outlier?' }, position: { x: 1840, y: 10575 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '10_identify_errors', type: 'process', data: { label: 'Identify errors, correct and re-run the steps leading up to step 10' }, position: { x: 2090, y: 10575 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '10_go_back', type: 'flag', data: { label: 'Go to relevant step' }, position: { x: 2340, y: 10575 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
-  {id: '10_finished', type: 'validation', data: { label: 'Step 10 finished' }, position: { x: 1840, y: 10725 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
-
+*/
 
 ]
 
@@ -1274,7 +1373,7 @@ export const allEdges = [
   { id: 'e6_p6_yes_p4', type: 'step', source: '6_p6_calc_quant_in_grams', sourceHandle: 'out-right', target: '6_q5x_flagged_step_5', targetHandle: 'in-left'},
   { id: 'e6_p6_no_p4x', type: 'step', source: '6_q5x_flagged_step_5', sourceHandle: 'out-right', target: '6_p4_calc_price', targetHandle: 'in-left', label: 'No'},
   { id: 'e6_p6_yes_p4x', type: 'step', source: '6_q5x_flagged_step_5', sourceHandle: 'out-bottom', target: '6_estimate_monetary_value', targetHandle: 'in-top', label: 'Yes'},
-  { id: 'e6_p4x_no_p4', type: 'step', source: '6_estimate_monetary_value', sourceHandle: 'out-right', target: '6_p4_calc_price', targetHandle: 'in-left'},
+  { id: 'e6_p4x_no_p4', type: 'step', source: '6_estimate_monetary_value', sourceHandle: 'out-right', target: '6_finished', targetHandle: 'in-top'},
   
   { id: 'e6_q5_yes_q6', type: 'straight', source: '6_q5_market_survey', sourceHandle: 'out-right', target: '6_q6_mon_value_available', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e6_q6_yes_p7', type: 'straight', source: '6_q6_mon_value_available', sourceHandle: 'out-right', target: '6_p7_calc_price_2', targetHandle: 'in-left', label: 'Yes'},
@@ -1306,8 +1405,8 @@ export const allEdges = [
 
   { id: 'e7_starts_yes_q1', type: 'straight', source: '7_starts', sourceHandle: 'out-right', target: '7_q1_syst_missing', targetHandle: 'in-left'},
   { id: 'e7_q1_yes_q2', type: 'straight', source: '7_q1_syst_missing', sourceHandle: 'out-bottom', target: '7_q2_mon_values', targetHandle: 'in-top', label: 'Yes'},
-  { id: 'e7_q2_yes_p1', type: 'straight', source: '7_q2_mon_values', sourceHandle: 'out-right', target: '7_p1_est_mon_value', targetHandle: 'in-left', label: 'Yes'},
-  { id: 'e7_p1_yes_p2', type: 'straight', source: '7_p1_est_mon_value', sourceHandle: 'out-right', target: '7_p2_detect_outlier_mon_value', targetHandle: 'in-left'},
+  { id: 'e7_q2_yes_p1', type: 'straight', source: '7_q2_mon_values', sourceHandle: 'out-right', target: '7_p2_detect_outlier_mon_value', targetHandle: 'in-left', label: 'Yes'},
+  { id: 'e7_p1_yes_p2', type: 'straight', source: '7_p2_detect_outlier_mon_value', sourceHandle: 'out-right', target: '7_p2_detect_outlier_mon_value', targetHandle: 'in-left'},
   { id: 'e7_p2_yes_q3', type: 'straight', source: '7_p2_detect_outlier_mon_value', sourceHandle: 'out-right', target: '7_q3_mon_value_outlier', targetHandle: 'in-left'},
   { id: 'e7_q3_yes_p3', type: 'straight', source: '7_q3_mon_value_outlier', sourceHandle: 'out-right', target: '7_p3_def_lev_agg', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e7_p3_yes_p4', type: 'straight', source: '7_p3_def_lev_agg', sourceHandle: 'out-right', target: '7_p4_calc_corr_mon_val', targetHandle: 'in-left'},
@@ -1331,14 +1430,14 @@ export const allEdges = [
   { id: 'e7_q1_no_p6', type: 'straight', source: '7_q1_syst_missing', sourceHandle: 'out-right', target: '7_p6_det_outlier_quant', targetHandle: 'in-left', label: 'No' },
   { id: 'e7_q2_no_p5', type: 'step', source: '7_q2_mon_values', sourceHandle: 'out-bottom', target: '7_p5_drop', targetHandle: 'in-left', label: 'No' },
   { id: 'e7_q3_no_finished', type: 'step', source: '7_q3_mon_value_outlier', sourceHandle: 'out-bottom', target: '7_finished', targetHandle: 'in-top', label: 'No' },
-  { id: 'e7_q4_no_q7', type: 'straight', source: '7_q4_quant_outlier', sourceHandle: 'out-bottom', target: '7_q7_coll_mon_value_cons_2', targetHandle: 'in-top', label: 'No' },
+  { id: 'e7_q4_no_q7', type: 'step', source: '7_q4_quant_outlier', sourceHandle: 'out-bottom', target: '7_p12_det_outlier_mon_value_3', targetHandle: 'in-left', label: 'No' },
   { id: 'e7_q5_no_p9', type: 'straight', source: '7_q5_coll_mon_value_cons', sourceHandle: 'out-bottom', target: '7_p9_def_lev_agg_2', targetHandle: 'in-top', label: 'No' },
   { id: 'e7_q6_no_p8', type: 'straight', source: '7_q6_mon_value_outlier_2', sourceHandle: 'out-right', target: '7_p8_calc_corr_quant', targetHandle: 'in-left', label: 'No' },
   { id: 'e7_q7_no_finished', type: 'step', source: '7_q7_coll_mon_value_cons_2', sourceHandle: 'out-bottom', target: '7_finished', targetHandle: 'in-top', label: 'No' },
   { id: 'e7_q8_no_finished', type: 'step', source: '7_q8_mon_val_outlier_3', sourceHandle: 'out-top', target: '7_finished', targetHandle: 'in-top', label: 'No' },
 
   { id: 'e8_starts_yes_p1', type: 'straight', source: '8_starts', sourceHandle: 'out-right', target: '8_p1_calc_quant', targetHandle: 'in-left'},
-  { id: 'e8_p1_yes_p2', type: 'step', source: '8_p1_calc_quant', sourceHandle: 'out-bottom', target: '8_p2_calc_mon_value', targetHandle: 'in-top'},
+  { id: 'e8_p1_yes_p2', type: 'step', source: '8_p1_calc_quant', sourceHandle: 'out-right', target: '8_p2_calc_mon_value', targetHandle: 'in-left'},
   { id: 'e8_p2_yes_p3', type: 'straight', source: '8_p2_calc_mon_value', sourceHandle: 'out-right', target: '8_p3_merge_nct', targetHandle: 'in-left'},
   { id: 'e8_p3_yes_q1', type: 'straight', source: '8_p3_merge_nct', sourceHandle: 'out-right', target: '8_q1_errors', targetHandle: 'in-left'},
   { id: 'e8_p4_yes_p3', type: 'step', source: '8_p4_corr_nct', sourceHandle: 'out-left', target: '8_p3_merge_nct', targetHandle: 'in-top'},
@@ -1352,7 +1451,9 @@ export const allEdges = [
   { id: 'e9_starts_yes_calories', type: 'straight', source: '9_starts', sourceHandle: 'out-right', target: '9_calories_missing', targetHandle: 'in-left'},
   { id: 'e9_calories_yes_free', type: 'straight', source: '9_calories_missing', sourceHandle: 'out-bottom', target: '9_free_food', targetHandle: 'in-top', label: 'Yes'},
   { id: 'e9_free_yes_calculate', type: 'straight', source: '9_free_food', sourceHandle: 'out-right', target: '9_calculate_calories', targetHandle: 'in-left', label: 'Yes'},
-  { id: 'e9_calculate_yes_finished', type: 'step', source: '9_calculate_calories', sourceHandle: 'out-right', target: '9_finished', targetHandle: 'in-top'},
+  { id: 'e9_calculate_yes_finished', type: 'step', source: '9_calculate_calories', sourceHandle: 'out-right', target: '9_calories_from_school_meals', targetHandle: 'in-left'},
+  { id: 'e9_calories_finished', type: 'step', source: '9_calories_from_school_meals', sourceHandle: 'out-right', target: '9_finished', targetHandle: 'in-top'},
+  
   { id: 'e9_specific_yes_unspecified', type: 'straight', source: '9_specific_food_group', sourceHandle: 'out-right', target: '9_unspecified_food', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e9_unspecified_yes_calculate', type: 'straight', source: '9_unspecified_food', sourceHandle: 'out-right', target: '9_calculate_household_dietary_energy_1', targetHandle: 'in-left'},
   { id: 'e9_median_yes_impute', type: 'straight', source: '9_median_dietary_energy_unit_cost_food_group', sourceHandle: 'out-right', target: '9_impute_missing_1', targetHandle: 'in-left'},
@@ -1369,21 +1470,26 @@ export const allEdges = [
   { id: 'e9_free_no_specific', type: 'straight', source: '9_free_food', sourceHandle: 'out-bottom', target: '9_specific_food_group', targetHandle: 'in-top', label: 'No' },
   { id: 'e9_specific_finished', type: 'step', source: '9_specific_food_group', sourceHandle: 'out-right', target: '9_finished', targetHandle: 'in-top' },
 
-  { id: 'e10_starts_yes_aggregate_', type: 'straight', source: '10_starts', sourceHandle: 'out-right', target: '10_aggregate_information', targetHandle: 'in-left'},
-  { id: 'e10_aggregate_yes_express', type: 'straight', source: '10_aggregate_information', sourceHandle: 'out-right', target: '10_express_calories_consumption', targetHandle: 'in-left'},
-  { id: 'e10_express_yes_per', type: 'step', source: '10_express_calories_consumption', sourceHandle: 'out-right', target: '10_per_capita_1', targetHandle: 'in-left'},
-  { id: 'e10_per_yes_per', type: 'straight', source: '10_per_capita_1', sourceHandle: 'out-right', target: '10_per_capita_2', targetHandle: 'in-left'},
-  { id: 'e10_per_yes_per', type: 'straight', source: '10_per_adult_male_equivalent_1', sourceHandle: 'out-right', target: '10_per_adult_male_equivalent_2', targetHandle: 'in-left'},
-  { id: 'e10_per_yes_analyse', type: 'step', source: '10_per_capita_2', sourceHandle: 'out-right', target: '10_analyse_distribution', targetHandle: 'in-left'},
-  { id: 'e10_per_yes_analyse', type: 'step', source: '10_per_adult_male_equivalent_2', sourceHandle: 'out-right', target: '10_analyse_distribution', targetHandle: 'in-left'},
-  { id: 'e10_analyse_yes_outlie', type: 'straight', source: '10_analyse_distribution', sourceHandle: 'out-right', target: '10_outlier', targetHandle: 'in-left'},
-  { id: 'e10_outlier_yes_identify', type: 'straight', source: '10_outlier', sourceHandle: 'out-right', target: '10_identify_errors', targetHandle: 'in-left', label: 'Yes'},
-  { id: 'e10_identify_yes_go', type: 'straight', source: '10_identify_errors', sourceHandle: 'out-right', target: '10_go_back', targetHandle: 'in-left'},
-
-  { id: 'e10_express_no_', type: 'step', source: '10_express_calories_consumption', sourceHandle: 'out-right', target: '10_per_adult_male_equivalent_1', targetHandle: 'in-left' },
-  { id: 'e10_outlier_no_', type: 'straight', source: '10_outlier', sourceHandle: 'out-bottom', target: '10_finished', targetHandle: 'in-top', label: 'No' },
-
-
+  { id: 'e10_starts_hhsize', type: 'straight', source: '10_starts', sourceHandle: 'out-right', target: '10_hhsize_eq_partakers', targetHandle: 'in-left'},
+  { id: 'e10_hhsize_yes_per_cap', type: 'straight', source: '10_hhsize_eq_partakers', sourceHandle: 'out-right', target: '10_per_capita_var', targetHandle: 'in-left', label: 'Yes'},
+  { id: 'e10_hhsize_no_fafh', type: 'straight', source: '10_hhsize_eq_partakers', sourceHandle: 'out-bottom', target: '10_obs_fafh', targetHandle: 'in-top', label: 'No'},
+  { id: 'e10_per_cap_1', type: 'step', source: '10_per_capita_var', sourceHandle: 'out-right', target: '10_per_capita_and_ame_1', targetHandle: 'in-left'},
+  { id: 'e10_per_cap_2', type: 'step', source: '10_per_capita_var', sourceHandle: 'out-right', target: '10_mon_per_cap', targetHandle: 'in-left'},
+  { id: 'e10_cal_pc_conv', type: 'step', source: '10_per_capita_and_ame_1', sourceHandle: 'out-right', target: '10_convert', targetHandle: 'in-top'},
+  { id: 'e10_mon_conv', type: 'step', source: '10_mon_per_cap', sourceHandle: 'out-right', target: '10_convert', targetHandle: 'in-top'},
+  { id: 'e10_fafh_new', type: 'straight', source: '10_obs_fafh', sourceHandle: 'out-right', target: '10_create_new_var', targetHandle: 'in-left', label: 'No'},
+  { id: 'e10_fafh_exp', type: 'step', source: '10_obs_fafh', sourceHandle: 'out-bottom', target: '10_expenditure_yes', targetHandle: 'in-top', label: 'Yes'},
+  { id: 'e10_newvar_exp', type: 'straight', source: '10_create_new_var', sourceHandle: 'out-right', target: '10_calc_exp', targetHandle: 'in-left'},
+  { id: 'e10_exp_percap', type: 'straight', source: '10_calc_exp', sourceHandle: 'out-right', target: '10_create_pc', targetHandle: 'in-left'},
+  { id: 'e10_percap_cal', type: 'step', source: '10_create_pc', sourceHandle: 'out-right', target: '10_per_capita_and_ame_2', targetHandle: 'in-left'},
+  { id: 'e10_percap_mon', type: 'step', source: '10_create_pc', sourceHandle: 'out-right', target: '10_monval_cap', targetHandle: 'in-left'},
+  { id: 'e10_percap_exp', type: 'step', source: '10_create_pc', sourceHandle: 'out-right', target: '10_expenditure', targetHandle: 'in-left'},
+  { id: 'e10_cal_pc_conv', type: 'step', source: '10_per_capita_and_ame_2', sourceHandle: 'out-right', target: '10_convert', targetHandle: 'in-left'},
+  { id: 'e10_monval_conv', type: 'step', source: '10_monval_cap', sourceHandle: 'out-right', target: '10_convert', targetHandle: 'in-left'},
+  { id: 'e10_exp_conv', type: 'step', source: '10_expenditure', sourceHandle: 'out-right', target: '10_convert', targetHandle: 'in-left'},
+  { id: 'e10_conv_sum', type: 'straight', source: '10_convert', sourceHandle: 'out-bottom', target: '10_sum_up', targetHandle: 'in-top'},
+  { id: 'e10_sum_finish', type: 'straight', source: '10_sum_up', sourceHandle: 'out-bottom', target: '10_finished', targetHandle: 'in-top'},
+  { id: 'e10_exp1_percap', type: 'step', source: '10_expenditure_yes', sourceHandle: 'out-right', target: '10_create_pc', targetHandle: 'in-bottom'},
 
 
 

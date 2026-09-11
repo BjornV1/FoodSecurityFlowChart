@@ -81,12 +81,12 @@ const FILTERS = [
     question: 'Does the survey collect "Total quantity consumed"?',
     options: [['yes', 'Yes'], ['no', 'No']]
   },
-  {
+/*  {
     key: 'filter2',
     question: 'Is the data collected as a recall or a diary?',
     options: [['recall', 'Recall'], ['diary', 'Diary']]
   },
-  {
+*/  {
     key: 'filter3',
     question: 'Does the survey collect in-house food and FAFH (food away from home) in separate modules?',
     options: [['yes', 'Yes'], ['no', 'No']]
