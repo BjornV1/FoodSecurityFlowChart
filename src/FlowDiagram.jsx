@@ -20,6 +20,7 @@ import {
   ProcessNode,
   ValidationNode,
   FlagNode,
+  DropNode,
   FormulaNode,
   FormulaTextNode,
   ChosenNode
@@ -32,6 +33,7 @@ const nodeTypesStatic = {
   process: ProcessNode,
   validation: ValidationNode,
   flag: FlagNode,
+  drop: DropNode,
   formula: FormulaNode,
   formulaText: FormulaTextNode,
   chosen: ChosenNode
@@ -118,7 +120,7 @@ const FILTERS = [
   },
   {
     key: 'filter6',
-    question: 'Does the survey collect food quantities in standard units (e.g., grams, kilograms, litres, etc.)?',
+    question: 'Does the survey collect all food quantities in standard units?',
     options: [['yes', 'Yes'], ['no', 'No']]
   }
 ]
@@ -131,6 +133,7 @@ const LEGEND_ITEMS = [
   { color: '#D5F5E3', border: '#27AE60', label: 'Process', description: 'An action or calculation step' },
   { color: '#FCF3CF', border: '#F1C40F', label: 'Start/end', description: 'Marks the start or the end of a step' },
   { color: '#f8c5f4', border: '#ec0dc7', label: 'Flag', description: 'Flagged for review' },
+  { color: '#eb8d8d', border: '#ec0d18', label: 'Drop', description: 'Observation dropped' },
   { color: '#f0ede9', border: '#8d6c10', label: 'Chosen', description: 'Decision affected by filter question' },
 ]
 

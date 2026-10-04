@@ -16,7 +16,7 @@ export const allNodes = [
   {id: '2_p1new_set_to_missing', type: 'process', data: { label: 'Set to missing all monetary values or quantities that are negative or equal to 0' }, position: { x: 250, y: 0 } }, // new
 //  {id: '2_p1_set_negative_missing', type: 'process', data: { label: 'Set negative or zero\n value to missing\n (for further cleaning later) ' }, position: { x: 500, y: 150 } },
   {id: '2_q2_both_missing', type: 'decision', data: { label: 'Are both quantity and monetary value missing? ' }, position: { x: 500, y: 0 } },
-  {id: '2_p2_drop_observation', type: 'process', data: { label: 'Drop the observation ' }, position: { x: 500, y: 150 } },
+  {id: '2_p2_drop_observation', type: 'drop', data: { label: 'Drop the observation ' }, position: { x: 500, y: 150 } },
 
   {id: '2_q3_total_qty_collected', type: 'decision', dependsOn: { filter1: UNSET }, data: { label: 'Is a variable on «Total quantity consumed» available in the dataset? ' }, position: { x: 750, y: 0 } }, // Only visible with neutral filter1
   {id: '2_q3_total_qty_collected_yes', type: 'chosen', dependsOn: { filter1: 'yes' }, strict: true, data: { label: '«Total quantity consumed» is available in the dataset ' }, position: { x: 750, y: 0 } }, // Only visible with filter1='yes'
@@ -36,7 +36,7 @@ export const allNodes = [
   {id: '2_q8_duplicates_recall', type: 'decision', dependsOn: { filter2: 'recall' }, data: { label: 'Is there only one observation for the same combination of household/food item/value/quantity/unit/\nsource of consumption?', width: 360, height: 80 }, position: { x: 1750, y: 750 } },
   {id: '2_p5_delete_duplicates', type: 'process', data: { label: 'Check the raw data and delete duplicates ' }, position: { x: 1840, y: 600 } },
   {id: '2_p9_aggregate', type: 'process', data: { label: 'Aggregate data to one observation per household/food item code/\nfood item description/source/unit', width: 260, height: 80 }, position: { x: 2180, y: 600 } },
-  {id: '2_q9_code_description_consistent', type: 'decision', data: { label: 'Is the code and the description of the food item consistent, e.g. the code is rice and the description is wheat? ', width: 260, height: 80 }, position: { x: 2180, y: 750 } },
+  {id: '2_q9_code_description_consistent', type: 'decision', data: { label: 'Are the code and the description of the food item consistent (i.e. inconsistency would be the code for "rice" associated to "wheat")? ', width: 260, height: 100 }, position: { x: 2180, y: 740 } },
   {id: '2_p6_correct_code_description', type: 'process', data: { label: 'Correct using national or own expert’s\njudgment or logical deduction ', width: 220, height: 80 }, position: { x: 2200, y: 900 } },
   {id: '2_q10_unit_plausible', type: 'decision', data: { label: 'Is the unit associated to the food item plausible? ' }, position: { x: 2610, y: 750 } },
   {id: '2_p7_correct_unit', type: 'process', data: { label: 'Correct using national or own expert’s\njudgment or logical deduction ', width: 220, height: 80 }, position: { x: 2590, y: 900 } },
@@ -245,7 +245,7 @@ export const allNodes = [
 //  {id: '4_p4_calculate_per_partaker', type: 'process', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, data: { label: 'Calculate quantity per partaker' }, position: { x: 1270, y: 2850 } },
   {id: '4_p5_univariate_approach_per_partaker', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, type: 'process', data: { label: 'Apply the univariate approach on the quantity per partaker' }, position: { x: 1520, y: 2850 } },
   {id: '4_q3_quantity_outlier', type: 'decision', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, data: { label: 'Is the quantity detected as outlier?' }, position: { x: 1770, y: 2850 } },
-  {id: '4_p6_def_level_of_agg', type: 'process', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, data: { label: 'Define level of aggregation' }, position: { x: 1770, y: 3000 } },
+  {id: '4_p6_def_level_of_agg', type: 'process', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, data: { label: 'Define the level of aggregation to use' }, position: { x: 1770, y: 3000 } },
   {id: '4_p6x_non_purchased_aside', type: 'process', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, data: { label: 'Set non-purchased foods aside for now and move to purchased foods' }, position: { x: 2020, y: 3150 } },
   {id: '4_p7_correct_quantity', type: 'process', dependsOn: { filter5: ['no', 'yes_not_reliable'] }, data: { label: 'Correct the quantity using aggregated quantity' }, position: { x: 1770, y: 3150 } },
   {id: '4_p8_use_multi_on_non_purchased', type: 'process', dependsOn: { filter5: 'yes_reliable' }, data: { label: 'Set non-purchased foods aside for now and move to purchased foods', width: 200, height: 80 }, position: { x: 760, y: 3150 } },
@@ -266,7 +266,7 @@ export const allNodes = [
       description:
         'Calculate the unit value.',
       latex:
-        '\\displaystyle \\text{Unit value (LCU/unit)} = \\dfrac{\\text{Monetary value}}{\\text{Quantity}}',
+        '\\displaystyle \\text{Unit value (LCU per unit)} = \\dfrac{\\text{Monetary value}}{\\text{Quantity}}',
 //      width: 520,
       height: 80
     },
@@ -312,7 +312,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Price} = \\text{Median unit value (LCU/unit)}',
+        '\\text{Price} = \\text{Median unit value (LCU per unit)}',
       width: 300,
       height: 68
     },
@@ -328,7 +328,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected quantity (unit per partaker)} = \\text{median quantity}',
+        '\\text{Corrected quantity (unit per partaker)} = \\text{Median quantity}',
       width: 550,
       height: 68
     },
@@ -340,7 +340,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected monetary value (LCU per partaker)} = \\text{corrected quantity (unit per partaker)} \\times \\text{price (LCU/unit)}',
+        '\\text{Corrected monetary value (LCU per partaker)} = \\text{Corrected quantity (unit per partaker)} \\times \\text{price (LCU per unit)}',
       width: 900,
       height: 68
     },
@@ -355,7 +355,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected monetary value (LCU)} = \\text{Price (LCU/unit)} \\times \\text{Original quantity (unit per partaker)}',
+        '\\text{Corrected monetary value (LCU)} = \\text{Price (LCU per unit)} \\times \\text{Original quantity (unit per partaker)}',
       width: 800,
       height: 68
     },
@@ -370,7 +370,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected quantity (unit)} = \\dfrac{\\text{Original monetary value (LCU per partaker)}}{\\text{Price (LCU/unit)}}',
+        '\\text{Corrected quantity (unit)} = \\dfrac{\\text{Original monetary value (LCU per partaker)}}{\\text{Price (LCU per unit)}}',
       width: 800,
       height: 68
     },
@@ -404,7 +404,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Monetary value of quantity consumed (LCU)} = \\text{Quantity consumed (unit)} \\times \\text{Unit value of purchases (LCU/unit)}',
+        '\\text{Monetary value of quantity consumed (LCU)} = \\text{Quantity consumed (unit)} \\times \\text{Unit value of purchases (LCU per unit)}',
       width: 900,
       height: 68
     },
@@ -447,7 +447,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Monetary value of the quantity consumed (LCU)} = \\text{Quantity consumed (unit)} \\times \\text{Price (LCU/unit)}',
+        '\\text{Monetary value of the quantity consumed (LCU)} = \\text{Quantity consumed (unit)} \\times \\text{Price (LCU per unit)}',
       width: 800,
       height: 68
     },
@@ -468,7 +468,7 @@ export const allNodes = [
 
   {id: '6_q2_standard_unit', type: 'decision', dependsOn: { filter6: [UNSET, 'no'] }, data: { label: 'Is the quantity reported in a standard unit of measurement?' }, position: { x: 520, y: 5840 - Y_SHIFT_STEP_5_10 } },
   {id: '6_q2_standard_unit_filter6_yes', type: 'chosen', dependsOn: { filter6: 'yes' }, strict: true, data: { label: 'All food items are measured in standard units' }, position: { x: 520, y: 5840 - Y_SHIFT_STEP_5_10 } },
-  {id: '6_q9_rep_standard_unit', type: 'decision', dependsOn: { filter6: [UNSET, 'no'] }, data: { label: 'Is it reported in a standard unit?' }, position: { x: 250, y: 6940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY} },
+  {id: '6_q9_rep_standard_unit', type: 'decision', dependsOn: { filter6: [UNSET, 'no'] }, data: { label: 'Is the quantity reported in a standard unit of measurement?' }, position: { x: 250, y: 6940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY} },
   {id: '6_q9_rep_standard_unit_filter6_yes', type: 'chosen', dependsOn: { filter6: 'yes' }, strict: true, data: { label: 'All food items are measured in standard units' }, position: { x: 250, y: 6940 - Y_SHIFT_STEP_5_10 } },
 
 
@@ -508,7 +508,7 @@ export const allNodes = [
     data: {
       latex:
         '\\text{Unit value (LCU per gram)} = \\dfrac{\\text{Monetary value per partaker (LCU)}}{\\text{Quantity per partaker (grams)}}',
-      notex: 'and set aside to be used to estimate the median price.',  
+      notex: 'and set aside to be used to estimate the price from the survey.',  
       width: 600,
       height: 68
     },
@@ -537,7 +537,7 @@ export const allNodes = [
   type: 'formulaText',
   data: {
     description:
-      'Estimate monetary value using the price per gram available (from a market survey or aggregated price estimated from the survey).',
+      'Estimate monetary value using the price per gram available (from a market survey or estimated using the unit values from the survey).',
     latex:
         '\\text{Monetary value of quantity consumed (LCU)} = \\text{Quantity consumed (grams)} \\times \\text{Price (LCU per gram)}',
     width: 900,
@@ -570,7 +570,7 @@ export const allNodes = [
     dependsOn: { filter6: 'no' },
     data: {
       latex:
-        '\\text{Quantities in grams} = \\dfrac{\\text{Monetary value (LCU)}}{\\text{Price per gram (LCU per gram)}}',
+        '\\text{Quantities in grams} = \\dfrac{\\text{Monetary value (LCU)}}{\\text{Price (LCU per gram)}}',
       width: 500,
       height: 68
     },
@@ -586,7 +586,7 @@ export const allNodes = [
     dependsOn: { filter6: 'no' },
     data: {
       latex:
-        '\\text{Price} = \\text{Median price per gram (LCU)}',
+        '\\text{Price} = \\text{Median unit value (LCU per gram)}',
       width: 300,
       height: 68
     },
@@ -608,7 +608,7 @@ export const allNodes = [
     dependsOn: { filter6: 'no' },
     data: {
       latex:
-        '\\text{Price} = \\text{Median price per gram for the food group}',
+        '\\text{Price} = \\text{Median unit value for the food group (LCU per gram)}',
       width: 400,
       height: 68
     },
@@ -623,7 +623,7 @@ export const allNodes = [
     dependsOn: { filter6: 'no' },
     data: {
       latex:
-        '\\text{Quantities in grams} = \\dfrac{\\text{Monetary value}}{\\text{Median price per gram for the food group}}',
+        '\\text{Quantities in grams} = \\dfrac{\\text{Monetary value}}{\\text{Price for the food group (LCU per gram)}}',
       width: 500,
       height: 68
     },
@@ -653,7 +653,7 @@ export const allNodes = [
     position: { x: 1750, y: 7940 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY }
   },
 
-  {id: '7_p5_drop', type: 'process', data: { label: 'Drop these observations if they correspond to very few cases' }, position: { x: 500, y: 8090 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
+  {id: '7_p5_drop', type: 'drop', data: { label: 'Drop these observations if they correspond to very few cases' }, position: { x: 500, y: 8090 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_p6_det_outlier_quant', type: 'process', data: { label: 'Detect outliers in quantities in grams per food item per partaker' }, position: { x: 500, y: 7490 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_q4_quant_outlier', type: 'decision', data: { label: 'Is the quantity in grams per partaker identified as an outlier? ' }, position: { x: 750, y: 7490 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
   {id: '7_q5_coll_mon_value_cons', type: 'decision', data: { label: 'Was the monetary value of food comsumption collected?' }, position: { x: 1000, y: 7490 - Y_SHIFT_STEP_5_10 + Y_SHIFT_STEP_5_EMERGENCY } },
@@ -679,7 +679,7 @@ export const allNodes = [
     type: 'formulaText',
     data: {
       latex:
-        '\\text{Corrected quantities (grams per partaker)} = \\text{median quantity per partaker (grams)}',
+        '\\text{Corrected quantities (grams per partaker)} = \\text{Median quantity per partaker (grams)}',
       width: 650,
       height: 68
     },
@@ -823,10 +823,10 @@ export const allNodes = [
     description:
       "Impute the missing dietary energy by dividing the food monetary values for the unspecified food by the median dietary energy unit cost for the corresponding food group (for example, 'dairy products').",
     latex:
-      '\\displaystyle DEC\\,(kcal)_{hk} = \\dfrac{Value(LCU)_{hk}}{\\text{Median dietary energy unit cost }(LCU\\text{ per }kcal)_{j}}',
+      '\\displaystyle DEC\\,(kcal)_{hk} = \\dfrac{Value(LCU)_{hk}}{\\text{Median dietary energy unit cost }(LCU\\text{ per }kcal)_{j} \\times m}',
     note:
-      'where k refers to the unspecified foods (for which calories are missing), h refers to household, and j refers to the food group to which the unspecified foods belongs to.',
-    width: 520,
+      'where k refers to the unspecified foods (for which calories are missing), h refers to household, j refers to the food group to which the unspecified foods belongs to and m is a multiplier that may be applied to account for differences between the dietary energy unit cost in house and away from home.',
+    width: 600,
     height: 220
   },
   position: { x: 1820, y: 9815 - Y_SHIFT_STEP_5_10  + Y_SHIFT_STEP_5_EMERGENCY}

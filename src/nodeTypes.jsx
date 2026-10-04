@@ -110,6 +110,10 @@ export function FlagNode({ data }) {
   return <BoxNode data={data} background="#f8c5f4" border="#ec0dc7" />
 }
 
+export function DropNode({ data }) {
+  return <BoxNode data={data} background="#eb8d8d" border="#ec0d18" />
+}
+
 export function ChosenNode({ data }) {
   return <BoxNode data={data} background="#f0ede9" border="#8d6c10" />
 }
