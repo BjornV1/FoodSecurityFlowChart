@@ -395,7 +395,7 @@ export const allNodes = [
 
   {id: '5_starts', type: 'validation', data: { label: 'Step 5 starts\nMonetary value\nimputation', width: 200, height: 80 }, position: { x: 0, y: 4940 - Y_SHIFT_STEP_5_10 } },
   {id: '5_q1_mon_value_all', type: 'decision', dependsOn: { filter5: UNSET }, strict: true, data: { label: 'Does the survey collect reliable monetary values for non-purchased food items?' }, position: { x: 250, y: 4940 - Y_SHIFT_STEP_5_10 } },
-  {id: '5_q1_mon_value_all_1', type: 'chosen', dependsOn: { filter5: 'yes_reliable' }, strict: true, data: { label: 'The survey do collect reliable monetary values for non-purchased food items' }, position: { x: 250, y: 4940 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_q1_mon_value_all_1', type: 'chosen', dependsOn: { filter5: 'yes_reliable' }, strict: true, data: { label: 'The survey collects reliable monetary values for non-purchased food items' }, position: { x: 250, y: 4940 - Y_SHIFT_STEP_5_10 } },
   {id: '5_q1_mon_value_all_2', type: 'chosen', dependsOn: { filter5: ['yes_not_reliable', 'no'] }, strict: true, data: { label: 'The survey does not collect reliable monetary values for non-purchased food items' }, position: { x: 250, y: 4940 - Y_SHIFT_STEP_5_10 } },
   {id: '5_q2_househ_unit_value_miss', type: 'decision', dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] }, data: { label: 'Is the household unit value for purchases available and reliable?' }, position: { x: 500, y: 4940 - Y_SHIFT_STEP_5_10 } },
   {id: '5_q3_unit_measurement_same', type: 'decision', dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] }, data: { label: 'Is the unit of measurement for the purchases and non purchases the same?' }, position: { x: 750, y: 4940 - Y_SHIFT_STEP_5_10 } },
