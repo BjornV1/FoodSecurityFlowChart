@@ -394,26 +394,29 @@ export const allNodes = [
 
 
   {id: '5_starts', type: 'validation', data: { label: 'Step 5 starts\nMonetary value\nimputation', width: 200, height: 80 }, position: { x: 0, y: 4940 - Y_SHIFT_STEP_5_10 } },
-  {id: '5_q1_mon_value_all', type: 'decision', data: { label: 'Does the survey collect reliable monetary values for non-purchased food items?' }, position: { x: 250, y: 4940 - Y_SHIFT_STEP_5_10 } },
-  {id: '5_q2_househ_unit_value_miss', type: 'decision', data: { label: 'Is the household unit value for purchases available and reliable?' }, position: { x: 500, y: 4940 - Y_SHIFT_STEP_5_10 } },
-  {id: '5_q3_unit_measurement_same', type: 'decision', data: { label: 'Is the unit of measurement for the purchases and non purchases the same?' }, position: { x: 750, y: 4940 - Y_SHIFT_STEP_5_10 } },
-  {id: '5_p1_imp_mon_value_household_unit_value', type: 'process', data: { label: 'Use household’s unit value to impute missing monetary value' }, position: { x: 1000, y: 4940 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_q1_mon_value_all', type: 'decision', dependsOn: { filter5: UNSET }, strict: true, data: { label: 'Does the survey collect reliable monetary values for non-purchased food items?' }, position: { x: 250, y: 4940 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_q1_mon_value_all_1', type: 'chosen', dependsOn: { filter5: 'yes_reliable' }, strict: true, data: { label: 'The survey do collect reliable monetary values for non-purchased food items' }, position: { x: 250, y: 4940 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_q1_mon_value_all_2', type: 'chosen', dependsOn: { filter5: ['yes_not_reliable', 'no'] }, strict: true, data: { label: 'The survey does not collect reliable monetary values for non-purchased food items' }, position: { x: 250, y: 4940 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_q2_househ_unit_value_miss', type: 'decision', dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] }, data: { label: 'Is the household unit value for purchases available and reliable?' }, position: { x: 500, y: 4940 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_q3_unit_measurement_same', type: 'decision', dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] }, data: { label: 'Is the unit of measurement for the purchases and non purchases the same?' }, position: { x: 750, y: 4940 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_p1_imp_mon_value_household_unit_value', type: 'process', dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] }, data: { label: 'Use household’s unit value to impute missing monetary value' }, position: { x: 1000, y: 4940 - Y_SHIFT_STEP_5_10 } },
 
   {
     id: '5_p2_lcu',
     type: 'formulaText',
+    dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] },
     data: {
       latex:
         '\\text{Monetary value of quantity consumed (LCU)} = \\text{Quantity consumed (unit)} \\times \\text{Unit value of purchases (LCU per unit)}',
-      width: 900,
+      width: 950,
       height: 68
     },
     position: { x: 1250, y: 4940 - Y_SHIFT_STEP_5_10 }
   },
 
 
-  {id: '5_q4_weight_in_gram_available', type: 'decision', data: { label: 'Do we have a weight in grams of one unit of the non-purchased food?' }, position: { x: 750, y: 5090 - Y_SHIFT_STEP_5_10 } },
-  {id: '5_p3_convert_lcu', type: 'flag', data: { label: 'Flag the non-purchased food quantity. The monetary value corresponding to this quantity will be estimated at a later stage', width: 300, height: 80 }, position: { x: 1000, y: 5090 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_q4_weight_in_gram_available', type: 'decision', dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] }, data: { label: 'Do we have a weight in grams of one unit of the non-purchased food?' }, position: { x: 750, y: 5090 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_p3_convert_lcu', type: 'flag', dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] }, data: { label: 'Flag the non-purchased food quantity. The monetary value corresponding to this quantity will be estimated at a later stage', width: 300, height: 80 }, position: { x: 1000, y: 5090 - Y_SHIFT_STEP_5_10 } },
 
 /*  {
     id: '5_p4_unit_value_of_purch',
@@ -444,7 +447,8 @@ export const allNodes = [
 */
   {
     id: '5_p7_lcu_3',
-    type: 'formulaText',
+    type: 'formulaText', 
+    dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] },
     data: {
       latex:
         '\\text{Monetary value of the quantity consumed (LCU)} = \\text{Quantity consumed (unit)} \\times \\text{Price (LCU per unit)}',
@@ -455,11 +459,11 @@ export const allNodes = [
   },
 
 
-  {id: '5_p8_best_source', type: 'process', data: { label: 'Decide which is the best available source for prices' }, position: { x: 500, y: 5360 - Y_SHIFT_STEP_5_10 } },
-  {id: '5_p9_market_survey', type: 'process', data: { label: 'A well-undertaken market survey on price per unit (LCU) from the same area and time as the data collection', width: 260, height: 80 }, position: { x: 800, y: 5240 - Y_SHIFT_STEP_5_10 } },
-  {id: '5_p10_agg_unit_values', type: 'process', data: { label: 'Aggregated unit values based on collected values not flagged as outliers', width: 260, height: 80 }, position: { x: 800, y: 5360 - Y_SHIFT_STEP_5_10 } },
-  {id: '5_p11_other', type: 'process', data: { label: 'Other sources like ad-hoc surveys for collecting CPI/FPI', width: 260, height: 80 }, position: { x: 800, y: 5480 - Y_SHIFT_STEP_5_10 } },
-  {id: '5_p12_no_prices', type: 'process', data: { label: 'If no price available leave the monetary value as missing', width: 260, height: 80 }, position: { x: 800, y: 5600 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_p8_best_source', type: 'process', dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] }, data: { label: 'Decide which is the best available source for prices' }, position: { x: 500, y: 5360 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_p9_market_survey', type: 'process', dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] }, data: { label: 'A well-undertaken market survey on price per unit (LCU) from the same area and time as the data collection', width: 260, height: 80 }, position: { x: 800, y: 5240 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_p10_agg_unit_values', type: 'process', dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] }, data: { label: 'Aggregated unit values based on collected values not flagged as outliers', width: 260, height: 80 }, position: { x: 800, y: 5360 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_p11_other', type: 'process', dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] }, data: { label: 'Other sources like ad-hoc surveys for collecting CPI/FPI', width: 260, height: 80 }, position: { x: 800, y: 5480 - Y_SHIFT_STEP_5_10 } },
+  {id: '5_p12_no_prices', type: 'process', dependsOn: { filter5: [UNSET, 'yes_not_reliable', 'no'] }, data: { label: 'If no price available leave the monetary value as missing', width: 260, height: 80 }, position: { x: 800, y: 5600 - Y_SHIFT_STEP_5_10 } },
   {id: '5_finished', type: 'validation', data: { label: 'Step 5 finished' }, position: { x: 2200, y: 5690 - Y_SHIFT_STEP_5_10 } },
 
   {id: '6_starts', type: 'validation', data: { label: 'Step 6 starts\nConvert food quanities\ninto grams', width: 200, height: 80 }, position: { x: 0, y: 5840 - Y_SHIFT_STEP_5_10 } },
@@ -1319,6 +1323,12 @@ export const allEdges = [
 
   { id: 'e5_starts_yes_q1', type: 'straight', source: '5_starts', sourceHandle: 'out-right', target: '5_q1_mon_value_all', targetHandle: 'in-left'},
   { id: 'e5_q1_yes_finished', type: 'step', source: '5_q1_mon_value_all', sourceHandle: 'out-bottom', target: '5_finished', targetHandle: 'in-left', label: 'Yes'},
+  { id: 'e5_starts_yes_q1_1', type: 'straight', source: '5_starts', sourceHandle: 'out-right', target: '5_q1_mon_value_all_1', targetHandle: 'in-left'},
+  { id: 'e5_q1_yes_finished_1', type: 'step', source: '5_q1_mon_value_all_1', sourceHandle: 'out-bottom', target: '5_finished', targetHandle: 'in-left'},
+
+  { id: 'e5_starts_yes_q1_2', type: 'straight', source: '5_starts', sourceHandle: 'out-right', target: '5_q1_mon_value_all_2', targetHandle: 'in-left'},
+  { id: 'e5_q1_no_q2_1', type: 'straight', source: '5_q1_mon_value_all_2', sourceHandle: 'out-right', target: '5_q2_househ_unit_value_miss', targetHandle: 'in-left' },
+
   { id: 'e5_q2_yes_q3', type: 'straight', source: '5_q2_househ_unit_value_miss', sourceHandle: 'out-right', target: '5_q3_unit_measurement_same', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e5_q3_yes_p1', type: 'straight', source: '5_q3_unit_measurement_same', sourceHandle: 'out-right', target: '5_p1_imp_mon_value_household_unit_value', targetHandle: 'in-left', label: 'Yes'},
   { id: 'e5_p1_yes_p2', type: 'straight', source: '5_p1_imp_mon_value_household_unit_value', sourceHandle: 'out-right', target: '5_p2_lcu', targetHandle: 'in-left'},
